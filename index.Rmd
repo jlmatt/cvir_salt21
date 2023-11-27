@@ -1,0 +1,10 @@
+---
+title: "Selecting 5K SNPs for SALT array"
+author: "Joseph Matt"
+date: "`r Sys.Date()`"
+output: bookdown::gitbook
+---
+
+# Preface {-}
+
+This report is formatted as a series of chapters.  Each chapter builds on the previous with the ultimate product of ~5K candidate SNPs to use in producing a 5K SNP array for the SALT consortium.

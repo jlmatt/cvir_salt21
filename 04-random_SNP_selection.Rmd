@@ -1,0 +1,204 @@
+# Select SNPs for Panel
+
+```{r,include = FALSE}
+#library(SNPolisher)
+library(tidyverse)
+library(hierfstat)
+library(adegenet)
+library(stringr)
+library(ggrepel)
+library(pantomime)
+library(pegas)
+library(patchwork)
+library("lattice")
+library(maps)
+library(mapdata)
+library(stringr)
+library(data.table)
+library(here)
+
+options(scipen = 999)
+```
+
+## Read in all data on SNPs and relevant data from Section 3
+
+```{r}
+snp_info_full <- readRDS(file = here::here("data","derived","snp_info_full"))
+```
+
+```{r}
+# genotypes as columns, rows as individuals, loci filtered out for HE and HWE
+
+filt_genotypes <- readRDS(here::here("data","derived","genotypes_f_he_hw"))
+```
+
+```{r}
+# 25 SNPS with high FST for stx vs. gulf to be included in panel
+stxvgulf_snps <- readRDS(here::here("data","derived","stxvgulf_25"))
+```
+
+```{r}
+# 25 SNPS for florida v gulf (highest FST)
+flvgulf_snps <- readRDS(here::here("data","derived","flvngom_25"))
+```
+
+```{r}
+# 10774 SNPs with greater than .05 MAF for nfl, gfl, nGOM and greater than .03 MAF for stx
+MAF_snps <- readRDS(here::here("data","derived","MAF_SNPs")) %>% 
+  tibble(., snp_id = rownames(.)) %>%
+  pull(snp_id)
+```
+
+## Filter the combined_filtered data file to only include candidate SNPs
+
+```{r}
+candidates <- snp_info_full %>%
+  select(probeset_id,cust_chr,cust_pos) %>%
+  filter(probeset_id %in% MAF_snps) %>%
+  mutate(cust_chr = as.numeric (cust_chr)) %>%
+  unique()
+```
+
+## Specify number of markers from each chromosome you will select
+
+First identify the length of each chromosome you will be selecting from (for proportional selection)
+
+Order of chromosomes (per Supplementary Table 3 in Guo et al, 2023)
+
+                              chrom_num == 1 ~ "NC_035780.1",
+                              chrom_num == 2 ~ "NC_035781.1",
+                              chrom_num == 3 ~ "NC_035782.1",
+                              chrom_num == 4 ~ "NC_035783.1",
+                              chrom_num == 5 ~ "NC_035784.1",
+                              chrom_num == 6 ~ "NC_035785.1",
+                              chrom_num == 7 ~ "NC_035786.1",
+                              chrom_num == 8 ~ "NC_035787.1",
+                              chrom_num == 9 ~ "NC_035788.1",
+                              chrom_num == 10 ~ "NC_035789.1"
+
+
+Lengths of the chromosomes: (based on Guo et al, 2023)
+
+```{r}
+#the lengths are based on Hollenbeck's order
+nChr <- 10
+chrLen <- c(65668440, 61752955, 77061148, 59691872, 98698416, 51258098, 57830854, 75944018, 104168038,32650045)
+```
+
+Function to split up the SNPs proportionally based on chrLen
+Much of the code below is taken from Thomas Delomas' public github repository OysterSimGS_2021 script multGen_scrm_ai2_HPC.R
+
+```{r}
+snps_by_chr <- lapply(5200, function(x){
+	dfOut <- data.frame(chr = 1:nChr, num = round(x * (chrLen/ sum(chrLen)))) #note 7976 is candidate number of SNPs 
+						
+# num is calculated with this function. num is the number of positions assigned to each chromosome, calculated based on the proportion of the chromosome length (chrLen) relative to the total chromosome length (sum(chrLen)). The values are rounded.
+	
+	
+#The following block of code adjusts the values in the num column to account for rounding errors:
+
+#If diff is greater than 0, it randomly selects diff chromosomes and increments their num values by 1.
+#If diff is less than 0, it randomly selects -diff chromosomes and decrements their num values by 1.
+	
+# account for rounding error
+	diff <- x - sum(dfOut$num)
+	if(diff > 0){
+		temp <- sample(1:nChr, size = diff, replace = FALSE)
+		dfOut$num[temp] <- dfOut$num[temp] + 1
+	} else if (diff < 0){
+		temp <- sample(1:nChr, size = -diff, replace = FALSE)
+		dfOut$num[temp] <- dfOut$num[temp] - 1
+	}
+	return(dfOut)
+})
+```
+
+Check and make sure adds up to 5200
+
+```{r}
+sum(snps_by_chr[[1]]$num)
+```
+
+Check and compare the number of SNPs targeted from each chrom (chrom_tbl) and the number of SNPs available to select (candidate_snps)
+
+```{r}
+chrom_tbl <- snps_by_chr[[1]] %>%
+  mutate(length = chrLen) %>%
+  rename(chrom = chr, to_choose = num) 
+chrom_tbl
+```
+
+```{r}
+candidate_snps <- candidates %>%
+  group_by(cust_chr) %>%
+  count()
+candidate_snps
+```
+
+## Use greedy algorithm to select 5200 snps for 5K array (200 extras)
+
+Going to use "choose_snps_greedy" function in ldpanelopt
+
+```{r}
+library(ldpanelopt)
+```
+
+### Make snp_tbl
+
+```{r}
+maf_snps <-readRDS(here::here("data","derived","MAF_SNPs")) %>% 
+  tibble(., snp_id = rownames(.)) %>%
+  select(snp_id,gfl_frq,nfl_frq,ngom_frq,stx_frq) %>%
+  rowwise() %>%
+  mutate(maf = mean(c(gfl_frq,nfl_frq,ngom_frq,stx_frq))) %>%
+  select(snp_id, maf)
+```
+
+```{r}
+snp_tbl <- candidates %>%
+  arrange(-desc(cust_chr)) %>%
+  mutate(cust_chr = as.character(cust_chr)) %>%
+  mutate(chip1 = seq(1:nrow(.))) %>%
+  mutate(chip2 = 0) %>%
+  rename(snp_id = probeset_id, chrom = cust_chr, pos = cust_pos) %>%
+  mutate(pos = as.numeric(pos)) %>% 
+  left_join(.,maf_snps, by = "snp_id") %>%
+  select(snp_id, chrom, pos, maf, chip1, chip2)
+```
+
+rearrange columns in chrom_tbl
+
+```{r}
+chrom_tbl <- chrom_tbl %>%
+  select(chrom,length,to_choose) %>%
+  mutate(chrom = as.character(chrom))
+```
+
+```{r}
+test <- choose_snps_greedy(snp_tbl,chrom_tbl)
+```
+
+```{r}
+panel_snps <- test %>%
+  filter(chip2 > 0)
+```
+
+```{r}
+panel_snps %>%
+  group_by(chrom) %>%
+  count()
+```
+
+### Check and make sure the algorithm gave sensible results
+
+The panel_snps should have higher mean maf than the candidate snps in snp_tbl
+
+```{r}
+panel_snps %>%
+  group_by(chrom) %>%
+  summarize(mean(maf))
+
+snp_tbl %>%
+  group_by(chrom) %>%
+  summarize(mean(maf))
+```

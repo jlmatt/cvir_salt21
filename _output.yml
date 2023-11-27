@@ -1,0 +1,6 @@
+bookdown::gitbook:
+  lib_dir: book_files
+  split_by: chapter
+  config:
+    toolbar:
+      position: static

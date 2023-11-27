@@ -1,0 +1,805 @@
+# Select Candidate SNPs
+
+## Objective: Identify candidate SNPs by
+
+1) filtering those out of Hardy Weinberg Equilibrium
+2) selecting population diagnostic SNPs for genetic groups
+3) selecting snps with high minor allele frequencies
+
+```{r,include = FALSE}
+library(tidyverse)
+library(hierfstat)
+library(adegenet)
+library(stringr)
+library(ggrepel)
+library(pantomime)
+library(pegas)
+library(patchwork)
+library("lattice")
+library(maps)
+library(mapdata)
+library(stringr)
+library(data.table)
+library(here)
+```
+
+```{r, include = FALSE}
+#load in functions for PCA and manipulating genind objects
+source("~/PCA.R")
+source("~/genind.R")
+```
+
+## Read in Data
+
+SNP Data from 02_genetic_assignment
+
+```{r}
+genotypes <-readRDS(here::here("data","derived","genotypes"))
+```
+
+Individual Data from 02_genetic_assignment
+
+```{r}
+sample_data <-readRDS(here::here("data","derived","sample_data"))
+```
+
+## Format Data
+
+### Make genind object from 105K SNPs
+
+```{r}
+gind <- df2genind(genotypes, ncode = 1, sep = "", NA.char = NA, ploidy = 2)
+``` 
+
+### Make a dataframe specifying genetic group and "metapop."
+
+1) genetic group: individual north florida (nfl), general florida (gfl), northern Gulf of Mexico group (ngom), or from the south Texas group (stx) based on k_means data,
+
+2) metapop: individual from gulf (ngom or fl) or south texas
+
+```{r}
+sample_data_groups <- sample_data %>%
+  mutate(k_group_name = case_when(
+    k_group == 1 ~ "stx",
+    k_group == 2 ~ "nfl",
+    k_group == 3 ~ "gfl",
+    k_group == 4 ~ "ngom")) %>%
+  mutate(mpop = case_when(
+    k_group == 1 ~ "stx",
+    k_group == 2 ~ "gulf",
+    k_group == 3 ~ "gulf",
+    k_group == 4 ~ "gulf"))
+```
+
+### Assign populations to genind object
+
+```{r}
+#put strata in gind that has the names of individuals and their populations in the same order as individuals are listed in indNames(gind)
+
+strata(gind) <- sample_data_groups %>%
+  select(Sample, k_group_name,mpop) %>%
+  .[match(indNames(gind), .$Sample),]
+```
+
+```{r}
+#make pop for gind
+setPop(gind) <- ~k_group_name
+```
+
+```{r,echo=FALSE}
+#check and make sure that worked right
+
+sample_data_groups %>%
+  filter(Sample %in% indNames(gind)[79:92]) %>%
+  pull(k_group_name)
+```
+The check was successful, seems populations appopriately assigned
+
+### Format data into the hierfstat format for analysis of heterozygosity and MAF
+
+```{r}
+#if pop=NULL, pop assigned based on what is in the pop slot of the genind object
+
+hgen<-genind2hierfstat(gind, pop=NULL)
+b_stats <- basic.stats(hgen,diploid=TRUE,digits=4)
+```
+
+```{r}
+# Heterozygosities per loci in each group
+as_tibble(b_stats$Ho, rownames= NA) %>% 
+  rownames_to_column()
+```
+
+```{r}
+hist(b_stats$Ho[,1], main="stx")
+hist(b_stats$Ho[,2], main="nfl")
+hist(b_stats$Ho[,3], main="gfl")
+hist(b_stats$Ho[,4], main="ngom")
+```
+
+## HWE filtering
+
+### Filtering out the loci with Ho > 0.5
+
+0.5 is the maximum Hardy-Weinberg heterozygosity at a biallelic locus, so exclude loci in excess of 0.5 Ho (e.g, Keller et al. 2013)
+
+Remove SNPs with Ho greater than 0.5 in any genetic group
+
+```{r}
+#remove the loci names for those with Ho greater than 0.5 
+#the loci are taken from the $Ho specification in the hierfstat package
+
+hiH_loci <- as.data.frame(b_stats$Ho) %>%
+  filter_all(any_vars(. > 0.5)) %>%
+  row.names(.)
+```
+
+```{r}
+hgen2 <- hgen %>%
+  select(!all_of(hiH_loci))
+```
+
+### Re-analyze the data for heterozygosities
+
+```{r}
+b_stats2 <- basic.stats(hgen2,diploid=TRUE,digits=4)
+```
+
+```{r}
+# Heterozygosities per loci in each group
+as_tibble(b_stats2$Ho, rownames= NA) %>% 
+  rownames_to_column()
+```
+
+```{r}
+hist(b_stats2$Ho[,1], main="stx")
+hist(b_stats2$Ho[,2], main="nfl")
+hist(b_stats2$Ho[,3], main="gfl")
+hist(b_stats2$Ho[,4], main="ngom")
+```
+
+### Make genind object without the loci that have heterozygosities over 0.5
+
+```{r}
+gind_0.5<-genind.rem.loci(gind,hiH_loci)
+```
+
+### Make genotypes data frame without the loci that have heterozygosities over 0.5
+
+```{r}
+genotypes_0.5 <- genotypes %>%
+  select(! all_of(hiH_loci))
+```
+
+### HW test
+
+Much of code followed from website: https://grunwaldlab.github.io/Population_Genetics_in_R/Locus_Stats.html
+
+Start with a genind object that only contains the 94391 loci that pass the initial HWE test -- gind_0.5
+
+```{r,eval=FALSE}
+#eval set to false because takes so long
+#WARNING: this chunk takes a long time
+
+#hardy weinberg test on each pop seperately
+#seppop from adegenet
+#hw.test from pegas package
+hwe.pop <- seppop(gind_0.5) %>% 
+  lapply(hw.test, B=0)
+#save in case don't want to re-run the above chunk
+saveRDS(hwe.pop, file = here::here("data","derived","hwepop"))
+```
+
+```{r}
+#load file so as to save time producing it
+hwe.pop <- readRDS(file = here::here("data","derived","hwepop"))
+```
+
+#### Exmaine matrix of each loci and p values
+
+```{r}
+#matrix of each loci and p values
+hwe.mat <- sapply(hwe.pop, "[", i = TRUE, j = 3)
+head(hwe.mat)
+```
+
+```{r}
+alpha  <- 0.05
+hmmat <- hwe.mat
+hmmat[hmmat > alpha] <- 1
+
+levelplot(hmmat,aspect="fill")
+```
+
+Blue denotes alleles that have p > 0.05 from hw.test (cannot be rejected as out of HWE), purple those with p < 0.05 (can be rejected as out of HWE)
+
+
+### Select loci that are fail HWE test (p < 0.05)
+
+```{r}
+# HWE per loci in each group
+as_tibble(hmmat, rownames= NA) %>% 
+  rownames_to_column()
+
+#select all loci here that are not in HW
+
+out_hw<-as_tibble(hmmat,rownames=NA) %>% 
+  rownames_to_column() %>%
+  rowwise() %>%
+  mutate(pass = sum(c(ngom,gfl,nfl,stx))) %>%
+  filter(pass < 4) %>% # if all pass HW test, then sum of last column, "pass", is 3
+  select(rowname) %>%
+  .$rowname
+```
+
+### Remove the loci out of HWE from the genind object and genotypes data frame
+
+```{r}
+gind_0.5_hw<-genind.rem.loci(gind_0.5,out_hw)
+```
+
+```{r}
+genotypes_0.5_hw <- genotypes_0.5 %>%
+  select(! all_of(out_hw))
+```
+
+## Select population diagnostic loci
+
+### South Texas vs. Gulf
+
+```{r}
+#make hierfstat object for stx vs. gulf (pop=mpop)
+setPop(gind_0.5_hw) <- ~mpop
+hgen3 <- genind2hierfstat(gind_0.5_hw, pop= NULL)
+```
+
+```{r}
+#calculate basic pop gen stats (clusters)
+b_stats <- basic.stats(hgen3,diploid=TRUE,digits=4)
+```
+
+```{r}
+#histogram of FST for all loci
+hist(b_stats$perloc$Fst, main="Fst", xlab="loci")
+```
+
+Range of Fst
+
+```{r}
+range(b_stats$perloc$Fst,na.rm=TRUE)
+```
+Loci with Fst >= 0.9
+
+```{r}
+sum(b_stats$perloc$Fst >= 0.9,na.rm=TRUE)
+```
+PCAs_High_Fsts
+
+```{r}
+
+#order SNPs by Fst
+bstats_ord <- b_stats$perloc[order(b_stats$perloc$Fst, decreasing = TRUE),]
+
+#select SNPs to drop based on Fst
+
+Fst500_drop <- bstats_ord %>%
+  slice(501:nrow(.)) %>%
+  row.names(.)
+
+Fst200_drop <- bstats_ord %>%
+  slice(201:nrow(.)) %>%
+  row.names(.)
+
+Fst100_drop <- bstats_ord %>%
+  slice(101:nrow(.)) %>%
+  row.names(.)
+
+Fst50_drop <- bstats_ord %>%
+  slice(51:nrow(.)) %>%
+  row.names(.)
+
+Fst25_drop <- bstats_ord %>%
+  slice(26:nrow(.)) %>%
+  row.names(.)
+
+#manipulate genind object (gen_groups_Ho_Hw) to only include the SNPs with highest Fsts
+genobj <- gind_0.5_hw
+
+hiF_500 <- genind.rem.loci(genobj,Fst500_drop)
+hiF_200 <- genind.rem.loci(genobj,Fst200_drop)
+hiF_100 <- genind.rem.loci(genobj,Fst100_drop)
+hiF_50 <- genind.rem.loci(genobj,Fst50_drop)
+hiF_25 <- genind.rem.loci(genobj,Fst25_drop)
+
+```
+
+```{r, message=FALSE, warning=FALSE, fig.show='hide'}
+x1 <- scaleGen(hiF_500, NA.method = "mean")
+x2 <- scaleGen(hiF_200, NA.method = "mean")
+x3 <- scaleGen(hiF_100, NA.method = "mean")
+x4 <- scaleGen(hiF_50, NA.method = "mean")
+x5 <- scaleGen(hiF_25, NA.method = "mean")
+
+pca1 <- dudi.pca(x1,cent=FALSE,scale=FALSE,scannf=FALSE,nf=4)
+pca2 <- dudi.pca(x2,cent=FALSE,scale=FALSE,scannf=FALSE,nf=4)
+pca3 <- dudi.pca(x3,cent=FALSE,scale=FALSE,scannf=FALSE,nf=4)
+pca4 <- dudi.pca(x4,cent=FALSE,scale=FALSE,scannf=FALSE,nf=4)
+pca5 <- dudi.pca(x5,cent=FALSE,scale=FALSE,scannf=FALSE,nf=4)
+
+eig1<-barplot(pca1$eig[1:50],main="PCA eigenvalues500", col=heat.colors(50))
+eig2<-barplot(pca2$eig[1:50],main="PCA eigenvalues200", col=heat.colors(50))
+eig3<-barplot(pca3$eig[1:50],main="PCA eigenvalues100", col=heat.colors(50))
+eig4<-barplot(pca4$eig[1:50],main="PCA eigenvalues50", col=heat.colors(50))
+eig5<-barplot(pca5$eig[1:50],main="PCA eigenvalues25", col=heat.colors(50))
+```
+PCAs
+```{r,message=FALSE}
+#500 SNPs
+PC_ind <- PC.ind(pca1)
+eig <- eigenvalues(pca1)
+
+#rename "Sample_ID" in PC_ind to "INDV"
+PC_ind <- PC_ind %>% rename(Sample=Sample_ID)
+
+PC_ind <- merge(PC_ind,sample_data_groups,by = "Sample") 
+
+pc500 <- ggplot(PC_ind, aes(x = Axis1, y = Axis2, color = k_group_name)) +
+  geom_point(alpha = 0.75, size = 2) +
+  labs(x = paste("PC1:", round(eig[1, 3], digits = 3), "%"), 
+       y = paste("PC2:", round(eig[2, 3], digits = 3), "%"))+
+  ggtitle("500 SNPs") +
+  scale_color_hue(direction = -1)
+pc500
+```
+
+```{r,message=FALSE}
+#200 SNPs
+PC_ind <- PC.ind(pca2)
+eig <- eigenvalues(pca2)
+
+#rename "Sample_ID" in PC_ind to "INDV"
+PC_ind <- PC_ind %>% rename(Sample=Sample_ID)
+
+PC_ind <- merge(PC_ind,sample_data_groups,by = "Sample") #might need to change the name of the column listing individuals in PC_ind to match sample_info to make these merge properly
+
+pc200 <- ggplot(PC_ind, aes(x = Axis1, y = Axis2, color = k_group_name)) +
+  geom_point(alpha = 0.75, size = 2) +
+  labs(x = paste("PC1:", round(eig[1, 3], digits = 3), "%"), 
+       y = paste("PC2:", round(eig[2, 3], digits = 3), "%"))+
+    ggtitle("200 SNPs") +
+  scale_color_hue(direction = -1)
+pc200
+```
+
+```{r,message=FALSE}
+#100 SNPs
+PC_ind <- PC.ind(pca3)
+eig <- eigenvalues(pca3)
+
+#rename "Sample_ID" in PC_ind to "INDV"
+PC_ind <- PC_ind %>% rename(Sample=Sample_ID)
+
+PC_ind <- merge(PC_ind,sample_data_groups,by = "Sample") #might need to change the name of the column listing individuals in PC_ind to match sample_info to make these merge properly
+
+pc100 <- ggplot(PC_ind, aes(x = Axis1, y = Axis2, color = k_group_name)) +
+  geom_point(alpha = 0.75, size = 2) +
+  labs(x = paste("PC1:", round(eig[1, 3], digits = 3), "%"), 
+       y = paste("PC2:", round(eig[2, 3], digits = 3), "%"))+
+    ggtitle("100 SNPs") +
+  scale_color_hue(direction = -1)
+pc100
+```
+
+```{r,message=FALSE}
+#50 SNPs
+PC_ind <- PC.ind(pca4)
+eig <- eigenvalues(pca4)
+
+#rename "Sample_ID" in PC_ind to "INDV"
+PC_ind <- PC_ind %>% rename(Sample=Sample_ID)
+
+PC_ind <- merge(PC_ind,sample_data_groups,by = "Sample") #might need to change the name of the column listing individuals in PC_ind to match sample_info to make these merge properly
+
+pc50 <- ggplot(PC_ind, aes(x = Axis1, y = Axis2, color = k_group_name)) +
+  geom_point(alpha = 0.75, size = 2) +
+  labs(x = paste("PC1:", round(eig[1, 3], digits = 3), "%"), 
+       y = paste("PC2:", round(eig[2, 3], digits = 3), "%"))+
+    ggtitle("50 SNPs") +
+  scale_color_hue(direction = -1)
+pc50
+```
+
+```{r,message=FALSE}
+#25 SNPs
+PC_ind <- PC.ind(pca5)
+eig <- eigenvalues(pca5)
+
+#rename "Sample_ID" in PC_ind to "INDV"
+PC_ind <- PC_ind %>% rename(Sample=Sample_ID)
+
+PC_ind <- merge(PC_ind,sample_data_groups,by = "Sample") #might need to change the name of the column listing individuals in PC_ind to match sample_info to make these merge properly
+
+pc25 <- ggplot(PC_ind, aes(x = Axis1, y = Axis2, color = k_group_name)) +
+  geom_point(alpha = 0.75, size = 2) +
+  labs(x = paste("PC1:", round(eig[1, 3], digits = 3), "%"), 
+       y = paste("PC2:", round(eig[2, 3], digits = 3), "%"))+
+    ggtitle("25 SNPs") +
+  scale_color_hue(direction = -1)
+pc25
+```
+
+### Select 25 SNPs that distinguish stx from gulf
+
+```{r}
+#25 SNPs with highest Fst for differentiating Gulf meta_clusters
+stxvgulf_25<- locNames(hiF_25)
+```
+
+## nGOM vs. FL
+
+Filter out individuals from stx
+
+```{r}
+genotypes_gulf <- genotypes_0.5_hw %>%
+   filter(!row.names(.) %in% 
+            sample_data_groups$Sample[sample_data_groups$k_group_name == "stx"],)
+
+gind_0.5_hw_gulf <- df2genind(genotypes_gulf, ncode = 1, sep = "", NA.char = NA, ploidy = 2)
+
+```
+
+```{r}
+#put strata in gind that has the names of individuals and their populations in the same order as individuals are listed in indNames(gind)
+
+strata(gind_0.5_hw_gulf) <- sample_data_groups %>%
+  select(Sample, k_group_name,mpop) %>%
+  .[match(indNames(gind_0.5_hw_gulf), .$Sample),]
+```
+
+```{r}
+#make pop for gind
+setPop(gind_0.5_hw_gulf) <- ~k_group_name
+```
+
+```{r}
+hgen4 <- genind2hierfstat(gind_0.5_hw_gulf, pop= NULL)
+```
+
+Examine fsts
+
+```{r}
+#calculate basic pop gen stats (clusters)
+b_stats <- basic.stats(hgen4,diploid=TRUE,digits=4)
+```
+
+```{r}
+#histogram of FST for all loci
+hist(b_stats$perloc$Fst, main="Fst", xlab="loci")
+```
+
+Range of Fst
+
+```{r}
+range(b_stats$perloc$Fst,na.rm=TRUE)
+```
+
+Loci with Fst >= 0.7
+
+```{r}
+sum(b_stats$perloc$Fst >= 0.7,na.rm=TRUE)
+```
+
+PCAs_High_Fsts
+
+```{r}
+
+#order SNPs by Fst
+bstats_ord <- b_stats$perloc[order(b_stats$perloc$Fst, decreasing = TRUE),]
+
+
+#select SNPs to drop based on Fst
+
+Fst500_drop <- bstats_ord %>%
+  slice(501:nrow(.)) %>%
+  row.names(.)
+
+Fst200_drop <- bstats_ord %>%
+  slice(201:nrow(.)) %>%
+  row.names(.)
+
+Fst100_drop <- bstats_ord %>%
+  slice(101:nrow(.)) %>%
+  row.names(.)
+
+Fst50_drop <- bstats_ord %>%
+  slice(51:nrow(.)) %>%
+  row.names(.)
+
+Fst25_drop <- bstats_ord %>%
+  slice(26:nrow(.)) %>%
+  row.names(.)
+
+#manipulate genind object (gen_groups_Ho_Hw) to only include the SNPs with highest Fsts
+genobj <- gind_0.5_hw_gulf
+
+hiF_500 <- genind.rem.loci(genobj,Fst500_drop)
+hiF_200 <- genind.rem.loci(genobj,Fst200_drop)
+hiF_100 <- genind.rem.loci(genobj,Fst100_drop)
+hiF_50 <- genind.rem.loci(genobj,Fst50_drop)
+hiF_25 <- genind.rem.loci(genobj,Fst25_drop)
+
+```
+
+```{r, message=FALSE, warning=FALSE, fig.show='hide'}
+x1 <- scaleGen(hiF_500, NA.method = "mean")
+x2 <- scaleGen(hiF_200, NA.method = "mean")
+x3 <- scaleGen(hiF_100, NA.method = "mean")
+x4 <- scaleGen(hiF_50, NA.method = "mean")
+x5 <- scaleGen(hiF_25, NA.method = "mean")
+
+pca1 <- dudi.pca(x1,cent=FALSE,scale=FALSE,scannf=FALSE,nf=4)
+pca2 <- dudi.pca(x2,cent=FALSE,scale=FALSE,scannf=FALSE,nf=4)
+pca3 <- dudi.pca(x3,cent=FALSE,scale=FALSE,scannf=FALSE,nf=4)
+pca4 <- dudi.pca(x4,cent=FALSE,scale=FALSE,scannf=FALSE,nf=4)
+pca5 <- dudi.pca(x5,cent=FALSE,scale=FALSE,scannf=FALSE,nf=4)
+
+eig1<-barplot(pca1$eig[1:50],main="PCA eigenvalues500", col=heat.colors(50))
+eig2<-barplot(pca2$eig[1:50],main="PCA eigenvalues200", col=heat.colors(50))
+eig3<-barplot(pca3$eig[1:50],main="PCA eigenvalues100", col=heat.colors(50))
+eig4<-barplot(pca4$eig[1:50],main="PCA eigenvalues50", col=heat.colors(50))
+eig5<-barplot(pca5$eig[1:50],main="PCA eigenvalues25", col=heat.colors(50))
+```
+
+PCAs
+
+```{r,message=FALSE}
+#500 SNPs
+PC_ind <- PC.ind(pca1)
+eig <- eigenvalues(pca1)
+
+#rename "Sample_ID" in PC_ind to "INDV"
+PC_ind <- PC_ind %>% rename(Sample=Sample_ID)
+
+PC_ind <- merge(PC_ind,sample_data_groups,by = "Sample") 
+
+pc500 <- ggplot(PC_ind, aes(x = Axis1, y = Axis2, color = k_group_name)) +
+  geom_point(alpha = 0.75, size = 2) +
+  labs(x = paste("PC1:", round(eig[1, 3], digits = 3), "%"), 
+       y = paste("PC2:", round(eig[2, 3], digits = 3), "%"))+
+  ggtitle("500 SNPs") +
+  scale_color_hue(direction = -1)
+pc500
+```
+
+```{r,message=FALSE}
+#200 SNPs
+PC_ind <- PC.ind(pca2)
+eig <- eigenvalues(pca2)
+
+#rename "Sample_ID" in PC_ind to "INDV"
+PC_ind <- PC_ind %>% rename(Sample=Sample_ID)
+
+PC_ind <- merge(PC_ind,sample_data_groups,by = "Sample") #might need to change the name of the column listing individuals in PC_ind to match sample_info to make these merge properly
+
+pc200 <- ggplot(PC_ind, aes(x = Axis1, y = Axis2, color = k_group_name)) +
+  geom_point(alpha = 0.75, size = 2) +
+  labs(x = paste("PC1:", round(eig[1, 3], digits = 3), "%"), 
+       y = paste("PC2:", round(eig[2, 3], digits = 3), "%"))+
+    ggtitle("200 SNPs") +
+  scale_color_hue(direction = -1)
+pc200
+```
+
+```{r,message=FALSE}
+#100 SNPs
+PC_ind <- PC.ind(pca3)
+eig <- eigenvalues(pca3)
+
+#rename "Sample_ID" in PC_ind to "INDV"
+PC_ind <- PC_ind %>% rename(Sample=Sample_ID)
+
+PC_ind <- merge(PC_ind,sample_data_groups,by = "Sample") #might need to change the name of the column listing individuals in PC_ind to match sample_info to make these merge properly
+
+pc100 <- ggplot(PC_ind, aes(x = Axis1, y = Axis2, color = k_group_name)) +
+  geom_point(alpha = 0.75, size = 2) +
+  labs(x = paste("PC1:", round(eig[1, 3], digits = 3), "%"), 
+       y = paste("PC2:", round(eig[2, 3], digits = 3), "%"))+
+    ggtitle("100 SNPs") +
+  scale_color_hue(direction = -1)
+pc100
+```
+
+```{r,message=FALSE}
+#50 SNPs
+PC_ind <- PC.ind(pca4)
+eig <- eigenvalues(pca4)
+
+#rename "Sample_ID" in PC_ind to "INDV"
+PC_ind <- PC_ind %>% rename(Sample=Sample_ID)
+
+PC_ind <- merge(PC_ind,sample_data_groups,by = "Sample") #might need to change the name of the column listing individuals in PC_ind to match sample_info to make these merge properly
+
+pc50 <- ggplot(PC_ind, aes(x = Axis1, y = Axis2, color = k_group_name)) +
+  geom_point(alpha = 0.75, size = 2) +
+  labs(x = paste("PC1:", round(eig[1, 3], digits = 3), "%"), 
+       y = paste("PC2:", round(eig[2, 3], digits = 3), "%"))+
+    ggtitle("50 SNPs") +
+  scale_color_hue(direction = -1)
+pc50
+```
+
+```{r,message=FALSE}
+#25 SNPs
+PC_ind <- PC.ind(pca5)
+eig <- eigenvalues(pca5)
+
+#rename "Sample_ID" in PC_ind to "INDV"
+PC_ind <- PC_ind %>% rename(Sample=Sample_ID)
+
+PC_ind <- merge(PC_ind,sample_data_groups,by = "Sample") #might need to change the name of the column listing individuals in PC_ind to match sample_info to make these merge properly
+
+pc25 <- ggplot(PC_ind, aes(x = Axis1, y = Axis2, color = k_group_name)) +
+  geom_point(alpha = 0.75, size = 2) +
+  labs(x = paste("PC1:", round(eig[1, 3], digits = 3), "%"), 
+       y = paste("PC2:", round(eig[2, 3], digits = 3), "%"))+
+    ggtitle("25 SNPs") +
+  scale_color_hue(direction = -1)
+pc25
+```
+
+### Select 25 SNPs with highest Fst for differentiating nfl vs. gfl vs. ngom
+
+```{r}
+#50 SNPs with highest Fst for differentiating fl vs. ngom
+flvngom_25<- locNames(hiF_25)
+```
+
+## MAF
+
+Select loci with highest MAF across populations 
+
+### Calculate Minor Allele Frequency for each locus in each genetic group
+
+```{r}
+# calculate maf 
+maf_ngom <- as.data.frame(minorAllele(gind_0.5_hw[gind_0.5_hw@strata$k_group_name == "ngom",]))
+
+maf_gfl <- as.data.frame(minorAllele(gind_0.5_hw[gind_0.5_hw@strata$k_group_name == "gfl",]))
+
+maf_nfl <- as.data.frame(minorAllele(gind_0.5_hw[gind_0.5_hw@strata$k_group_name == "nfl",]))
+
+maf_stx <- as.data.frame(minorAllele(gind_0.5_hw[gind_0.5_hw@strata$k_group_name == "stx",]))
+```
+
+```{r}
+#change column names
+colnames(maf_ngom)[1] <- "frq"
+maf_ngom$probeset_id <- rownames(maf_ngom)
+
+colnames(maf_gfl)[1] <- "frq"
+maf_gfl$probeset_id <- rownames(maf_gfl)
+
+colnames(maf_nfl)[1] <- "frq"
+maf_nfl$probeset_id <- rownames(maf_nfl)
+
+colnames(maf_stx)[1] <- "frq"
+maf_stx$probeset_id <- rownames(maf_stx)
+```
+
+```{r}
+hist(maf_ngom$frq,main ="MAF ngom",xlab ="loci")
+hist(maf_gfl$frq,main ="MAF gfl",xlab ="loci")
+hist(maf_nfl$frq,main ="MAF nfl",xlab ="loci")
+hist(maf_stx$frq, main ="MAF stx", xlab = "loci")
+```
+
+### Re-calculate after removing loci with MAF of 1
+
+```{r}
+#remove the maf frq of 1
+
+maf_ngom <- maf_ngom[!maf_ngom$frq==1,]
+maf_gfl <- maf_gfl[!maf_gfl$frq==1,]
+maf_nfl <- maf_nfl[!maf_nfl$frq==1,]
+maf_stx <- maf_stx[!maf_stx$frq==1,]
+```
+
+```{r}
+hist(maf_ngom$frq,main ="MAF ngom",xlab ="loci")
+hist(maf_gfl$frq,main ="MAF gfl",xlab ="loci")
+hist(maf_nfl$frq,main ="MAF nfl",xlab ="loci")
+hist(maf_stx$frq, main ="MAF stx", xlab = "loci")
+```
+
+### Identify loci with high MAF in all groups
+
+```{r}
+
+nfl_frq <- arrange(maf_nfl, probeset_id) %>%
+  rename(nfl_probe = probeset_id, nfl_frq = frq)
+
+gfl_frq <- arrange(maf_gfl, probeset_id) %>%
+  rename(gfl_probe = probeset_id, gfl_frq = frq)
+
+ngom_frq <- arrange(maf_ngom, probeset_id) %>%
+  rename(ngom_probe = probeset_id, ngom_frq = frq)
+
+stx_frq <- arrange(maf_stx, probeset_id) %>%
+  rename(stx_probe = probeset_id, stx_frq = frq)
+
+MAF_groups <- bind_cols(nfl_frq,gfl_frq,ngom_frq,stx_frq)
+
+```
+
+Check that data is in order
+
+```{r,eval=FALSE}
+#check that probes are in the right order
+
+MAF_groups %>% mutate(ngom_stx_pr = if_else(ngom_probe == stx_probe, 1, 0)) %>%
+  filter(ngom_stx_pr == 0)
+
+MAF_groups %>% mutate(nfl_stx_pr = if_else(nfl_probe == stx_probe, 1, 0)) %>%
+  filter(nfl_stx_pr == 0)
+
+MAF_groups %>% mutate(nfl_gfl_pr = if_else(nfl_probe == gfl_probe, 1, 0)) %>%
+  filter(nfl_gfl_pr == 0)
+
+
+```
+
+Select and exmaine histograms of loci
+
+* Selecting greater than 0.05 for gfl, nfl, and ngom and greater than 0.03 for stx
+
+```{r}
+MAF_groups <- bind_cols(gfl_frq,nfl_frq,ngom_frq,stx_frq)
+
+MAF_groups_filt <- MAF_groups %>%
+  filter(gfl_frq > 0.05, nfl_frq > 0.05, ngom_frq > 0.05, stx_frq > 0.03)
+
+hist(MAF_groups_filt$nfl_frq,main = "MAF NFL Filtered", xlab="loci")
+hist(MAF_groups_filt$gfl_frq,main = "MAF GFL Filtered", xlab="loci")
+hist(MAF_groups_filt$ngom_frq,main = "MAF ngom Filtered", xlab="loci")
+hist(MAF_groups_filt$stx_frq,main = "MAF stx Filtered", xlab="loci")
+```
+
+```{r}
+nrow(MAF_groups_filt)
+```
+
+Result is 10,774 candidate loci
+
+## Save files
+
+```{r}
+#loci and their maf for each genetic group
+saveRDS(nfl_frq, file = here::here("data","derived","nfl_frq"))
+
+saveRDS(gfl_frq, file = here::here("data","derived","gfl_frq"))
+
+saveRDS(ngom_frq, file = here::here("data","derived","ngom_frq"))
+
+saveRDS(stx_frq, file = here::here("data","derived","stx_frq"))
+
+```
+
+```{r,eval=FALSE}
+#genotypes as columns, rows as individuals, filtered out for HE and HWE
+saveRDS(genotypes_0.5_hw,file = here::here("data","derived","genotypes_f_he_hw"))
+```
+
+```{r,eval=FALSE}
+#25 SNPS with high FST for stx vs. gulf to be included in panel
+saveRDS(stxvgulf_25, file = here::here("data","derived","stxvgulf_25"))
+```
+
+```{r,eval=FALSE}
+#25 SNPS for florida v gulf (highest FST)
+saveRDS(flvngom_25, file = here::here("data","derived","flvngom_25"))
+```
+
+```{r,eval=FALSE}
+#11496 SNPs with greater than .10 MAF for nfl, gfl, nGOM and greater than .02 MAF for stx
+saveRDS(MAF_groups_filt, file = here::here("data","derived","MAF_SNPs"))
+```

@@ -1,0 +1,16 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.Rproj
+data/
+data/raw/other_AxiomGT1.calls.txt
+data/raw/snp_info_cv_ECarray_header_edited.txt
+data/raw/haplotig_masked_gnome.fasta
+data/raw/south_AxiomGT1.calls.txt
+data/raw/other_Ps.performance.txt
+data/raw/south_Ps.performance.txt
+data/derived/combined_filtered.txt
+data/derived/cluster_other_formatted.txt
+
+

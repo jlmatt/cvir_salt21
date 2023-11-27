@@ -1,0 +1,582 @@
+# Input Data 
+
+## Objective: Organize individual and SNP data
+
+Organize and consolidate data from hundreds of C.virginica collected around the Gulf of Mexico genotyped on a high density SNP panel (~600K) developed by the East Coast consortium.  
+
+```{r, include = FALSE}
+#library(SNPolisher)
+library(tidyverse)
+library(hierfstat)
+library(adegenet)
+library(stringr)
+library(ggrepel)
+library(pantomime)
+library(pegas)
+library(patchwork)
+library("lattice")
+library(maps)
+library(mapdata)
+library(stringr)
+library(data.table)
+library(here)
+```
+
+```{r,include = FALSE}
+#load in functions for PCA and manipulating genind objects
+source("~/PCA.R")
+source("~/genind.R")
+```
+
+## Individual Sample Information
+
+General Gulf (GG) samples (n=404) and South Texas (STX) samples (n=76) were genotyped on 600K ThermoFisher array and analyzed separately.  A unique genotyping probeset list was used for each sample set. 447 samples passed QA. 
+
+### Basic sample information
+
+"sample_info_SALT" data file provided by Eric Salliant of University of Southern Mississippi, includes data provided by ThermoFisher and metadata (e.g., geographic details of where oysters were collected).
+
+```{r, results = 'hide'}
+sample_info_SALT <- read_csv(here::here("data","raw","cvir_gulf_600K_ES.csv"))
+sample_info_SALT$...1 <- NULL
+```
+
+```{r}
+sample_info_SALT
+```
+
+"sample_info_RAD" data file provided by Amanda Barker of the Marine Genomics Lab, it is data of a TPWD and Marine Genomics Lab project using RAD
+
+```{r, results = 'hide'}
+sample_info_RAD <-read_csv(here::here("data","raw","oyster_genotyped_sample_info.csv"))
+sample_info_RAD$...1 <- NULL
+```
+
+```{r}
+sample_info_RAD
+```
+
+Some sample info from the RAD dataset was in a seperate file
+
+```{r message=FALSE, warning=FALSE}
+missingdata <-read_csv(here::here("data","raw","missing_cvir.csv"))
+missingdata
+```
+
+```{r message=FALSE, warning=FALSE,include=FALSE}
+# add missing data with RAD data
+library(plyr)
+sample_info_RADx <- rbind.fill(sample_info_RAD,missingdata)
+detach("package:plyr", unload=TRUE)
+```
+
+### Quality control info from Thermo Fisher
+
+```{r}
+#read in QC data for both data sets
+
+#not sure how to use read_table to imitate read.table, so "here" tabled for now
+#other_qc <- read_table(here::here("data","raw","other_genotypingQC.report.txt"), col_names = TRUE)
+
+other_qc <- read.table("data/raw/other_genotypingQC.report.txt",fill=TRUE, header = TRUE)
+south_qc <- read.table("data/raw/south_genotypingQC.report.txt", fill = TRUE, header=TRUE)
+
+#add column of data_set - "other" or "south_texas"
+other_qc$data_set <- "other"
+south_qc$data_set <- "south_texas"
+
+#rbind "other" and "south_texas" data frames
+qc_indv <- rbind(other_qc,south_qc)
+
+#rename in QC "celfiles" to "Sample"
+qc_indv <- qc_indv %>% rename(Sample = cel_files)
+
+qc_indv %>% head()
+```
+
+### List of oysters that passed the genotyping according to ThermoFisher
+
+```{r}
+gg_qc_filt <- read.table("data/raw/other_sample_QCFilteredCR.txt",fill = TRUE, header = TRUE)
+passed_GG <- gg_qc_filt$cel_files
+
+st_qc_filt <- read.table("data/raw/south_sample_QCFilteredCR.txt",fill = TRUE, header = TRUE)
+passed_ST <- st_qc_filt$cel_files
+```
+
+### Merge Files
+
+Consolidate all identifying information on samples to "sample_info_full"
+
+```{r}
+#merge sample_info_SALT and sample_info_RAD
+sample_info <- merge(x = sample_info_SALT, y = sample_info_RADx, all.x = TRUE)
+
+#add quality control data, filter out only individuals that passed Thermo's quality control
+sample_info_full <- sample_info %>%
+  merge(qc_indv, all.x = TRUE) %>%
+  filter (Sample %in% passed_GG | Sample %in% passed_ST) 
+
+#some individuals have multiple rows in the data set, with the only varying information the lib_id, barcode, and index columns, likely RAD information.  Below, choose only one row for these individuals: a551319-4448066-110623-383_A04.CEL and a551319-4448066-110623-383_A08.CEL
+
+sample_info_full <- sample_info_full %>%
+ distinct(Sample, .keep_all = TRUE)
+
+#add a "locaton" column for the RAD data
+sample_info_full$location <- paste(sample_info_full$bay,sample_info_full$state,sep=",")
+
+#remove all periods and hyphens from sample name (causes issues downstream)
+sample_info_full$Sample <- gsub("\\.","", sample_info_full$Sample)
+sample_info_full$Sample <- gsub("_","", sample_info_full$Sample)
+sample_info_full$Sample <- gsub("-","", sample_info_full$Sample)
+
+sample_info_full %>% head()
+```
+
+### Tidy Up Lat/Long Data and Site Codes
+
+Fix inconsistencies in geographic data and site codes
+
+```{r,warning=FALSE,message=FALSE}
+#lat and long data differs in format for samples from SALT and RAD data files
+
+# 1 - tidy up lat and long from SALT data files
+
+sample_info_full$lat<-substr(sample_info_full$Collection_data,1,8)
+sample_info_full$long<-str_sub(sample_info_full$Collection_data,-10)
+sample_info_full$long <- gsub("_","", sample_info_full$long)
+sample_info_full$long <- gsub(" ","", sample_info_full$long)
+
+# 2 - add the SALT lat and long data to the latitude and longitude  
+
+sample_info_full$latitude <- ifelse(is.na(sample_info_full$latitude),
+                           as.numeric(sample_info_full$lat),sample_info_full$latitude)
+
+sample_info_full$longitude <- ifelse(is.na(sample_info_full$longitude),
+                                 as.numeric(sample_info_full$long),sample_info_full$longitude)
+
+
+# 3 - as numeric lat and long data
+
+sample_info_full$latitude <- as.numeric(sample_info_full$latitude)
+sample_info_full$longitude <- as.numeric(sample_info_full$longitude)
+
+
+# - 4 add "geographic_code" information to those without it 
+
+sample_info_full$Geographic_code<-as.character(sample_info_full$Geographic_code)
+
+#ULTX 1/2
+sample_info_full$Geographic_code <- ifelse(sample_info_full$bay %in% "Upper Laguna Madre","ULTX", sample_info_full$Geographic_code)
+
+#ULTX 2/2
+sample_info_full$Geographic_code <- ifelse(sample_info_full$sample_id %like% "ULM","ULTX",sample_info_full$Geographic_code) #like requires data.table package
+
+#PMTX Port Mansfield Texas
+sample_info_full$Geographic_code <- ifelse(sample_info_full$bay %in% "Port Mansfield","PMTX", sample_info_full$Geographic_code)
+
+#Corpus Christi Bay Texas
+sample_info_full$Geographic_code <- ifelse(sample_info_full$site %in% "corpus_christi","CCTX", sample_info_full$Geographic_code)
+
+#Tampa Bay FL
+sample_info_full$Geographic_code <- ifelse(sample_info_full$lib_id %in% c("tam_01","tam_04","tam_05","tam_06"),"TBFL", sample_info_full$Geographic_code)
+
+#Boca Ciega Bay Aquatic Preserve FL
+sample_info_full$Geographic_code <- ifelse(sample_info_full$lib_id %in% c("tam_20","tam_22","tam_23"),"BCFL", sample_info_full$Geographic_code)
+
+#Madelaine Key, FL
+sample_info_full$Geographic_code <- ifelse(sample_info_full$lib_id %in% c("tam_17","tam_18"),"MKFL", sample_info_full$Geographic_code)
+
+#Caloosahatchee River, FL
+sample_info_full$Geographic_code <- ifelse(sample_info_full$lib_id %in% c("car_01","car_03","car_05","car_07"),"CAFL", sample_info_full$Geographic_code)
+
+
+# - 5 add lat and long to ULM obs that do not have this info
+
+sample_info_full$latitude <- ifelse(sample_info_full$Geographic_code %in% "ULTX",27.63083,sample_info_full$latitude)
+sample_info_full$longitude <- ifelse(sample_info_full$Geographic_code %in% "ULTX",-97.24018,sample_info_full$longitude)
+
+```
+
+### Organize oysters into "metagroup" categories: 
+ + South Texas (STX)
+ + northern Gulf of Mexico (nGOM)
+ + Florida (FL)
+ + Selected Line - Auburn nGOM
+ + Selected Line - Auburn FL
+ + Selected Line - OBOY
+
+```{r}
+sample_info_full$metagroup <- "selected lines"
+
+sample_info_full$metagroup <- ifelse(sample_info_full$Geographic_code %in% c("AHFL","BWBFL",
+                                                           "OBFL","LRFL",
+                                                           "CRFL",
+                                                           "PBFL","SKFL",
+                                                           "CAFL","TBFL",
+                                                           "MKFL",
+                                                           "BCFL"),"FL",sample_info_full$metagroup)
+
+sample_info_full$metagroup <- ifelse(sample_info_full$Geographic_code %in% c("ALAL","CPAL",
+                                                           "EGTX","EMTX", 
+                                                           "LCLA","LSTX",
+                                                           "PSMS","SATX",
+                                                           "SLLA","WGTX",
+                                                           "WMTX"),"nGOM",sample_info_full$metagroup)
+
+sample_info_full$metagroup <- ifelse(sample_info_full$Geographic_code %in% c("ULTX","PMTX",
+                                                           "CCTX"),"STX",sample_info_full$metagroup)
+
+sample_info_full$metagroup <- ifelse(sample_info_full$Collection_data %in% "Auburn selected line 1",
+                              "Selected Line - Auburn nGOM",sample_info_full$metagroup)
+
+sample_info_full$metagroup <- ifelse(sample_info_full$Collection_data %in% "Auburn selected line 2",
+                              "Selected Line - Auburn FL",sample_info_full$metagroup)
+
+sample_info_full$metagroup <- ifelse(sample_info_full$Collection_data %in% "O'Boy selected line",
+                              "Selected Line - OBOY",sample_info_full$metagroup)
+                                                    
+```
+
+```{r}
+#order the factor levels for geographic code based on longitude (move west to east)
+
+library(dplyr)
+sample_info_full<-arrange(sample_info_full,longitude)
+
+sample_info_full$Geographic_code<-factor(sample_info_full$Geographic_code, levels=c("PMTX","ULTX","CCTX","SATX","WMTX","EMTX","WGTX","EGTX","LSTX","LCLA","SLLA","PSMS","CPAL","ALAL","PBFL","AHFL","OBFL","LRFL","SKFL","CRFL","MKFL","BCFL","TBFL","CAFL","BWBFL"))
+
+```
+
+### Map sites where samples were collected 
+
+Site codes and site names: 
+
+ + PMTX ~ Port Mansfield
+ + ULTX ~ Upper Laguna Madre
+ + CCTX ~ Corpus Christi Bay
+ + SATX ~ San Antonio Bay
+ + WMTX ~ West Matagorda Bay
+ + EMTX ~ East Matagorda Bay
+ + WGTX ~ West Galveston Bay
+ + EGTX ~ East Galveston Bay
+ + LSTX ~ Sabine Pass
+ + LCLA ~ Calcasieu Lake
+ + SLLA ~ Caillou Lake
+ + PSMS ~ Pascagoula River
+ + CPAL ~ Cedar Point
+ + ALAL ~ Alligator Lake
+ + PBFL ~ Pensacola Bay
+ + AHFL ~ Alligator Harbor
+ + OBFL ~ Oyster Bay
+ + LRFL ~ Suwannee River
+ + SKFL ~ Seahorse Key
+ + CRFL ~ Corrigan Reef
+ + MKFL ~ Madelaine Key
+ + BCFL ~ Boca Ciega Bay Aquatic Preserve
+ + TBFL ~ Tampa Bay
+ + CAFL ~ Caloosahatchee River
+ + BWBFL ~ Backwater Bay
+
+```{r}
+
+MainStates <- map_data("state")
+
+ggplot()+
+  geom_polygon(data=MainStates,aes(x=long,y=lat,group=group),fill="lightgray", color="black") + 
+  theme_bw()+
+  theme(panel.grid.major = element_blank())+
+  theme(panel.grid.minor = element_blank())+
+  coord_cartesian(xlim=c(-99.830000,-79.783711), ylim = c(24.783218,30.858945)) + 
+  geom_point(data = sample_info_full %>%   
+               filter(!Collection_data == "Auburn selected line 2") %>%
+               filter(!Collection_data == "O'Boy selected line") %>%
+               filter(!Collection_data == "Auburn selected line 1"), #remove the selected lines from mapping
+             aes(y = latitude, x = longitude, group=Geographic_code,colour=Geographic_code,shape = metagroup),
+             size=5,stroke=0.5)
+```
+
+Map representing the relative number of samples collected in each location
+
+```{r fig.height=5, fig.width=8}
+ggplot()+
+  geom_polygon(data=MainStates,aes(x=long,y=lat,group=group),fill="lightgray", color="black") + 
+  theme_bw()+
+  theme(panel.grid.major = element_blank())+
+  theme(panel.grid.minor = element_blank())+
+  coord_cartesian(xlim=c(-99.830000,-79.783711), ylim = c(24.783218,30.858945)) + 
+  geom_point(data = sample_info_full %>%
+  mutate(latitude2 = round(latitude,3)) %>%
+  mutate(longitude2 = round(longitude,3)) %>%
+  count(Geographic_code,metagroup,longitude2,latitude2) %>%
+    mutate_at(c('longitude2', 'latitude2'), as.numeric) %>%
+    filter(!metagroup == "Selected Line - Auburn FL") %>%
+    filter(!metagroup == "Selected Line - Auburn nGOM") %>%
+    filter(!metagroup == "Selected Line - OBOY"),
+    #counts for proportional representation
+             aes(y = latitude2, x = longitude2, group=Geographic_code,colour=Geographic_code,shape = metagroup,size = n),
+             stroke=0.5)
+```
+
+```{r}
+#produce blank map to add points to later
+
+blank_map <- ggplot()+
+  geom_polygon(data=MainStates,aes(x=long,y=lat,group=group),fill="grey90", color="black") + 
+  theme_bw()+
+  theme(panel.grid.major = element_blank())+
+  theme(panel.grid.minor = element_blank())+
+  coord_cartesian(xlim=c(-99.830000,-79.783711), ylim = c(24.783218,30.858945))
+```
+
+```{r}
+#add site codes to individual data
+
+sample_info_full <- sample_info_full %>%
+  mutate(Geographic_location = case_when(
+    Geographic_code %in% "PMTX" ~ "Port Mansfield",
+    Geographic_code %in% "ULTX" ~ "Upper Laguna Madre",
+    Geographic_code %in% "CCTX" ~ "Corpus Christi Bay",
+    Geographic_code %in% "SATX" ~ "San Antonio Bay",
+    Geographic_code %in% "WMTX" ~ "West Matagorda Bay",
+    Geographic_code %in% "EMTX" ~ "East Matagorda Bay",
+    Geographic_code %in% "WGTX" ~ "West Galveston Bay",
+    Geographic_code %in% "EGTX" ~ "East Galveston Bay",
+    Geographic_code %in% "LSTX" ~ "Sabine Pass",
+    Geographic_code %in% "LCLA" ~ "Calcasieu Lake",
+    Geographic_code %in% "SLLA" ~ "Caillou Lake",
+    Geographic_code %in% "PSMS" ~ "Pascagoula River",
+    Geographic_code %in% "CPAL" ~ "Cedar Point",
+    Geographic_code %in% "ALAL" ~ "Alligator Lake",
+    Geographic_code %in% "PBFL" ~ "Pensacola Bay",
+    Geographic_code %in% "AHFL" ~ "Alligator Harbor",
+    Geographic_code %in% "OBFL" ~ "Oyster Bay",
+    Geographic_code %in% "LRFL" ~ "Suwannee River",
+    Geographic_code %in% "SKFL" ~ "Seahorse Key",
+    Geographic_code %in% "CRFL" ~ "Corrigan Reef",
+    Geographic_code %in% "MKFL" ~ "Madelaine Key",
+    Geographic_code %in% "BCFL" ~ "Boca Ciega Bay Aquatic Preserve",
+    Geographic_code %in% "TBFL" ~ "Tampa Bay",
+    Geographic_code %in% "CAFL" ~ "Caloosahatchee River",
+    Geographic_code %in% "BWBFL" ~ "Backwater Bay")) %>%
+  mutate(Geographic_state = case_when(
+    str_sub(Geographic_code,-2) %in% "TX" ~ "Texas",
+    str_sub(Geographic_code,-2) %in% "LA" ~ "Louisiana",
+    str_sub(Geographic_code,-2) %in% "MS" ~ "Mississippi",
+    str_sub(Geographic_code,-2) %in% "AL" ~ "Alabama",
+    str_sub(Geographic_code,-2) %in% "FL" ~ "Florida"))
+    
+```
+
+Table of genotyped samples categorized by location of collection
+
+```{r}
+sample_info_full %>%
+  count(Geographic_code,Geographic_location,Geographic_state,metagroup) %>%
+  head()
+```
+
+Table of genotyped samples categorized by the region of collection - south Texas (STX), northern Gulf of Mexico (nGOM), Florida (FL), and individuals from selected lines (selected lines)
+
+```{r}
+sample_info_full %>%
+  count(metagroup)
+```
+
+## SNP Information
+
+Total: 566,262
+
+SNPs considered 'recommended' for downstream analysis by ThermoFisher if fit in one of the following categories: 
+
+* PolyHighResolution: SNPs with well-separated genotype clusters and two or more alleles in the genotype calls
+
+* NoMinorHom: SNPs with well-separated genotype clusters; one cluster is homozygous and one is heterozygous for biallelic SNPs, only one homozygous cluster and one or more heterozygous clusters appear for multiallelic SNPs
+
+* MonoHighResolution: SNPs with one well-formed genotype cluster; must be homozygous
+
+- Recommended "other" cluster (GG): 207,534
+- Recommended "south" cluster (ST): 152,260
+- Recommended in both clusters:     105,363
+
+Only SNPs recommended for both GG and ST analyzed here (the 105,363)
+
+### General Information on SNPs 
+
+```{r}
+#read in general info
+snp_info <- read.table("data/raw/snp_info_cv_ECarray_header_edited.txt", fill = TRUE , header = TRUE )
+
+#rename general info column "ID" to "probeset_id" to match with genotyped files
+snp_info <- snp_info %>% rename(probeset_id = ID_Name)
+
+snp_info %>% head()
+```
+
+### Recommended SNPs
+
+SNPs recommended by ThermoFisher for both GG and ST
+
+```{r}
+#list of recommended SNPs for each sample set
+other_rec <- read.table("data/raw/other_Recommended.ps", header = TRUE)
+south_rec <- read.table("data/raw/south_Recommended.ps", header = TRUE)
+
+#merge recommended SNPs for each sample set
+combined_rec <- merge(other_rec, south_rec)
+combined_rec %>% head()
+```
+
+### Quality control info
+
+Quality control data on SNPs from ThermoFisher
+
+```{r}
+#read in QC data for both data sets
+other_qc_snp <- read.table("data/raw/other_Ps.performance.txt", fill = TRUE,header=TRUE)
+south_qc_snp <- read.table("data/raw/south_Ps.performance.txt", fill = TRUE, header=TRUE)
+
+#add column of data_set - "other" or "south_texas"
+other_qc_snp$cluster <- "other"
+south_qc_snp$cluster <- "south_texas"
+
+#rbind qc data for both data sets
+qc_snp <- rbind(other_qc_snp,south_qc_snp)
+
+#select only SNPs recommended for both clusters 
+qc_snp_rec<-merge(qc_snp,combined_rec)
+
+qc_snp_rec %>% head()
+```
+
+
+### Merge Files 
+
+Consolidate information on SNPs into one file "snp_info_full.txt"
+
+```{r}
+#merge recommended and general info
+#note the final file has two rows for each SNP (based on whether it is in the 'other' or 'south_texas' cluster)
+snp_info_full <- merge(combined_rec, snp_info)
+snp_info_full <- merge(snp_info_full, qc_snp_rec)
+
+#remove "-" in probeset id
+snp_info_full$probeset_id <- gsub("-","", snp_info_full$probeset_id)
+
+snp_info_full %>% head()
+```
+
+### Formatting for hierfstat and adegenet
+
+SNP data formatted so to be analyzed with the "hierfstat" and "adegenet" package
+
+Formatted to loci in 1 column
+
+```{r}
+#read in .cs files (takes a minute)
+Ncalls_other <- read.table("data/raw/other_AxiomGT1.calls.txt", header = TRUE)
+Ncalls_south <- read.table("data/raw/south_AxiomGT1.calls.txt", header = TRUE)
+
+#filter out only the rec SNPs from the calls data
+other_filtered <- subset(Ncalls_other, probeset_id %in% combined_rec$probeset_id)
+south_filtered <- subset(Ncalls_south, probeset_id %in% combined_rec$probeset_id)
+
+#transpose so individuals are rows and SNPs are columns
+other_filtered <- as.data.frame(t(other_filtered))
+south_filtered <- as.data.frame(t(south_filtered))
+
+#make the first row of the dataframe the column headers
+names(other_filtered) <- other_filtered[1,]
+names(south_filtered) <- south_filtered[1,]
+
+#delete the first row of the data set (only used as column headers)
+other_filtered<- other_filtered[-1,]
+south_filtered<- south_filtered[-1,]
+
+#Make vector of other/south individuals for later referencing
+
+other_inds <- rownames(other_filtered)
+  other_inds <- gsub("\\.","", other_inds)
+  other_inds <- gsub("_","", other_inds)
+
+south_inds <- rownames(south_filtered)
+  south_inds <- gsub("\\.","", south_inds)
+  south_inds <- gsub("_", "", south_inds)
+```
+
+```{r,eval=FALSE}
+##set to eval=FALSE because takes so long
+##Change allele codes. 
+###Warning: this takes a very long time (almost 1 hour). 
+
+#For some reason there is whitespace around some of the values which causes problems when converting the values. Strip all leading/trailing white space 
+other_filtered <- other_filtered %>% mutate(across(where(is.character), str_trim))
+south_filtered <- south_filtered %>% mutate(across(where(is.character), str_trim))
+
+#if value in dataframe is -1, change to NA
+## -1 specifies a 'No Call'
+other_filtered[other_filtered == -1] <- NA   
+south_filtered[south_filtered == -1] <- NA   
+
+# If code is 0 (AA) change to 11
+other_filtered[other_filtered == 0] <- "11"
+south_filtered[south_filtered == 0] <- "11"
+
+#If code is 1 (AB) change to 12
+other_filtered[other_filtered == 1] <- "12"
+south_filtered[south_filtered == 1] <- "12"
+
+# If code is 2 (BB) change to 22
+other_filtered[other_filtered == 2] <- "22"
+south_filtered[south_filtered == 2] <- "22"
+
+#save formatted data files for other and south
+write.table(other_filtered, "data/derived/cluster_other_formatted.txt", quote = FALSE, row.names = TRUE, col.names = TRUE, sep = "\t")
+write.table(south_filtered, "data/derived/cluster_south_formatted.txt", quote = FALSE, row.names = TRUE, col.names = TRUE, sep = "\t")
+```
+
+```{r}
+#read in formatted data files for other and south
+other_filtered <- read.table(here::here("data","derived","cluster_other_formatted.txt"))
+south_filtered <- read.table(here::here("data","derived","cluster_south_formatted.txt"))
+```
+
+```{r}
+#Consolidate to one file - "combined_filtered.txt"
+
+# sort data frames to make sure columns are in the same order before combining
+other_filtered <- other_filtered[,order(names(other_filtered))]
+south_filtered <- south_filtered[,order(names(south_filtered))]
+
+# double check because I'm paranoid 
+cols1 <- names(other_filtered)
+cols2 <- names(south_filtered)
+identical(cols1, cols2)
+
+#combine datasets
+combined_filtered <- rbind(other_filtered, south_filtered)
+
+colnames(combined_filtered) <- gsub("-","", colnames(combined_filtered))
+colnames(combined_filtered) <- gsub("\\.","", colnames(combined_filtered))
+rownames(combined_filtered) <- gsub("_","", rownames(combined_filtered))
+rownames(combined_filtered) <- gsub("\\.","", rownames(combined_filtered))
+rownames(combined_filtered) <- gsub("-","", rownames(combined_filtered))
+```
+
+## Save files
+
+```{r}
+#save sample_info_Full
+saveRDS(sample_info_full, file = here ::here("data","derived","sample_info_full"))
+```
+
+```{r}
+#save_snp_info_full
+saveRDS(snp_info_full, file = here::here("data","derived","snp_info_full"))
+```
+
+```{r}
+#save combined_filtered data file
+write.table(combined_filtered, "data/derived/combined_filtered.txt", quote = FALSE, row.names = TRUE, col.names = TRUE, sep = "\t")
+```
+
