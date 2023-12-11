@@ -2,9 +2,9 @@
 title: "Selecting 5K SNPs for SALT array"
 author: "Joseph Matt"
 date: "`r Sys.Date()`"
-output: bookdown::gitbook
+site: bookdown::bookdown_site
+description: "This is a series of markdown files demonstrating how SNPs were selected for the SALT oyster array. It is formatted as a series of chapters.  Each chapter builds on the previous with the ultimate product of ~5K candidate SNPs to send to Paragon for producing a 5K SNP array for the SALT consortium."
 ---
 
 # Preface {-}
 
-This report is formatted as a series of chapters.  Each chapter builds on the previous with the ultimate product of ~5K candidate SNPs to use in producing a 5K SNP array for the SALT consortium.
