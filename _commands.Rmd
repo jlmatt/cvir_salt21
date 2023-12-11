@@ -1,16 +1,8 @@
+This is a set of commands to use to knit the book
+
 ```{r}
 bookdown::serve_book(dir = here::here(),output_dir = "_book")
 ```
-
-```{r}
-??serve_book
-```
-
-
-```{r}
-install.packages("servr")
-```
-
 
 ```{r}
 bookdown::preview_chapter("02-genetic_assignment.Rmd")

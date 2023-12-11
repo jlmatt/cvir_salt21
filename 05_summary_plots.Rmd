@@ -1,0 +1,159 @@
+# Summary Plots of SNPs for Panel
+
+```{r,include = FALSE}
+#library(SNPolisher)
+library(tidyverse)
+library(hierfstat)
+library(adegenet)
+library(stringr)
+library(ggrepel)
+library(pantomime)
+library(pegas)
+library(patchwork)
+library("lattice")
+library(maps)
+library(mapdata)
+library(stringr)
+library(data.table)
+library(here)
+
+options(scipen = 999)
+```
+
+```{r, include = FALSE}
+#load in functions for PCA and manipulating genind objects
+source("~/PCA.R")
+source("~/genind.R")
+```
+
+## Distribution of SNPs
+
+```{r}
+panel_snps <- readRDS(file = here::here("data","derived","panel_snps"))
+as_tibble(panel_snps)
+```
+
+```{r}
+ggplot(panel_snps, aes(x = chrom, y = pos)) +
+  geom_point(size = 0.2)
+```
+
+Add in the maximum position for each chromosome (in red)
+
+```{r}
+chrom_info <- readRDS(file = here("data","derived","chrom_info"))
+
+ggplot(panel_snps, aes(x = chrom, y = pos)) +
+  geom_point(size = 0.2) +
+  geom_point(data = chrom_info, color = "red", size = 1) + 
+  xlab("chromosome") + 
+  ylab("position") + 
+  scale_x_continuous(breaks=1:10) + 
+  ggtitle("positions of selected snps per chromosome")
+```
+
+## MAF per population
+
+Examine the distribution of MAF of SNPs for each population
+
+First fetch the data
+
+```{r}
+nfl_frq <- readRDS(file = here::here("data","derived","nfl_frq")) %>%
+  rename(snp_id = nfl_probe) %>%
+  filter(snp_id %in% panel_snps$snp_id) %>%
+  remove_rownames()
+
+gfl_frq <- readRDS(file = here::here("data","derived","gfl_frq")) %>%
+  rename(snp_id = gfl_probe) %>%
+  filter(snp_id %in% panel_snps$snp_id) %>%
+  remove_rownames()
+
+ngom_frq <- readRDS(file = here::here("data","derived","ngom_frq")) %>%
+  rename(snp_id = ngom_probe) %>%
+  filter(snp_id %in% panel_snps$snp_id) %>%
+  remove_rownames()
+
+stx_frq <- readRDS(file = here::here("data","derived","stx_frq")) %>%
+  rename(snp_id = stx_probe) %>%
+  filter(snp_id %in% panel_snps$snp_id) %>%
+  remove_rownames()
+```
+
+Format the data
+
+```{r}
+maf <- nfl_frq %>%
+  left_join(.,gfl_frq,by="snp_id") %>%
+  left_join(.,ngom_frq,by="snp_id") %>%
+  left_join(.,stx_frq,by="snp_id") %>%
+  select(snp_id,everything())
+```
+
+Need to format data to "long" format 
+
+```{r}
+maf_long <- maf %>%
+  rename(stx = stx_frq, ngom = ngom_frq, nfl = nfl_frq, gfl = gfl_frq) %>%
+  pivot_longer(!snp_id, names_to = "pop", values_to = "maf") 
+```
+
+Plot maf data
+
+```{r}
+ggplot(maf_long, aes(x=pop, y=maf)) + 
+  geom_boxplot(width=0.5)+
+  xlab("genetic group") + 
+  ylab("minor allele frequency") + 
+  ggtitle("minor allele frequency of selected snps per genetic group")
+```
+
+## PCA with selected SNPs
+
+Read in sample data
+
+```{r}
+sample_data <-readRDS(here("data","derived","sample_data"))
+```
+
+Read in genotype data (genotypes for each individual at each loci), filter so only includes loci on panel
+
+```{r}
+genotypes <- readRDS(here("data","derived","genotypes_f_he_hw"))
+genotypes_with_panel_snps <- genotypes[, maf$snp_id]
+```
+
+Turn data into a genind object 
+
+```{r}
+gind <- df2genind(genotypes_with_panel_snps, ncode = 1, sep = "", NA.char = NA, ploidy = 2)
+gind
+``` 
+
+Run a PCA
+
+```{r, message=FALSE, warning=FALSE, fig.show='hide'}
+x1 <- scaleGen(gind, NA.method = "mean")
+
+pca1 <- dudi.pca(x1,cent=FALSE,scale=FALSE,scannf=FALSE,nf=4)
+
+eig1<-barplot(pca1$eig[1:10],main="PCA eigenvalues", col=heat.colors(50))
+```
+
+```{r,message=FALSE}
+PC_ind <- PC.ind(pca1)
+eig <- eigenvalues(pca1)
+
+#rename "Sample_ID" in PC_ind to "INDV"
+PC_ind <- PC_ind %>% rename(Sample=Sample_ID)
+
+PC_ind <- merge(PC_ind,sample_data,by = "Sample") 
+
+pc <- ggplot(PC_ind, aes(x = Axis1, y = Axis2, color = gen_group)) +
+  geom_point(alpha = 0.75, size = 2) +
+  labs(x = paste("PC1:", round(eig[1, 3], digits = 3), "%"), 
+       y = paste("PC2:", round(eig[2, 3], digits = 3), "%"))+
+  ggtitle("500 SNPs") +
+  scale_color_hue(direction = -1)
+pc
+```

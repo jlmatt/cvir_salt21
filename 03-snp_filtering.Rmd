@@ -211,10 +211,9 @@ hmmat[hmmat > alpha] <- 1
 levelplot(hmmat,aspect="fill")
 ```
 
-Blue denotes alleles that have p > 0.05 from hw.test (cannot be rejected as out of HWE), purple those with p < 0.05 (can be rejected as out of HWE)
+Purplse denotes alleles that have p > 0.05 from hw.test (cannot be rejected as out of HWE), white are those with p <= 0.05 (can be rejected as out of HWE)
 
-
-### Select loci that are fail HWE test (p < 0.05)
+### Select loci that fail HWE test (p < 0.05)
 
 ```{r}
 # HWE per loci in each group
@@ -232,7 +231,7 @@ out_hw<-as_tibble(hmmat,rownames=NA) %>%
   .$rowname
 ```
 
-### Remove the loci out of HWE from the genind object and genotypes data frame
+### Remove loci out of HWE from the genind object and genotypes data frame
 
 ```{r}
 gind_0.5_hw<-genind.rem.loci(gind_0.5,out_hw)
@@ -748,9 +747,9 @@ MAF_groups %>% mutate(nfl_gfl_pr = if_else(nfl_probe == gfl_probe, 1, 0)) %>%
 
 ```
 
-Select and exmaine histograms of loci
+### Select MAF loci and exmaine histograms of loci
 
-* Selecting greater than 0.05 for gfl, nfl, and ngom and greater than 0.03 for stx
+* Selecting MAF greater than 0.05 for gfl, nfl, and ngom, and greater than 0.03 for stx
 
 ```{r}
 MAF_groups <- bind_cols(gfl_frq,nfl_frq,ngom_frq,stx_frq)
@@ -785,7 +784,7 @@ saveRDS(stx_frq, file = here::here("data","derived","stx_frq"))
 ```
 
 ```{r,eval=FALSE}
-#genotypes as columns, rows as individuals, filtered out for HE and HWE
+#genotypes file, with genotypes as columns, rows as individuals, filtered out for HE and HWE
 saveRDS(genotypes_0.5_hw,file = here::here("data","derived","genotypes_f_he_hw"))
 ```
 
@@ -800,6 +799,6 @@ saveRDS(flvngom_25, file = here::here("data","derived","flvngom_25"))
 ```
 
 ```{r,eval=FALSE}
-#11496 SNPs with greater than .10 MAF for nfl, gfl, nGOM and greater than .02 MAF for stx
+#10744 SNPs with MAF greater than .05 for nfl, gfl, nGOM and greater than .03 MAF for stx
 saveRDS(MAF_groups_filt, file = here::here("data","derived","MAF_SNPs"))
 ```

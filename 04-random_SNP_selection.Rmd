@@ -49,7 +49,7 @@ MAF_snps <- readRDS(here::here("data","derived","MAF_SNPs")) %>%
   pull(snp_id)
 ```
 
-## Filter the combined_filtered data file to only include candidate SNPs
+## Filter the SNP data file to only include MAF SNPS selected in Section3
 
 ```{r}
 candidates <- snp_info_full %>%
@@ -80,17 +80,27 @@ Order of chromosomes (per Supplementary Table 3 in Guo et al, 2023)
 Lengths of the chromosomes: (based on Guo et al, 2023)
 
 ```{r}
-#the lengths are based on Hollenbeck's order
 nChr <- 10
 chrLen <- c(65668440, 61752955, 77061148, 59691872, 98698416, 51258098, 57830854, 75944018, 104168038,32650045)
 ```
+
+```{r}
+chrom_info <- tibble(1:10,chrLen) %>%
+  rename(chrom = "1:10", pos = chrLen)
+as_tibble(chrom_info)
+```
+
+```{r}
+saveRDS(chrom_info, file = here("data","derived","chrom_info"))
+```
+
 
 Function to split up the SNPs proportionally based on chrLen
 Much of the code below is taken from Thomas Delomas' public github repository OysterSimGS_2021 script multGen_scrm_ai2_HPC.R
 
 ```{r}
 snps_by_chr <- lapply(5200, function(x){
-	dfOut <- data.frame(chr = 1:nChr, num = round(x * (chrLen/ sum(chrLen)))) #note 7976 is candidate number of SNPs 
+	dfOut <- data.frame(chr = 1:nChr, num = round(x * (chrLen/ sum(chrLen)))) #note 5200 specifies the number of SNPs we are selecting
 						
 # num is calculated with this function. num is the number of positions assigned to each chromosome, calculated based on the proportion of the chromosome length (chrLen) relative to the total chromosome length (sum(chrLen)). The values are rounded.
 	
@@ -119,16 +129,14 @@ Check and make sure adds up to 5200
 sum(snps_by_chr[[1]]$num)
 ```
 
-Check and compare the number of SNPs targeted from each chrom (chrom_tbl) and the number of SNPs available to select (candidate_snps)
+Check and compare the number of SNPs targeted from each chrom (snps_to_select_per_chr) and the number of SNPs available to select (candidate_snps)
 
 ```{r}
-chrom_tbl <- snps_by_chr[[1]] %>%
+snps_to_select_per_chr <- snps_by_chr[[1]] %>%
   mutate(length = chrLen) %>%
   rename(chrom = chr, to_choose = num) 
-chrom_tbl
-```
+snps_to_select_per_chr
 
-```{r}
 candidate_snps <- candidates %>%
   group_by(cust_chr) %>%
   count()
@@ -145,6 +153,8 @@ library(ldpanelopt)
 
 ### Make snp_tbl
 
+* Table of snp_id, chromosome the snp is found on, position on the chromosome, maf of the snp, "chip1" which is just a sequence of numbers 1:number of snps, and "chip2" which is 0
+
 ```{r}
 maf_snps <-readRDS(here::here("data","derived","MAF_SNPs")) %>% 
   tibble(., snp_id = rownames(.)) %>%
@@ -152,6 +162,7 @@ maf_snps <-readRDS(here::here("data","derived","MAF_SNPs")) %>%
   rowwise() %>%
   mutate(maf = mean(c(gfl_frq,nfl_frq,ngom_frq,stx_frq))) %>%
   select(snp_id, maf)
+maf_snps
 ```
 
 ```{r}
@@ -164,24 +175,38 @@ snp_tbl <- candidates %>%
   mutate(pos = as.numeric(pos)) %>% 
   left_join(.,maf_snps, by = "snp_id") %>%
   select(snp_id, chrom, pos, maf, chip1, chip2)
+as_tibble(snp_tbl) 
 ```
 
-rearrange columns in chrom_tbl
+Set up chrom_tbl, which lists the chromosomes, the length of each chromosomes, and the number of snps to choose per chromosome based on their size
 
 ```{r}
-chrom_tbl <- chrom_tbl %>%
+chrom_tbl <- snps_to_select_per_chr %>%
   select(chrom,length,to_choose) %>%
   mutate(chrom = as.character(chrom))
+as_tibble(chrom_tbl)
 ```
+
+Run the greedy algorithm
 
 ```{r}
 test <- choose_snps_greedy(snp_tbl,chrom_tbl)
 ```
 
+Check results, should be data frame similar to snp_tbl, but now "chip2" specifies if the snp has been selected for the panel or not.  If 0, it is not selected. 
+
+```{r}
+as_tibble(test)
+```
+
+Select the MAF snps selected for panel
+
 ```{r}
 panel_snps <- test %>%
   filter(chip2 > 0)
 ```
+
+Examine number of selected snps per chromosome
 
 ```{r}
 panel_snps %>%
@@ -202,3 +227,33 @@ snp_tbl %>%
   group_by(chrom) %>%
   summarize(mean(maf))
 ```
+
+They do
+
+# Add Pop Diagnostic SNPs to MAF SNPs for final list
+
+```{r}
+#population diagnostic snps
+pop_snps <-snp_info_full %>%
+  select(probeset_id,cust_chr,cust_pos) %>%
+  filter(probeset_id %in% flvgulf_snps | probeset_id %in% stxvgulf_snps) %>%
+  mutate(cust_chr = as.numeric (cust_chr)) %>%
+  unique() %>%
+  rename(snp_id = probeset_id, chrom = cust_chr,pos = cust_pos) %>%
+  mutate(pos = as.numeric(pos))
+as_tibble(pop_snps)
+
+str(pop_snps)
+```
+
+```{r}
+panel_snps <- panel_snps %>%
+  select(snp_id,chrom,pos,maf) %>%
+  mutate(chrom = as.numeric(chrom)) %>%
+  bind_rows(.,pop_snps)
+```
+
+```{r}
+saveRDS(panel_snps, file = here("data","derived","panel_snps"))
+```
+

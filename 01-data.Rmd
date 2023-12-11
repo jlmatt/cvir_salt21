@@ -20,6 +20,7 @@ library(mapdata)
 library(stringr)
 library(data.table)
 library(here)
+library(tibble)
 ```
 
 ```{r,include = FALSE}
@@ -27,6 +28,11 @@ library(here)
 source("~/PCA.R")
 source("~/genind.R")
 ```
+
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+
 
 ## Individual Sample Information
 
@@ -36,8 +42,9 @@ General Gulf (GG) samples (n=404) and South Texas (STX) samples (n=76) were geno
 
 "sample_info_SALT" data file provided by Eric Salliant of University of Southern Mississippi, includes data provided by ThermoFisher and metadata (e.g., geographic details of where oysters were collected).
 
-```{r, results = 'hide'}
-sample_info_SALT <- read_csv(here::here("data","raw","cvir_gulf_600K_ES.csv"))
+```{r, results = 'hide',message=FALSE, warning=FALSE}
+suppressMessages(sample_info_SALT <- read_csv(here::here("data","raw","cvir_gulf_600K_ES.csv")))
+
 sample_info_SALT$...1 <- NULL
 ```
 
@@ -48,7 +55,7 @@ sample_info_SALT
 "sample_info_RAD" data file provided by Amanda Barker of the Marine Genomics Lab, it is data of a TPWD and Marine Genomics Lab project using RAD
 
 ```{r, results = 'hide'}
-sample_info_RAD <-read_csv(here::here("data","raw","oyster_genotyped_sample_info.csv"))
+suppressMessages(sample_info_RAD <-read_csv(here::here("data","raw","oyster_genotyped_sample_info.csv")))
 sample_info_RAD$...1 <- NULL
 ```
 
@@ -58,12 +65,12 @@ sample_info_RAD
 
 Some sample info from the RAD dataset was in a seperate file
 
-```{r message=FALSE, warning=FALSE}
+```{r}
 missingdata <-read_csv(here::here("data","raw","missing_cvir.csv"))
 missingdata
 ```
 
-```{r message=FALSE, warning=FALSE,include=FALSE}
+```{r, warning=FALSE, message=FALSE}
 # add missing data with RAD data
 library(plyr)
 sample_info_RADx <- rbind.fill(sample_info_RAD,missingdata)
@@ -91,7 +98,7 @@ qc_indv <- rbind(other_qc,south_qc)
 #rename in QC "celfiles" to "Sample"
 qc_indv <- qc_indv %>% rename(Sample = cel_files)
 
-qc_indv %>% head()
+as_tibble(qc_indv)
 ```
 
 ### List of oysters that passed the genotyping according to ThermoFisher
@@ -130,7 +137,7 @@ sample_info_full$Sample <- gsub("\\.","", sample_info_full$Sample)
 sample_info_full$Sample <- gsub("_","", sample_info_full$Sample)
 sample_info_full$Sample <- gsub("-","", sample_info_full$Sample)
 
-sample_info_full %>% head()
+as_tibble(sample_info_full)
 ```
 
 ### Tidy Up Lat/Long Data and Site Codes
@@ -410,7 +417,7 @@ snp_info <- read.table("data/raw/snp_info_cv_ECarray_header_edited.txt", fill = 
 #rename general info column "ID" to "probeset_id" to match with genotyped files
 snp_info <- snp_info %>% rename(probeset_id = ID_Name)
 
-snp_info %>% head()
+as_tibble(snp_info)
 ```
 
 ### Recommended SNPs
@@ -446,7 +453,7 @@ qc_snp <- rbind(other_qc_snp,south_qc_snp)
 #select only SNPs recommended for both clusters 
 qc_snp_rec<-merge(qc_snp,combined_rec)
 
-qc_snp_rec %>% head()
+as_tibble(qc_snp_rec)
 ```
 
 
@@ -463,7 +470,7 @@ snp_info_full <- merge(snp_info_full, qc_snp_rec)
 #remove "-" in probeset id
 snp_info_full$probeset_id <- gsub("-","", snp_info_full$probeset_id)
 
-snp_info_full %>% head()
+as_tibble(snp_info_full)
 ```
 
 ### Formatting for hierfstat and adegenet

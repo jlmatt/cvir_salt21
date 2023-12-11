@@ -339,7 +339,7 @@ ggplot()+
              aes(y = latitude2, x = longitude2, group=Geographic_code,size = n), colour= "forestgreen",
              stroke=0.5)
 ```
-k_group 1 is south Texas
+k_group 1 is south texas
 
 
 ```{r}
