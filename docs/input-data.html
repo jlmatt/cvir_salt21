@@ -4,33 +4,33 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>1 Input Data | Selecting 5K SNPs for SALT array</title>
-  <meta name="description" content="This is a series of markdown files demonstrating how SNPs were selected for the SALT oyster array. It is formatted as a series of chapters. Each chapter builds on the previous with the ultimate product of ~5K candidate SNPs to send to Paragon for producing a 5K SNP array for the SALT consortium." />
+  <title>Selecting SNPs for SALT array</title>
+  <meta name="description" content="Selecting SNPs for SALT array" />
   <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="1 Input Data | Selecting 5K SNPs for SALT array" />
+  <meta property="og:title" content="Selecting SNPs for SALT array" />
   <meta property="og:type" content="book" />
   
-  <meta property="og:description" content="This is a series of markdown files demonstrating how SNPs were selected for the SALT oyster array. It is formatted as a series of chapters. Each chapter builds on the previous with the ultimate product of ~5K candidate SNPs to send to Paragon for producing a 5K SNP array for the SALT consortium." />
+  
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="1 Input Data | Selecting 5K SNPs for SALT array" />
+  <meta name="twitter:title" content="Selecting SNPs for SALT array" />
   
-  <meta name="twitter:description" content="This is a series of markdown files demonstrating how SNPs were selected for the SALT oyster array. It is formatted as a series of chapters. Each chapter builds on the previous with the ultimate product of ~5K candidate SNPs to send to Paragon for producing a 5K SNP array for the SALT consortium." />
+  
   
 
 <meta name="author" content="Joseph Matt" />
 
 
-<meta name="date" content="2023-12-11" />
+<meta name="date" content="2023-12-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="index.html"/>
+
 <link rel="next" href="genetic-groups.html"/>
 <script src="book_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -136,7 +136,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
 <li class="chapter" data-level="1" data-path="input-data.html"><a href="input-data.html"><i class="fa fa-check"></i><b>1</b> Input Data</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="input-data.html"><a href="input-data.html#objective-organize-individual-and-snp-data"><i class="fa fa-check"></i><b>1.1</b> Objective: Organize individual and SNP data</a></li>
@@ -221,8 +220,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.4.1" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#make-snp_tbl"><i class="fa fa-check"></i><b>4.4.1</b> Make snp_tbl</a></li>
 <li class="chapter" data-level="4.4.2" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#check-and-make-sure-the-algorithm-gave-sensible-results"><i class="fa fa-check"></i><b>4.4.2</b> Check and make sure the algorithm gave sensible results</a></li>
 </ul></li>
+<li class="chapter" data-level="4.5" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#add-pop-diagnostic-snps-to-maf-snps-for-final-list"><i class="fa fa-check"></i><b>4.5</b> Add Pop Diagnostic SNPs to MAF SNPs for final list</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="add-pop-diagnostic-snps-to-maf-snps-for-final-list.html"><a href="add-pop-diagnostic-snps-to-maf-snps-for-final-list.html"><i class="fa fa-check"></i><b>5</b> Add Pop Diagnostic SNPs to MAF SNPs for final list</a></li>
+<li class="chapter" data-level="5" data-path="summary-plots-of-snps-for-panel.html"><a href="summary-plots-of-snps-for-panel.html"><i class="fa fa-check"></i><b>5</b> Summary Plots of SNPs for Panel</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="summary-plots-of-snps-for-panel.html"><a href="summary-plots-of-snps-for-panel.html#distribution-of-snps"><i class="fa fa-check"></i><b>5.1</b> Distribution of SNPs</a></li>
+<li class="chapter" data-level="5.2" data-path="summary-plots-of-snps-for-panel.html"><a href="summary-plots-of-snps-for-panel.html#maf-per-population"><i class="fa fa-check"></i><b>5.2</b> MAF per population</a></li>
+<li class="chapter" data-level="5.3" data-path="summary-plots-of-snps-for-panel.html"><a href="summary-plots-of-snps-for-panel.html#pca-with-selected-snps"><i class="fa fa-check"></i><b>5.3</b> PCA with selected SNPs</a></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -232,7 +237,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Selecting 5K SNPs for SALT array</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Selecting SNPs for SALT array</a>
           </h1>
         </div>
 
@@ -240,6 +245,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">Selecting SNPs for SALT array</h1>
+<p class="author"><em>Joseph Matt</em></p>
+<p class="date"><em>2023-12-12</em></p>
+</div>
 <div id="input-data" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">1</span> Input Data<a href="input-data.html#input-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="objective-organize-individual-and-snp-data" class="section level2 hasAnchor" number="1.1">
@@ -257,38 +267,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-3"><a href="input-data.html#cb1-3" aria-hidden="true" tabindex="-1"></a>sample_info_SALT<span class="sc">$</span>...<span class="dv">1</span> <span class="ot">&lt;-</span> <span class="cn">NULL</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="input-data.html#cb2-1" aria-hidden="true" tabindex="-1"></a>sample_info_SALT</span></code></pre></div>
 <pre><code>## # A tibble: 480 × 16
-##    Sample           Filename SubmittedPlate sample_id Geographic_code Collection_data SampleName
-##    &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt;          &lt;chr&gt;     &lt;chr&gt;           &lt;chr&gt;           &lt;chr&gt;     
-##  1 a551319-4448066… 9SR48340 F12            BWBFL_1   BWBFL           25.92860, -81.… Customer  
-##  2 a551319-4448066… 9SR48340 G08            BWBFL_10  BWBFL           25.92860, -81.… Customer  
-##  3 a551319-4448066… 9SR48340 G09            BWBFL_11  BWBFL           25.92860, -81.… Customer  
-##  4 a551319-4448066… 9SR48340 G10            BWBFL_12  BWBFL           25.92860, -81.… Customer  
-##  5 a551319-4448066… 9SR48340 G11            BWBFL_14  BWBFL           25.92860, -81.… Customer  
-##  6 a551319-4448066… 9SR48340 G12            BWBFL_15  BWBFL           25.92860, -81.… Customer  
-##  7 a551319-4448066… 9SR48340 H01            BWBFL_16  BWBFL           25.92860, -81.… Customer  
-##  8 a551319-4448066… 9SR48340 H02            BWBFL_17  BWBFL           25.92860, -81.… Customer  
-##  9 a551319-4448066… 9SR48340 H03            BWBFL_18  BWBFL           25.92860, -81.… Customer  
-## 10 a551319-4448066… 9SR48340 H04            BWBFL_19  BWBFL           25.92860, -81.… Customer  
+##    Sample          Filename SubmittedPlate sample_id Geographic_code Collection_data SampleName
+##    &lt;chr&gt;           &lt;chr&gt;    &lt;chr&gt;          &lt;chr&gt;     &lt;chr&gt;           &lt;chr&gt;           &lt;chr&gt;     
+##  1 a551319-444806… 9SR48340 F12            BWBFL_1   BWBFL           25.92860, -81.… Customer  
+##  2 a551319-444806… 9SR48340 G08            BWBFL_10  BWBFL           25.92860, -81.… Customer  
+##  3 a551319-444806… 9SR48340 G09            BWBFL_11  BWBFL           25.92860, -81.… Customer  
+##  4 a551319-444806… 9SR48340 G10            BWBFL_12  BWBFL           25.92860, -81.… Customer  
+##  5 a551319-444806… 9SR48340 G11            BWBFL_14  BWBFL           25.92860, -81.… Customer  
+##  6 a551319-444806… 9SR48340 G12            BWBFL_15  BWBFL           25.92860, -81.… Customer  
+##  7 a551319-444806… 9SR48340 H01            BWBFL_16  BWBFL           25.92860, -81.… Customer  
+##  8 a551319-444806… 9SR48340 H02            BWBFL_17  BWBFL           25.92860, -81.… Customer  
+##  9 a551319-444806… 9SR48340 H03            BWBFL_18  BWBFL           25.92860, -81.… Customer  
+## 10 a551319-444806… 9SR48340 H04            BWBFL_19  BWBFL           25.92860, -81.… Customer  
 ## # ℹ 470 more rows
-## # ℹ 9 more variables: SampleSource &lt;chr&gt;, SampleType &lt;chr&gt;, Species &lt;chr&gt;, Concentration &lt;dbl&gt;,
-## #   PlateName &lt;chr&gt;, Rename &lt;chr&gt;, Reproducibility &lt;dbl&gt;, Gender &lt;chr&gt;, SampleOrigin &lt;chr&gt;</code></pre>
+## # ℹ 9 more variables: SampleSource &lt;chr&gt;, SampleType &lt;chr&gt;, Species &lt;chr&gt;,
+## #   Concentration &lt;dbl&gt;, PlateName &lt;chr&gt;, Rename &lt;chr&gt;, Reproducibility &lt;dbl&gt;, Gender &lt;chr&gt;,
+## #   SampleOrigin &lt;chr&gt;</code></pre>
 <p>“sample_info_RAD” data file provided by Amanda Barker of the Marine Genomics Lab, it is data of a TPWD and Marine Genomics Lab project using RAD</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="input-data.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(sample_info_RAD <span class="ot">&lt;-</span><span class="fu">read_csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;raw&quot;</span>,<span class="st">&quot;oyster_genotyped_sample_info.csv&quot;</span>)))</span>
 <span id="cb4-2"><a href="input-data.html#cb4-2" aria-hidden="true" tabindex="-1"></a>sample_info_RAD<span class="sc">$</span>...<span class="dv">1</span> <span class="ot">&lt;-</span> <span class="cn">NULL</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="input-data.html#cb5-1" aria-hidden="true" tabindex="-1"></a>sample_info_RAD</span></code></pre></div>
 <pre><code>## # A tibble: 463 × 14
-##    lib_id sample_id barcode index    site          lib region gulf_location state bay   latitude
-##    &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;
-##  1 apa_01 59751     TCAGT   index_04 apalachico…     1 north… Eastern       FL    Apal…     29.7
-##  2 apa_02 59752     AGCTA   index_04 apalachico…     1 north… Eastern       FL    Apal…     29.7
-##  3 apa_03 59753     CGGTA   index_04 apalachico…     1 north… Eastern       FL    Apal…     29.7
-##  4 apa_04 59754     GGATA   index_04 apalachico…     1 north… Eastern       FL    Apal…     29.7
-##  5 apa_05 59755     TCCGG   index_04 apalachico…     1 north… Eastern       FL    Apal…     29.7
-##  6 apa_06 59756     ACACA   index_04 apalachico…     1 north… Eastern       FL    Apal…     29.7
-##  7 apa_07 59757     GCATG   index_03 apalachico…     1 north… Eastern       FL    Apal…     29.7
-##  8 apa_08 59758     ACTGG   index_03 apalachico…     1 north… Eastern       FL    Apal…     29.7
-##  9 apa_09 59759     CTGCG   index_03 apalachico…     1 north… Eastern       FL    Apal…     29.7
-## 10 apa_10 59760     GTCCG   index_03 apalachico…     1 north… Eastern       FL    Apal…     29.7
+##    lib_id sample_id barcode index    site         lib region gulf_location state bay   latitude
+##    &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;
+##  1 apa_01 59751     TCAGT   index_04 apalachic…     1 north… Eastern       FL    Apal…     29.7
+##  2 apa_02 59752     AGCTA   index_04 apalachic…     1 north… Eastern       FL    Apal…     29.7
+##  3 apa_03 59753     CGGTA   index_04 apalachic…     1 north… Eastern       FL    Apal…     29.7
+##  4 apa_04 59754     GGATA   index_04 apalachic…     1 north… Eastern       FL    Apal…     29.7
+##  5 apa_05 59755     TCCGG   index_04 apalachic…     1 north… Eastern       FL    Apal…     29.7
+##  6 apa_06 59756     ACACA   index_04 apalachic…     1 north… Eastern       FL    Apal…     29.7
+##  7 apa_07 59757     GCATG   index_03 apalachic…     1 north… Eastern       FL    Apal…     29.7
+##  8 apa_08 59758     ACTGG   index_03 apalachic…     1 north… Eastern       FL    Apal…     29.7
+##  9 apa_09 59759     CTGCG   index_03 apalachic…     1 north… Eastern       FL    Apal…     29.7
+## 10 apa_10 59760     GTCCG   index_03 apalachic…     1 north… Eastern       FL    Apal…     29.7
 ## # ℹ 453 more rows
 ## # ℹ 3 more variables: longitude &lt;dbl&gt;, tidal.zone &lt;chr&gt;, harvest &lt;chr&gt;</code></pre>
 <p>Some sample info from the RAD dataset was in a seperate file</p>
@@ -329,18 +340,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb10-18"><a href="input-data.html#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-19"><a href="input-data.html#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(qc_indv)</span></code></pre></div>
 <pre><code>## # A tibble: 473 × 19
-##    Sample             computed_gender call_rate total_call_rate het_rate total_het_rate hom_rate
-##    &lt;chr&gt;                        &lt;dbl&gt;     &lt;dbl&gt;           &lt;dbl&gt;    &lt;dbl&gt;          &lt;dbl&gt;    &lt;dbl&gt;
-##  1 a551319-4448066-1…            99.0      99.0            21.6     21.6           77.4     77.4
-##  2 a551319-4448066-1…            99.3      99.3            22.0     22.0           77.2     77.2
-##  3 a551319-4448066-1…            99.2      99.2            21.8     21.8           77.4     77.4
-##  4 a551319-4448066-1…            99.4      99.4            22.0     22.0           77.4     77.4
-##  5 a551319-4448066-1…            99.4      99.4            22.6     22.6           76.8     76.8
-##  6 a551319-4448066-1…            99.4      99.4            22.8     22.8           76.6     76.6
-##  7 a551319-4448066-1…            99.1      99.1            20.9     20.9           78.2     78.2
-##  8 a551319-4448066-1…            99.4      99.4            22.7     22.7           76.7     76.7
-##  9 a551319-4448066-1…            99.1      99.1            20.3     20.3           78.8     78.8
-## 10 a551319-4448066-1…            99.2      99.2            20.8     20.8           78.5     78.5
+##    Sample            computed_gender call_rate total_call_rate het_rate total_het_rate hom_rate
+##    &lt;chr&gt;                       &lt;dbl&gt;     &lt;dbl&gt;           &lt;dbl&gt;    &lt;dbl&gt;          &lt;dbl&gt;    &lt;dbl&gt;
+##  1 a551319-4448066-…            99.0      99.0            21.6     21.6           77.4     77.4
+##  2 a551319-4448066-…            99.3      99.3            22.0     22.0           77.2     77.2
+##  3 a551319-4448066-…            99.2      99.2            21.8     21.8           77.4     77.4
+##  4 a551319-4448066-…            99.4      99.4            22.0     22.0           77.4     77.4
+##  5 a551319-4448066-…            99.4      99.4            22.6     22.6           76.8     76.8
+##  6 a551319-4448066-…            99.4      99.4            22.8     22.8           76.6     76.6
+##  7 a551319-4448066-…            99.1      99.1            20.9     20.9           78.2     78.2
+##  8 a551319-4448066-…            99.4      99.4            22.7     22.7           76.7     76.7
+##  9 a551319-4448066-…            99.1      99.1            20.3     20.3           78.8     78.8
+## 10 a551319-4448066-…            99.2      99.2            20.8     20.8           78.5     78.5
 ## # ℹ 463 more rows
 ## # ℹ 12 more variables: total_hom_rate &lt;dbl&gt;, cluster_distance_mean &lt;dbl&gt;,
 ## #   cluster_distance_stdev &lt;dbl&gt;, allele_summarization_mean &lt;dbl&gt;,
@@ -383,25 +394,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb13-21"><a href="input-data.html#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-22"><a href="input-data.html#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(sample_info_full)</span></code></pre></div>
 <pre><code>## # A tibble: 447 × 49
-##    Sample           sample_id Filename SubmittedPlate Geographic_code Collection_data SampleName
-##    &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;          &lt;chr&gt;           &lt;chr&gt;           &lt;chr&gt;     
-##  1 a55131944480661… Auburn_1  9SR48342 A01            Auburn selecte… Auburn selecte… Customer  
-##  2 a55131944480661… Auburn_2  9SR48342 A02            Auburn selecte… Auburn selecte… Customer  
-##  3 a55131944480661… Auburn_3  9SR48342 A03            Auburn selecte… Auburn selecte… Customer  
-##  4 a55131944480661… Auburn_4  9SR48342 A04            Auburn selecte… Auburn selecte… Customer  
-##  5 a55131944480661… Auburn_6  9SR48342 A05            Auburn selecte… Auburn selecte… Customer  
-##  6 a55131944480661… Auburn_7  9SR48342 A06            Auburn selecte… Auburn selecte… Customer  
-##  7 a55131944480661… Auburn_8  9SR48342 A07            Auburn selecte… Auburn selecte… Customer  
-##  8 a55131944480661… Auburn_9  9SR48342 A08            Auburn selecte… Auburn selecte… Customer  
-##  9 a55131944480661… Auburn_10 9SR48342 A09            Auburn selecte… Auburn selecte… Customer  
-## 10 a55131944480661… Auburn_11 9SR48342 A10            Auburn selecte… Auburn selecte… Customer  
+##    Sample          sample_id Filename SubmittedPlate Geographic_code Collection_data SampleName
+##    &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;          &lt;chr&gt;           &lt;chr&gt;           &lt;chr&gt;     
+##  1 a5513194448066… Auburn_1  9SR48342 A01            Auburn selecte… Auburn selecte… Customer  
+##  2 a5513194448066… Auburn_2  9SR48342 A02            Auburn selecte… Auburn selecte… Customer  
+##  3 a5513194448066… Auburn_3  9SR48342 A03            Auburn selecte… Auburn selecte… Customer  
+##  4 a5513194448066… Auburn_4  9SR48342 A04            Auburn selecte… Auburn selecte… Customer  
+##  5 a5513194448066… Auburn_6  9SR48342 A05            Auburn selecte… Auburn selecte… Customer  
+##  6 a5513194448066… Auburn_7  9SR48342 A06            Auburn selecte… Auburn selecte… Customer  
+##  7 a5513194448066… Auburn_8  9SR48342 A07            Auburn selecte… Auburn selecte… Customer  
+##  8 a5513194448066… Auburn_9  9SR48342 A08            Auburn selecte… Auburn selecte… Customer  
+##  9 a5513194448066… Auburn_10 9SR48342 A09            Auburn selecte… Auburn selecte… Customer  
+## 10 a5513194448066… Auburn_11 9SR48342 A10            Auburn selecte… Auburn selecte… Customer  
 ## # ℹ 437 more rows
 ## # ℹ 42 more variables: SampleSource &lt;chr&gt;, SampleType &lt;chr&gt;, Species &lt;chr&gt;,
 ## #   Concentration &lt;dbl&gt;, PlateName &lt;chr&gt;, Rename &lt;chr&gt;, Reproducibility &lt;dbl&gt;, Gender &lt;chr&gt;,
 ## #   SampleOrigin &lt;chr&gt;, lib_id &lt;chr&gt;, barcode &lt;chr&gt;, index &lt;chr&gt;, site &lt;chr&gt;, lib &lt;dbl&gt;,
-## #   region &lt;chr&gt;, gulf_location &lt;chr&gt;, state &lt;chr&gt;, bay &lt;chr&gt;, latitude &lt;dbl&gt;, longitude &lt;dbl&gt;,
-## #   tidal.zone &lt;chr&gt;, harvest &lt;chr&gt;, `tidal zone` &lt;chr&gt;, computed_gender &lt;dbl&gt;,
-## #   call_rate &lt;dbl&gt;, total_call_rate &lt;dbl&gt;, het_rate &lt;dbl&gt;, total_het_rate &lt;dbl&gt;, …</code></pre>
+## #   region &lt;chr&gt;, gulf_location &lt;chr&gt;, state &lt;chr&gt;, bay &lt;chr&gt;, latitude &lt;dbl&gt;,
+## #   longitude &lt;dbl&gt;, tidal.zone &lt;chr&gt;, harvest &lt;chr&gt;, `tidal zone` &lt;chr&gt;,
+## #   computed_gender &lt;dbl&gt;, call_rate &lt;dbl&gt;, total_call_rate &lt;dbl&gt;, het_rate &lt;dbl&gt;, …</code></pre>
 </div>
 <div id="tidy-up-latlong-data-and-site-codes" class="section level3 hasAnchor" number="1.2.5">
 <h3><span class="header-section-number">1.2.5</span> Tidy Up Lat/Long Data and Site Codes<a href="input-data.html#tidy-up-latlong-data-and-site-codes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -662,24 +673,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb26-6"><a href="input-data.html#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-7"><a href="input-data.html#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(snp_info)</span></code></pre></div>
 <pre><code>## # A tibble: 582,726 × 31
-##    ReporterKey Affx  probeset_id Sequence SNPType ProbeCount Tile  Replicates DesignNumber Rank 
-##    &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;        &lt;chr&gt;
-##  1 531501570   Affx… AX-5782382… CCTGCCC… Y       2          1     2          1            100  
-##  2 531501571   Affx… AX-5782382… ATGATTG… K       2          1     2          1            100  
-##  3 531501572   Affx… AX-5782382… AGAGGGA… R       2          1     2          1            100  
-##  4 531422636   Affx… AX-5781595… CCTGATA… Y       2          1     2          1            100  
-##  5 531421883   Affx… AX-5781587… GGCGGAT… K       2          1     2          1            100  
-##  6 531422066   Affx… AX-5781589… AGCCGCG… M       2          1     2          1            100  
-##  7 531501573   Affx… AX-5782382… TGGTGCA… R       2          1     2          1            100  
-##  8 531421986   Affx… AX-5781588… ACGTT[C… Y       2          1     2          1            100  
-##  9 531501574   Affx… AX-5782382… ATTGAAG… Y       2          1     2          1            100  
-## 10 531422050   Affx… AX-5781589… GTGGCTT… K       2          1     2          1            100  
+##    ReporterKey Affx       probeset_id Sequence SNPType ProbeCount Tile  Replicates DesignNumber
+##    &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;       
+##  1 531501570   Affx-1248… AX-5782382… CCTGCCC… Y       2          1     2          1           
+##  2 531501571   Affx-1248… AX-5782382… ATGATTG… K       2          1     2          1           
+##  3 531501572   Affx-1248… AX-5782382… AGAGGGA… R       2          1     2          1           
+##  4 531422636   Affx-1248… AX-5781595… CCTGATA… Y       2          1     2          1           
+##  5 531421883   Affx-1248… AX-5781587… GGCGGAT… K       2          1     2          1           
+##  6 531422066   Affx-1248… AX-5781589… AGCCGCG… M       2          1     2          1           
+##  7 531501573   Affx-1248… AX-5782382… TGGTGCA… R       2          1     2          1           
+##  8 531421986   Affx-1248… AX-5781588… ACGTT[C… Y       2          1     2          1           
+##  9 531501574   Affx-1248… AX-5782382… ATTGAAG… Y       2          1     2          1           
+## 10 531422050   Affx-1248… AX-5781589… GTGGCTT… K       2          1     2          1           
 ## # ℹ 582,716 more rows
-## # ℹ 21 more variables: Strand &lt;chr&gt;, SetBack &lt;chr&gt;, taxonomy_key &lt;chr&gt;, organism &lt;chr&gt;,
-## #   cust_id &lt;chr&gt;, cust_chr &lt;chr&gt;, cust_pos &lt;chr&gt;, cust_ref &lt;chr&gt;, cust_alt &lt;chr&gt;,
-## #   cust_source &lt;chr&gt;, cust_gene_id &lt;chr&gt;, cust_gene_name &lt;chr&gt;, cust_snptype &lt;chr&gt;,
-## #   cust_other_id &lt;chr&gt;, cust_validation &lt;chr&gt;, cust_cn_region &lt;chr&gt;, tiling_order &lt;chr&gt;,
-## #   importance &lt;chr&gt;, pconvert &lt;chr&gt;, recommendation &lt;chr&gt;, Error &lt;chr&gt;</code></pre>
+## # ℹ 22 more variables: Rank &lt;chr&gt;, Strand &lt;chr&gt;, SetBack &lt;chr&gt;, taxonomy_key &lt;chr&gt;,
+## #   organism &lt;chr&gt;, cust_id &lt;chr&gt;, cust_chr &lt;chr&gt;, cust_pos &lt;chr&gt;, cust_ref &lt;chr&gt;,
+## #   cust_alt &lt;chr&gt;, cust_source &lt;chr&gt;, cust_gene_id &lt;chr&gt;, cust_gene_name &lt;chr&gt;,
+## #   cust_snptype &lt;chr&gt;, cust_other_id &lt;chr&gt;, cust_validation &lt;chr&gt;, cust_cn_region &lt;chr&gt;,
+## #   tiling_order &lt;chr&gt;, importance &lt;chr&gt;, pconvert &lt;chr&gt;, recommendation &lt;chr&gt;, Error &lt;chr&gt;</code></pre>
 </div>
 <div id="recommended-snps" class="section level3 hasAnchor" number="1.3.2">
 <h3><span class="header-section-number">1.3.2</span> Recommended SNPs<a href="input-data.html#recommended-snps" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -718,18 +729,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb30-14"><a href="input-data.html#cb30-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-15"><a href="input-data.html#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(qc_snp_rec)</span></code></pre></div>
 <pre><code>## # A tibble: 210,726 × 25
-##    probeset_id  affy_snp_id    CR   FLD HomFLD  HetSO HomRO nMinorAllele Nclus  n_AA  n_AB  n_BB
-##    &lt;chr&gt;        &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;        &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
-##  1 AX-168593894 Affx-12468…  99.7  7.46   NA    0.952  3.53            2     2     0     2   369
-##  2 AX-168593894 Affx-12468… 100    7.22   15.4  0.714  2.63           70     3    28    24    23
-##  3 AX-168612286 Affx-12459…  98.7  5.97   12.2  0.518  2.64           86     3    12    62   293
-##  4 AX-168612286 Affx-12459…  97.3  5.19   11.3  0.205  1.71            8     3     2     4    67
-##  5 AX-562727784 Affx-12468…  98.7  4.94   NA   -0.166  2.76            3     2     0     3    71
-##  6 AX-562727784 Affx-12468…  99.5  6.52   15.1  0.508  2.90           26     3     2    22   346
-##  7 AX-562727806 Affx-12365…  97.3  8.20   17.7  0.247  2.74           14     3    61    10     2
-##  8 AX-562727806 Affx-12365…  99.7  9.11   19.1  0.756  3.11          368     3   104   166   101
-##  9 AX-562727827 Affx-12365… 100    4.75   NA    1.30   2.10            2     3    67     2     0
-## 10 AX-562727827 Affx-12365… 100    5.63   15.6  0.540  2.36           46     3   330    38     4
+##    probeset_id affy_snp_id    CR   FLD HomFLD  HetSO HomRO nMinorAllele Nclus  n_AA  n_AB  n_BB
+##    &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;        &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+##  1 AX-1685938… Affx-12468…  99.7  7.46   NA    0.952  3.53            2     2     0     2   369
+##  2 AX-1685938… Affx-12468… 100    7.22   15.4  0.714  2.63           70     3    28    24    23
+##  3 AX-1686122… Affx-12459…  98.7  5.97   12.2  0.518  2.64           86     3    12    62   293
+##  4 AX-1686122… Affx-12459…  97.3  5.19   11.3  0.205  1.71            8     3     2     4    67
+##  5 AX-5627277… Affx-12468…  98.7  4.94   NA   -0.166  2.76            3     2     0     3    71
+##  6 AX-5627277… Affx-12468…  99.5  6.52   15.1  0.508  2.90           26     3     2    22   346
+##  7 AX-5627278… Affx-12365…  97.3  8.20   17.7  0.247  2.74           14     3    61    10     2
+##  8 AX-5627278… Affx-12365…  99.7  9.11   19.1  0.756  3.11          368     3   104   166   101
+##  9 AX-5627278… Affx-12365… 100    4.75   NA    1.30   2.10            2     3    67     2     0
+## 10 AX-5627278… Affx-12365… 100    5.63   15.6  0.540  2.36           46     3   330    38     4
 ## # ℹ 210,716 more rows
 ## # ℹ 13 more variables: n_NC &lt;int&gt;, hemizygous &lt;int&gt;, specialSNP_chr &lt;chr&gt;,
 ## #   gender_metrics &lt;chr&gt;, ConversionType &lt;chr&gt;, BestProbeset &lt;int&gt;, BestandRecommended &lt;int&gt;,
@@ -749,25 +760,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb32-8"><a href="input-data.html#cb32-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-9"><a href="input-data.html#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(snp_info_full)</span></code></pre></div>
 <pre><code>## # A tibble: 210,726 × 55
-##    probeset_id ReporterKey Affx  Sequence SNPType ProbeCount Tile  Replicates DesignNumber Rank 
-##    &lt;chr&gt;       &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;        &lt;chr&gt;
-##  1 AX168593894 530224709   Affx… TTGTCTT… Y       2          1     2          1            5000 
-##  2 AX168593894 530224709   Affx… TTGTCTT… Y       2          1     2          1            5000 
-##  3 AX168612286 526588721   Affx… GTTTAAT… Y       2          1     2          1            5000 
-##  4 AX168612286 526588721   Affx… GTTTAAT… Y       2          1     2          1            5000 
-##  5 AX562727784 527308034   Affx… GAGGAAA… Y       2          1     2          1            3000 
-##  6 AX562727784 527308034   Affx… GAGGAAA… Y       2          1     2          1            3000 
-##  7 AX562727806 513178708   Affx… GCTAAGT… R       2          1     2          1            5000 
-##  8 AX562727806 513178708   Affx… GCTAAGT… R       2          1     2          1            5000 
-##  9 AX562727827 513178729   Affx… GGTCATG… Y       2          1     2          1            5000 
-## 10 AX562727827 513178729   Affx… GGTCATG… Y       2          1     2          1            5000 
+##    probeset_id ReporterKey Affx       Sequence SNPType ProbeCount Tile  Replicates DesignNumber
+##    &lt;chr&gt;       &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;       
+##  1 AX168593894 530224709   Affx-1246… TTGTCTT… Y       2          1     2          1           
+##  2 AX168593894 530224709   Affx-1246… TTGTCTT… Y       2          1     2          1           
+##  3 AX168612286 526588721   Affx-1245… GTTTAAT… Y       2          1     2          1           
+##  4 AX168612286 526588721   Affx-1245… GTTTAAT… Y       2          1     2          1           
+##  5 AX562727784 527308034   Affx-1246… GAGGAAA… Y       2          1     2          1           
+##  6 AX562727784 527308034   Affx-1246… GAGGAAA… Y       2          1     2          1           
+##  7 AX562727806 513178708   Affx-1236… GCTAAGT… R       2          1     2          1           
+##  8 AX562727806 513178708   Affx-1236… GCTAAGT… R       2          1     2          1           
+##  9 AX562727827 513178729   Affx-1236… GGTCATG… Y       2          1     2          1           
+## 10 AX562727827 513178729   Affx-1236… GGTCATG… Y       2          1     2          1           
 ## # ℹ 210,716 more rows
-## # ℹ 45 more variables: Strand &lt;chr&gt;, SetBack &lt;chr&gt;, taxonomy_key &lt;chr&gt;, organism &lt;chr&gt;,
-## #   cust_id &lt;chr&gt;, cust_chr &lt;chr&gt;, cust_pos &lt;chr&gt;, cust_ref &lt;chr&gt;, cust_alt &lt;chr&gt;,
-## #   cust_source &lt;chr&gt;, cust_gene_id &lt;chr&gt;, cust_gene_name &lt;chr&gt;, cust_snptype &lt;chr&gt;,
-## #   cust_other_id &lt;chr&gt;, cust_validation &lt;chr&gt;, cust_cn_region &lt;chr&gt;, tiling_order &lt;chr&gt;,
-## #   importance &lt;chr&gt;, pconvert &lt;chr&gt;, recommendation &lt;chr&gt;, Error &lt;chr&gt;, affy_snp_id &lt;chr&gt;,
-## #   CR &lt;dbl&gt;, FLD &lt;dbl&gt;, HomFLD &lt;dbl&gt;, HetSO &lt;dbl&gt;, HomRO &lt;dbl&gt;, nMinorAllele &lt;int&gt;, …</code></pre>
+## # ℹ 46 more variables: Rank &lt;chr&gt;, Strand &lt;chr&gt;, SetBack &lt;chr&gt;, taxonomy_key &lt;chr&gt;,
+## #   organism &lt;chr&gt;, cust_id &lt;chr&gt;, cust_chr &lt;chr&gt;, cust_pos &lt;chr&gt;, cust_ref &lt;chr&gt;,
+## #   cust_alt &lt;chr&gt;, cust_source &lt;chr&gt;, cust_gene_id &lt;chr&gt;, cust_gene_name &lt;chr&gt;,
+## #   cust_snptype &lt;chr&gt;, cust_other_id &lt;chr&gt;, cust_validation &lt;chr&gt;, cust_cn_region &lt;chr&gt;,
+## #   tiling_order &lt;chr&gt;, importance &lt;chr&gt;, pconvert &lt;chr&gt;, recommendation &lt;chr&gt;, Error &lt;chr&gt;,
+## #   affy_snp_id &lt;chr&gt;, CR &lt;dbl&gt;, FLD &lt;dbl&gt;, HomFLD &lt;dbl&gt;, HetSO &lt;dbl&gt;, HomRO &lt;dbl&gt;, …</code></pre>
 </div>
 <div id="formatting-for-hierfstat-and-adegenet" class="section level3 hasAnchor" number="1.3.5">
 <h3><span class="header-section-number">1.3.5</span> Formatting for hierfstat and adegenet<a href="input-data.html#formatting-for-hierfstat-and-adegenet" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -870,8 +881,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="genetic-groups.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+
+<a href="genetic-groups.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="book_files/gitbook-2.6.7/js/app.min.js"></script>

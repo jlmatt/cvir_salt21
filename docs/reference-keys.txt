@@ -64,3 +64,7 @@ use-greedy-algorithm-to-select-5200-snps-for-5k-array-200-extras
 make-snp_tbl
 check-and-make-sure-the-algorithm-gave-sensible-results
 add-pop-diagnostic-snps-to-maf-snps-for-final-list
+summary-plots-of-snps-for-panel
+distribution-of-snps
+maf-per-population
+pca-with-selected-snps

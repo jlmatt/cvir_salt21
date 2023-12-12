@@ -4,26 +4,26 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4 Select SNPs for Panel | Selecting 5K SNPs for SALT array</title>
-  <meta name="description" content="This is a series of markdown files demonstrating how SNPs were selected for the SALT oyster array. It is formatted as a series of chapters. Each chapter builds on the previous with the ultimate product of ~5K candidate SNPs to send to Paragon for producing a 5K SNP array for the SALT consortium." />
+  <title>4 Select SNPs for Panel | Selecting SNPs for SALT array</title>
+  <meta name="description" content="4 Select SNPs for Panel | Selecting SNPs for SALT array" />
   <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4 Select SNPs for Panel | Selecting 5K SNPs for SALT array" />
+  <meta property="og:title" content="4 Select SNPs for Panel | Selecting SNPs for SALT array" />
   <meta property="og:type" content="book" />
   
-  <meta property="og:description" content="This is a series of markdown files demonstrating how SNPs were selected for the SALT oyster array. It is formatted as a series of chapters. Each chapter builds on the previous with the ultimate product of ~5K candidate SNPs to send to Paragon for producing a 5K SNP array for the SALT consortium." />
+  
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4 Select SNPs for Panel | Selecting 5K SNPs for SALT array" />
+  <meta name="twitter:title" content="4 Select SNPs for Panel | Selecting SNPs for SALT array" />
   
-  <meta name="twitter:description" content="This is a series of markdown files demonstrating how SNPs were selected for the SALT oyster array. It is formatted as a series of chapters. Each chapter builds on the previous with the ultimate product of ~5K candidate SNPs to send to Paragon for producing a 5K SNP array for the SALT consortium." />
+  
   
 
 <meta name="author" content="Joseph Matt" />
 
 
-<meta name="date" content="2023-12-11" />
+<meta name="date" content="2023-12-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="select-candidate-snps.html"/>
-<link rel="next" href="add-pop-diagnostic-snps-to-maf-snps-for-final-list.html"/>
+<link rel="next" href="summary-plots-of-snps-for-panel.html"/>
 <script src="book_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="book_files/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -136,7 +136,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
 <li class="chapter" data-level="1" data-path="input-data.html"><a href="input-data.html"><i class="fa fa-check"></i><b>1</b> Input Data</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="input-data.html"><a href="input-data.html#objective-organize-individual-and-snp-data"><i class="fa fa-check"></i><b>1.1</b> Objective: Organize individual and SNP data</a></li>
@@ -221,8 +220,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.4.1" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#make-snp_tbl"><i class="fa fa-check"></i><b>4.4.1</b> Make snp_tbl</a></li>
 <li class="chapter" data-level="4.4.2" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#check-and-make-sure-the-algorithm-gave-sensible-results"><i class="fa fa-check"></i><b>4.4.2</b> Check and make sure the algorithm gave sensible results</a></li>
 </ul></li>
+<li class="chapter" data-level="4.5" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#add-pop-diagnostic-snps-to-maf-snps-for-final-list"><i class="fa fa-check"></i><b>4.5</b> Add Pop Diagnostic SNPs to MAF SNPs for final list</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="add-pop-diagnostic-snps-to-maf-snps-for-final-list.html"><a href="add-pop-diagnostic-snps-to-maf-snps-for-final-list.html"><i class="fa fa-check"></i><b>5</b> Add Pop Diagnostic SNPs to MAF SNPs for final list</a></li>
+<li class="chapter" data-level="5" data-path="summary-plots-of-snps-for-panel.html"><a href="summary-plots-of-snps-for-panel.html"><i class="fa fa-check"></i><b>5</b> Summary Plots of SNPs for Panel</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="summary-plots-of-snps-for-panel.html"><a href="summary-plots-of-snps-for-panel.html#distribution-of-snps"><i class="fa fa-check"></i><b>5.1</b> Distribution of SNPs</a></li>
+<li class="chapter" data-level="5.2" data-path="summary-plots-of-snps-for-panel.html"><a href="summary-plots-of-snps-for-panel.html#maf-per-population"><i class="fa fa-check"></i><b>5.2</b> MAF per population</a></li>
+<li class="chapter" data-level="5.3" data-path="summary-plots-of-snps-for-panel.html"><a href="summary-plots-of-snps-for-panel.html#pca-with-selected-snps"><i class="fa fa-check"></i><b>5.3</b> PCA with selected SNPs</a></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -232,7 +237,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Selecting 5K SNPs for SALT array</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Selecting SNPs for SALT array</a>
           </h1>
         </div>
 
@@ -512,6 +517,38 @@ Much of the code below is taken from Thomas Delomas’ public github repository 
 <p>They do</p>
 </div>
 </div>
+<div id="add-pop-diagnostic-snps-to-maf-snps-for-final-list" class="section level2 hasAnchor" number="4.5">
+<h2><span class="header-section-number">4.5</span> Add Pop Diagnostic SNPs to MAF SNPs for final list<a href="select-snps-for-panel.html#add-pop-diagnostic-snps-to-maf-snps-for-final-list" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="select-snps-for-panel.html#cb218-1" aria-hidden="true" tabindex="-1"></a><span class="co">#population diagnostic snps</span></span>
+<span id="cb218-2"><a href="select-snps-for-panel.html#cb218-2" aria-hidden="true" tabindex="-1"></a>pop_snps <span class="ot">&lt;-</span>snp_info_full <span class="sc">%&gt;%</span></span>
+<span id="cb218-3"><a href="select-snps-for-panel.html#cb218-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(probeset_id,cust_chr,cust_pos) <span class="sc">%&gt;%</span></span>
+<span id="cb218-4"><a href="select-snps-for-panel.html#cb218-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(probeset_id <span class="sc">%in%</span> flvgulf_snps <span class="sc">|</span> probeset_id <span class="sc">%in%</span> stxvgulf_snps) <span class="sc">%&gt;%</span></span>
+<span id="cb218-5"><a href="select-snps-for-panel.html#cb218-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cust_chr =</span> <span class="fu">as.numeric</span> (cust_chr)) <span class="sc">%&gt;%</span></span>
+<span id="cb218-6"><a href="select-snps-for-panel.html#cb218-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb218-7"><a href="select-snps-for-panel.html#cb218-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">snp_id =</span> probeset_id, <span class="at">chrom =</span> cust_chr,<span class="at">pos =</span> cust_pos) <span class="sc">%&gt;%</span></span>
+<span id="cb218-8"><a href="select-snps-for-panel.html#cb218-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pos =</span> <span class="fu">as.numeric</span>(pos))</span>
+<span id="cb218-9"><a href="select-snps-for-panel.html#cb218-9" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(pop_snps)</span></code></pre></div>
+<pre><code>## # A tibble: 50 × 3
+##    snp_id      chrom      pos
+##    &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;
+##  1 AX563489003     1 42310796
+##  2 AX564362466     1 42158083
+##  3 AX566845614     2 24478387
+##  4 AX567445903     4 39309711
+##  5 AX567707328     8  6683853
+##  6 AX567719919     8  7095343
+##  7 AX567844508     9 56175126
+##  8 AX568205320     2 24477120
+##  9 AX568402584     1 42163393
+## 10 AX570588190     5 62236352
+## # ℹ 40 more rows</code></pre>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="select-snps-for-panel.html#cb220-1" aria-hidden="true" tabindex="-1"></a>panel_snps <span class="ot">&lt;-</span> panel_snps <span class="sc">%&gt;%</span></span>
+<span id="cb220-2"><a href="select-snps-for-panel.html#cb220-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(snp_id,chrom,pos,maf) <span class="sc">%&gt;%</span></span>
+<span id="cb220-3"><a href="select-snps-for-panel.html#cb220-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">chrom =</span> <span class="fu">as.numeric</span>(chrom)) <span class="sc">%&gt;%</span></span>
+<span id="cb220-4"><a href="select-snps-for-panel.html#cb220-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(.,pop_snps)</span></code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="select-snps-for-panel.html#cb221-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(panel_snps, <span class="at">file =</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;panel_snps&quot;</span>))</span></code></pre></div>
+
+</div>
 </div>
             </section>
 
@@ -519,7 +556,7 @@ Much of the code below is taken from Thomas Delomas’ public github repository 
         </div>
       </div>
 <a href="select-candidate-snps.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="add-pop-diagnostic-snps-to-maf-snps-for-final-list.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="summary-plots-of-snps-for-panel.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="book_files/gitbook-2.6.7/js/app.min.js"></script>

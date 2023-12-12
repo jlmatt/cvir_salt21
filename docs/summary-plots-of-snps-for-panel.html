@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>5 Summary Plots of SNPs for Panel | Selecting SNPs for SALT array</title>
+  <meta name="description" content="5 Summary Plots of SNPs for Panel | Selecting SNPs for SALT array" />
+  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="5 Summary Plots of SNPs for Panel | Selecting SNPs for SALT array" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="5 Summary Plots of SNPs for Panel | Selecting SNPs for SALT array" />
+  
+  
+  
+
+<meta name="author" content="Joseph Matt" />
+
+
+<meta name="date" content="2023-12-12" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="select-snps-for-panel.html"/>
+
+<script src="book_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="book_files/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="book_files/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="book_files/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="book_files/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="book_files/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="book_files/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="book_files/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="book_files/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="book_files/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="book_files/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="input-data.html"><a href="input-data.html"><i class="fa fa-check"></i><b>1</b> Input Data</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="input-data.html"><a href="input-data.html#objective-organize-individual-and-snp-data"><i class="fa fa-check"></i><b>1.1</b> Objective: Organize individual and SNP data</a></li>
+<li class="chapter" data-level="1.2" data-path="input-data.html"><a href="input-data.html#individual-sample-information"><i class="fa fa-check"></i><b>1.2</b> Individual Sample Information</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="input-data.html"><a href="input-data.html#basic-sample-information"><i class="fa fa-check"></i><b>1.2.1</b> Basic sample information</a></li>
+<li class="chapter" data-level="1.2.2" data-path="input-data.html"><a href="input-data.html#quality-control-info-from-thermo-fisher"><i class="fa fa-check"></i><b>1.2.2</b> Quality control info from Thermo Fisher</a></li>
+<li class="chapter" data-level="1.2.3" data-path="input-data.html"><a href="input-data.html#list-of-oysters-that-passed-the-genotyping-according-to-thermofisher"><i class="fa fa-check"></i><b>1.2.3</b> List of oysters that passed the genotyping according to ThermoFisher</a></li>
+<li class="chapter" data-level="1.2.4" data-path="input-data.html"><a href="input-data.html#merge-files"><i class="fa fa-check"></i><b>1.2.4</b> Merge Files</a></li>
+<li class="chapter" data-level="1.2.5" data-path="input-data.html"><a href="input-data.html#tidy-up-latlong-data-and-site-codes"><i class="fa fa-check"></i><b>1.2.5</b> Tidy Up Lat/Long Data and Site Codes</a></li>
+<li class="chapter" data-level="1.2.6" data-path="input-data.html"><a href="input-data.html#organize-oysters-into-metagroup-categories"><i class="fa fa-check"></i><b>1.2.6</b> Organize oysters into “metagroup” categories:</a></li>
+<li class="chapter" data-level="1.2.7" data-path="input-data.html"><a href="input-data.html#map-sites-where-samples-were-collected"><i class="fa fa-check"></i><b>1.2.7</b> Map sites where samples were collected</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="input-data.html"><a href="input-data.html#snp-information"><i class="fa fa-check"></i><b>1.3</b> SNP Information</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="input-data.html"><a href="input-data.html#general-information-on-snps"><i class="fa fa-check"></i><b>1.3.1</b> General Information on SNPs</a></li>
+<li class="chapter" data-level="1.3.2" data-path="input-data.html"><a href="input-data.html#recommended-snps"><i class="fa fa-check"></i><b>1.3.2</b> Recommended SNPs</a></li>
+<li class="chapter" data-level="1.3.3" data-path="input-data.html"><a href="input-data.html#quality-control-info"><i class="fa fa-check"></i><b>1.3.3</b> Quality control info</a></li>
+<li class="chapter" data-level="1.3.4" data-path="input-data.html"><a href="input-data.html#merge-files-1"><i class="fa fa-check"></i><b>1.3.4</b> Merge Files</a></li>
+<li class="chapter" data-level="1.3.5" data-path="input-data.html"><a href="input-data.html#formatting-for-hierfstat-and-adegenet"><i class="fa fa-check"></i><b>1.3.5</b> Formatting for hierfstat and adegenet</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="input-data.html"><a href="input-data.html#save-files"><i class="fa fa-check"></i><b>1.4</b> Save files</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="genetic-groups.html"><a href="genetic-groups.html"><i class="fa fa-check"></i><b>2</b> Genetic Groups</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="genetic-groups.html"><a href="genetic-groups.html#objective-assign-individuals-to-genetic-groups"><i class="fa fa-check"></i><b>2.1</b> Objective: Assign individuals to genetic groups</a></li>
+<li class="chapter" data-level="2.2" data-path="genetic-groups.html"><a href="genetic-groups.html#data-subsetting"><i class="fa fa-check"></i><b>2.2</b> Data Subsetting</a></li>
+<li class="chapter" data-level="2.3" data-path="genetic-groups.html"><a href="genetic-groups.html#kmeans---all-wild-individuals"><i class="fa fa-check"></i><b>2.3</b> Kmeans - All Wild Individuals</a></li>
+<li class="chapter" data-level="2.4" data-path="genetic-groups.html"><a href="genetic-groups.html#pca---k-groups"><i class="fa fa-check"></i><b>2.4</b> PCA - K groups</a></li>
+<li class="chapter" data-level="2.5" data-path="genetic-groups.html"><a href="genetic-groups.html#kmeans-and-pca-with-four-groups"><i class="fa fa-check"></i><b>2.5</b> Kmeans and PCA with four groups</a></li>
+<li class="chapter" data-level="2.6" data-path="genetic-groups.html"><a href="genetic-groups.html#pca---four-k-groups"><i class="fa fa-check"></i><b>2.6</b> PCA - Four K groups</a></li>
+<li class="chapter" data-level="2.7" data-path="genetic-groups.html"><a href="genetic-groups.html#assign-genetic-groups"><i class="fa fa-check"></i><b>2.7</b> Assign Genetic Groups</a></li>
+<li class="chapter" data-level="2.8" data-path="genetic-groups.html"><a href="genetic-groups.html#summary"><i class="fa fa-check"></i><b>2.8</b> Summary</a></li>
+<li class="chapter" data-level="2.9" data-path="genetic-groups.html"><a href="genetic-groups.html#save-files-1"><i class="fa fa-check"></i><b>2.9</b> Save files</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html"><i class="fa fa-check"></i><b>3</b> Select Candidate SNPs</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#objective-identify-candidate-snps-by"><i class="fa fa-check"></i><b>3.1</b> Objective: Identify candidate SNPs by</a></li>
+<li class="chapter" data-level="3.2" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#read-in-data"><i class="fa fa-check"></i><b>3.2</b> Read in Data</a></li>
+<li class="chapter" data-level="3.3" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#format-data"><i class="fa fa-check"></i><b>3.3</b> Format Data</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#make-genind-object-from-105k-snps"><i class="fa fa-check"></i><b>3.3.1</b> Make genind object from 105K SNPs</a></li>
+<li class="chapter" data-level="3.3.2" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#make-a-dataframe-specifying-genetic-group-and-metapop."><i class="fa fa-check"></i><b>3.3.2</b> Make a dataframe specifying genetic group and “metapop.”</a></li>
+<li class="chapter" data-level="3.3.3" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#assign-populations-to-genind-object"><i class="fa fa-check"></i><b>3.3.3</b> Assign populations to genind object</a></li>
+<li class="chapter" data-level="3.3.4" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#format-data-into-the-hierfstat-format-for-analysis-of-heterozygosity-and-maf"><i class="fa fa-check"></i><b>3.3.4</b> Format data into the hierfstat format for analysis of heterozygosity and MAF</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#hwe-filtering"><i class="fa fa-check"></i><b>3.4</b> HWE filtering</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#filtering-out-the-loci-with-ho-0.5"><i class="fa fa-check"></i><b>3.4.1</b> Filtering out the loci with Ho &gt; 0.5</a></li>
+<li class="chapter" data-level="3.4.2" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#re-analyze-the-data-for-heterozygosities"><i class="fa fa-check"></i><b>3.4.2</b> Re-analyze the data for heterozygosities</a></li>
+<li class="chapter" data-level="3.4.3" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#make-genind-object-without-the-loci-that-have-heterozygosities-over-0.5"><i class="fa fa-check"></i><b>3.4.3</b> Make genind object without the loci that have heterozygosities over 0.5</a></li>
+<li class="chapter" data-level="3.4.4" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#make-genotypes-data-frame-without-the-loci-that-have-heterozygosities-over-0.5"><i class="fa fa-check"></i><b>3.4.4</b> Make genotypes data frame without the loci that have heterozygosities over 0.5</a></li>
+<li class="chapter" data-level="3.4.5" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#hw-test"><i class="fa fa-check"></i><b>3.4.5</b> HW test</a></li>
+<li class="chapter" data-level="3.4.6" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#select-loci-that-fail-hwe-test-p-0.05"><i class="fa fa-check"></i><b>3.4.6</b> Select loci that fail HWE test (p &lt; 0.05)</a></li>
+<li class="chapter" data-level="3.4.7" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#remove-loci-out-of-hwe-from-the-genind-object-and-genotypes-data-frame"><i class="fa fa-check"></i><b>3.4.7</b> Remove loci out of HWE from the genind object and genotypes data frame</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#select-population-diagnostic-loci"><i class="fa fa-check"></i><b>3.5</b> Select population diagnostic loci</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#south-texas-vs.-gulf"><i class="fa fa-check"></i><b>3.5.1</b> South Texas vs. Gulf</a></li>
+<li class="chapter" data-level="3.5.2" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#select-25-snps-that-distinguish-stx-from-gulf"><i class="fa fa-check"></i><b>3.5.2</b> Select 25 SNPs that distinguish stx from gulf</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#ngom-vs.-fl"><i class="fa fa-check"></i><b>3.6</b> nGOM vs. FL</a>
+<ul>
+<li class="chapter" data-level="3.6.1" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#select-25-snps-with-highest-fst-for-differentiating-nfl-vs.-gfl-vs.-ngom"><i class="fa fa-check"></i><b>3.6.1</b> Select 25 SNPs with highest Fst for differentiating nfl vs. gfl vs. ngom</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#maf"><i class="fa fa-check"></i><b>3.7</b> MAF</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#calculate-minor-allele-frequency-for-each-locus-in-each-genetic-group"><i class="fa fa-check"></i><b>3.7.1</b> Calculate Minor Allele Frequency for each locus in each genetic group</a></li>
+<li class="chapter" data-level="3.7.2" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#re-calculate-after-removing-loci-with-maf-of-1"><i class="fa fa-check"></i><b>3.7.2</b> Re-calculate after removing loci with MAF of 1</a></li>
+<li class="chapter" data-level="3.7.3" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#identify-loci-with-high-maf-in-all-groups"><i class="fa fa-check"></i><b>3.7.3</b> Identify loci with high MAF in all groups</a></li>
+<li class="chapter" data-level="3.7.4" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#select-maf-loci-and-exmaine-histograms-of-loci"><i class="fa fa-check"></i><b>3.7.4</b> Select MAF loci and exmaine histograms of loci</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#save-files-2"><i class="fa fa-check"></i><b>3.8</b> Save files</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html"><i class="fa fa-check"></i><b>4</b> Select SNPs for Panel</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#read-in-all-data-on-snps-and-relevant-data-from-section-3"><i class="fa fa-check"></i><b>4.1</b> Read in all data on SNPs and relevant data from Section 3</a></li>
+<li class="chapter" data-level="4.2" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#filter-the-snp-data-file-to-only-include-maf-snps-selected-in-section3"><i class="fa fa-check"></i><b>4.2</b> Filter the SNP data file to only include MAF SNPS selected in Section3</a></li>
+<li class="chapter" data-level="4.3" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#specify-number-of-markers-from-each-chromosome-you-will-select"><i class="fa fa-check"></i><b>4.3</b> Specify number of markers from each chromosome you will select</a></li>
+<li class="chapter" data-level="4.4" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#use-greedy-algorithm-to-select-5200-snps-for-5k-array-200-extras"><i class="fa fa-check"></i><b>4.4</b> Use greedy algorithm to select 5200 snps for 5K array (200 extras)</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#make-snp_tbl"><i class="fa fa-check"></i><b>4.4.1</b> Make snp_tbl</a></li>
+<li class="chapter" data-level="4.4.2" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#check-and-make-sure-the-algorithm-gave-sensible-results"><i class="fa fa-check"></i><b>4.4.2</b> Check and make sure the algorithm gave sensible results</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#add-pop-diagnostic-snps-to-maf-snps-for-final-list"><i class="fa fa-check"></i><b>4.5</b> Add Pop Diagnostic SNPs to MAF SNPs for final list</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="summary-plots-of-snps-for-panel.html"><a href="summary-plots-of-snps-for-panel.html"><i class="fa fa-check"></i><b>5</b> Summary Plots of SNPs for Panel</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="summary-plots-of-snps-for-panel.html"><a href="summary-plots-of-snps-for-panel.html#distribution-of-snps"><i class="fa fa-check"></i><b>5.1</b> Distribution of SNPs</a></li>
+<li class="chapter" data-level="5.2" data-path="summary-plots-of-snps-for-panel.html"><a href="summary-plots-of-snps-for-panel.html#maf-per-population"><i class="fa fa-check"></i><b>5.2</b> MAF per population</a></li>
+<li class="chapter" data-level="5.3" data-path="summary-plots-of-snps-for-panel.html"><a href="summary-plots-of-snps-for-panel.html#pca-with-selected-snps"><i class="fa fa-check"></i><b>5.3</b> PCA with selected SNPs</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Selecting SNPs for SALT array</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="summary-plots-of-snps-for-panel" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">5</span> Summary Plots of SNPs for Panel<a href="summary-plots-of-snps-for-panel.html#summary-plots-of-snps-for-panel" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="distribution-of-snps" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Distribution of SNPs<a href="summary-plots-of-snps-for-panel.html#distribution-of-snps" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="summary-plots-of-snps-for-panel.html#cb222-1" aria-hidden="true" tabindex="-1"></a>panel_snps <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;panel_snps&quot;</span>))</span>
+<span id="cb222-2"><a href="summary-plots-of-snps-for-panel.html#cb222-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(panel_snps)</span></code></pre></div>
+<pre><code>## # A tibble: 5,250 × 4
+##    snp_id      chrom      pos   maf
+##    &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1 AX562728433     1 59205245 0.238
+##  2 AX562729930     1 60046917 0.247
+##  3 AX562733277     1 61521865 0.272
+##  4 AX562733495     1 61742861 0.313
+##  5 AX562733961     1 20277463 0.160
+##  6 AX562735439     1 62906370 0.186
+##  7 AX562736320     1 63385209 0.218
+##  8 AX562738101     1 63903571 0.212
+##  9 AX562738713     1 64464304 0.272
+## 10 AX562738980     1 64615172 0.411
+## # ℹ 5,240 more rows</code></pre>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="summary-plots-of-snps-for-panel.html#cb224-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(panel_snps, <span class="fu">aes</span>(<span class="at">x =</span> chrom, <span class="at">y =</span> pos)) <span class="sc">+</span></span>
+<span id="cb224-2"><a href="summary-plots-of-snps-for-panel.html#cb224-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.2</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-164-1.png" width="672" /></p>
+<p>Add in the maximum position for each chromosome (in red)</p>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="summary-plots-of-snps-for-panel.html#cb225-1" aria-hidden="true" tabindex="-1"></a>chrom_info <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;chrom_info&quot;</span>))</span>
+<span id="cb225-2"><a href="summary-plots-of-snps-for-panel.html#cb225-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb225-3"><a href="summary-plots-of-snps-for-panel.html#cb225-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(panel_snps, <span class="fu">aes</span>(<span class="at">x =</span> chrom, <span class="at">y =</span> pos)) <span class="sc">+</span></span>
+<span id="cb225-4"><a href="summary-plots-of-snps-for-panel.html#cb225-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb225-5"><a href="summary-plots-of-snps-for-panel.html#cb225-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> chrom_info, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb225-6"><a href="summary-plots-of-snps-for-panel.html#cb225-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;chromosome&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb225-7"><a href="summary-plots-of-snps-for-panel.html#cb225-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;position&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb225-8"><a href="summary-plots-of-snps-for-panel.html#cb225-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) <span class="sc">+</span> </span>
+<span id="cb225-9"><a href="summary-plots-of-snps-for-panel.html#cb225-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;positions of selected snps per chromosome&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-165-1.png" width="672" /></p>
+</div>
+<div id="maf-per-population" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> MAF per population<a href="summary-plots-of-snps-for-panel.html#maf-per-population" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Examine the distribution of MAF of SNPs for each population</p>
+<p>First fetch the data</p>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="summary-plots-of-snps-for-panel.html#cb226-1" aria-hidden="true" tabindex="-1"></a>nfl_frq <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;nfl_frq&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb226-2"><a href="summary-plots-of-snps-for-panel.html#cb226-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">snp_id =</span> nfl_probe) <span class="sc">%&gt;%</span></span>
+<span id="cb226-3"><a href="summary-plots-of-snps-for-panel.html#cb226-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(snp_id <span class="sc">%in%</span> panel_snps<span class="sc">$</span>snp_id) <span class="sc">%&gt;%</span></span>
+<span id="cb226-4"><a href="summary-plots-of-snps-for-panel.html#cb226-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">remove_rownames</span>()</span>
+<span id="cb226-5"><a href="summary-plots-of-snps-for-panel.html#cb226-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb226-6"><a href="summary-plots-of-snps-for-panel.html#cb226-6" aria-hidden="true" tabindex="-1"></a>gfl_frq <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;gfl_frq&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb226-7"><a href="summary-plots-of-snps-for-panel.html#cb226-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">snp_id =</span> gfl_probe) <span class="sc">%&gt;%</span></span>
+<span id="cb226-8"><a href="summary-plots-of-snps-for-panel.html#cb226-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(snp_id <span class="sc">%in%</span> panel_snps<span class="sc">$</span>snp_id) <span class="sc">%&gt;%</span></span>
+<span id="cb226-9"><a href="summary-plots-of-snps-for-panel.html#cb226-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">remove_rownames</span>()</span>
+<span id="cb226-10"><a href="summary-plots-of-snps-for-panel.html#cb226-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb226-11"><a href="summary-plots-of-snps-for-panel.html#cb226-11" aria-hidden="true" tabindex="-1"></a>ngom_frq <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;ngom_frq&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb226-12"><a href="summary-plots-of-snps-for-panel.html#cb226-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">snp_id =</span> ngom_probe) <span class="sc">%&gt;%</span></span>
+<span id="cb226-13"><a href="summary-plots-of-snps-for-panel.html#cb226-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(snp_id <span class="sc">%in%</span> panel_snps<span class="sc">$</span>snp_id) <span class="sc">%&gt;%</span></span>
+<span id="cb226-14"><a href="summary-plots-of-snps-for-panel.html#cb226-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">remove_rownames</span>()</span>
+<span id="cb226-15"><a href="summary-plots-of-snps-for-panel.html#cb226-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb226-16"><a href="summary-plots-of-snps-for-panel.html#cb226-16" aria-hidden="true" tabindex="-1"></a>stx_frq <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;stx_frq&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb226-17"><a href="summary-plots-of-snps-for-panel.html#cb226-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">snp_id =</span> stx_probe) <span class="sc">%&gt;%</span></span>
+<span id="cb226-18"><a href="summary-plots-of-snps-for-panel.html#cb226-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(snp_id <span class="sc">%in%</span> panel_snps<span class="sc">$</span>snp_id) <span class="sc">%&gt;%</span></span>
+<span id="cb226-19"><a href="summary-plots-of-snps-for-panel.html#cb226-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">remove_rownames</span>()</span></code></pre></div>
+<p>Format the data</p>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="summary-plots-of-snps-for-panel.html#cb227-1" aria-hidden="true" tabindex="-1"></a>maf <span class="ot">&lt;-</span> nfl_frq <span class="sc">%&gt;%</span></span>
+<span id="cb227-2"><a href="summary-plots-of-snps-for-panel.html#cb227-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(.,gfl_frq,<span class="at">by=</span><span class="st">&quot;snp_id&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb227-3"><a href="summary-plots-of-snps-for-panel.html#cb227-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(.,ngom_frq,<span class="at">by=</span><span class="st">&quot;snp_id&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb227-4"><a href="summary-plots-of-snps-for-panel.html#cb227-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(.,stx_frq,<span class="at">by=</span><span class="st">&quot;snp_id&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb227-5"><a href="summary-plots-of-snps-for-panel.html#cb227-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(snp_id,<span class="fu">everything</span>())</span></code></pre></div>
+<p>Need to format data to “long” format</p>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="summary-plots-of-snps-for-panel.html#cb228-1" aria-hidden="true" tabindex="-1"></a>maf_long <span class="ot">&lt;-</span> maf <span class="sc">%&gt;%</span></span>
+<span id="cb228-2"><a href="summary-plots-of-snps-for-panel.html#cb228-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">stx =</span> stx_frq, <span class="at">ngom =</span> ngom_frq, <span class="at">nfl =</span> nfl_frq, <span class="at">gfl =</span> gfl_frq) <span class="sc">%&gt;%</span></span>
+<span id="cb228-3"><a href="summary-plots-of-snps-for-panel.html#cb228-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">!</span>snp_id, <span class="at">names_to =</span> <span class="st">&quot;pop&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;maf&quot;</span>) </span></code></pre></div>
+<p>Plot maf data</p>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="summary-plots-of-snps-for-panel.html#cb229-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(maf_long, <span class="fu">aes</span>(<span class="at">x=</span>pop, <span class="at">y=</span>maf)) <span class="sc">+</span> </span>
+<span id="cb229-2"><a href="summary-plots-of-snps-for-panel.html#cb229-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb229-3"><a href="summary-plots-of-snps-for-panel.html#cb229-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;genetic group&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb229-4"><a href="summary-plots-of-snps-for-panel.html#cb229-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;minor allele frequency&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb229-5"><a href="summary-plots-of-snps-for-panel.html#cb229-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;minor allele frequency of selected snps per genetic group&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-169-1.png" width="672" /></p>
+</div>
+<div id="pca-with-selected-snps" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> PCA with selected SNPs<a href="summary-plots-of-snps-for-panel.html#pca-with-selected-snps" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Read in sample data</p>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="summary-plots-of-snps-for-panel.html#cb230-1" aria-hidden="true" tabindex="-1"></a>sample_data <span class="ot">&lt;-</span><span class="fu">readRDS</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;sample_data&quot;</span>))</span></code></pre></div>
+<p>Read in genotype data (genotypes for each individual at each loci), filter so only includes loci on panel</p>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="summary-plots-of-snps-for-panel.html#cb231-1" aria-hidden="true" tabindex="-1"></a>genotypes <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;genotypes_f_he_hw&quot;</span>))</span>
+<span id="cb231-2"><a href="summary-plots-of-snps-for-panel.html#cb231-2" aria-hidden="true" tabindex="-1"></a>genotypes_with_panel_snps <span class="ot">&lt;-</span> genotypes[, maf<span class="sc">$</span>snp_id]</span></code></pre></div>
+<p>Turn data into a genind object</p>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="summary-plots-of-snps-for-panel.html#cb232-1" aria-hidden="true" tabindex="-1"></a>gind <span class="ot">&lt;-</span> <span class="fu">df2genind</span>(genotypes_with_panel_snps, <span class="at">ncode =</span> <span class="dv">1</span>, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>, <span class="at">NA.char =</span> <span class="cn">NA</span>, <span class="at">ploidy =</span> <span class="dv">2</span>)</span>
+<span id="cb232-2"><a href="summary-plots-of-snps-for-panel.html#cb232-2" aria-hidden="true" tabindex="-1"></a>gind</span></code></pre></div>
+<pre><code>## /// GENIND OBJECT /////////
+## 
+##  // 380 individuals; 5,250 loci; 10,500 alleles; size: 18 Mb
+## 
+##  // Basic content
+##    @tab:  380 x 10500 matrix of allele counts
+##    @loc.n.all: number of alleles per locus (range: 2-2)
+##    @loc.fac: locus factor for the 10500 columns of @tab
+##    @all.names: list of allele names for each locus
+##    @ploidy: ploidy of each individual  (range: 2-2)
+##    @type:  codom
+##    @call: df2genind(X = genotypes_with_panel_snps, sep = &quot;&quot;, ncode = 1, 
+##     NA.char = NA, ploidy = 2)
+## 
+##  // Optional content
+##    - empty -</code></pre>
+<p>Run a PCA</p>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="summary-plots-of-snps-for-panel.html#cb234-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">scaleGen</span>(gind, <span class="at">NA.method =</span> <span class="st">&quot;mean&quot;</span>)</span>
+<span id="cb234-2"><a href="summary-plots-of-snps-for-panel.html#cb234-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb234-3"><a href="summary-plots-of-snps-for-panel.html#cb234-3" aria-hidden="true" tabindex="-1"></a>pca1 <span class="ot">&lt;-</span> <span class="fu">dudi.pca</span>(x1,<span class="at">cent=</span><span class="cn">FALSE</span>,<span class="at">scale=</span><span class="cn">FALSE</span>,<span class="at">scannf=</span><span class="cn">FALSE</span>,<span class="at">nf=</span><span class="dv">4</span>)</span>
+<span id="cb234-4"><a href="summary-plots-of-snps-for-panel.html#cb234-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb234-5"><a href="summary-plots-of-snps-for-panel.html#cb234-5" aria-hidden="true" tabindex="-1"></a>eig1<span class="ot">&lt;-</span><span class="fu">barplot</span>(pca1<span class="sc">$</span>eig[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>],<span class="at">main=</span><span class="st">&quot;PCA eigenvalues&quot;</span>, <span class="at">col=</span><span class="fu">heat.colors</span>(<span class="dv">50</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="summary-plots-of-snps-for-panel.html#cb235-1" aria-hidden="true" tabindex="-1"></a>PC_ind <span class="ot">&lt;-</span> <span class="fu">PC.ind</span>(pca1)</span>
+<span id="cb235-2"><a href="summary-plots-of-snps-for-panel.html#cb235-2" aria-hidden="true" tabindex="-1"></a>eig <span class="ot">&lt;-</span> <span class="fu">eigenvalues</span>(pca1)</span>
+<span id="cb235-3"><a href="summary-plots-of-snps-for-panel.html#cb235-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb235-4"><a href="summary-plots-of-snps-for-panel.html#cb235-4" aria-hidden="true" tabindex="-1"></a><span class="co">#rename &quot;Sample_ID&quot; in PC_ind to &quot;INDV&quot;</span></span>
+<span id="cb235-5"><a href="summary-plots-of-snps-for-panel.html#cb235-5" aria-hidden="true" tabindex="-1"></a>PC_ind <span class="ot">&lt;-</span> PC_ind <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">Sample=</span>Sample_ID)</span>
+<span id="cb235-6"><a href="summary-plots-of-snps-for-panel.html#cb235-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb235-7"><a href="summary-plots-of-snps-for-panel.html#cb235-7" aria-hidden="true" tabindex="-1"></a>PC_ind <span class="ot">&lt;-</span> <span class="fu">merge</span>(PC_ind,sample_data,<span class="at">by =</span> <span class="st">&quot;Sample&quot;</span>) </span>
+<span id="cb235-8"><a href="summary-plots-of-snps-for-panel.html#cb235-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb235-9"><a href="summary-plots-of-snps-for-panel.html#cb235-9" aria-hidden="true" tabindex="-1"></a>pc <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(PC_ind, <span class="fu">aes</span>(<span class="at">x =</span> Axis1, <span class="at">y =</span> Axis2, <span class="at">color =</span> gen_group)) <span class="sc">+</span></span>
+<span id="cb235-10"><a href="summary-plots-of-snps-for-panel.html#cb235-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.75</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb235-11"><a href="summary-plots-of-snps-for-panel.html#cb235-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">paste</span>(<span class="st">&quot;PC1:&quot;</span>, <span class="fu">round</span>(eig[<span class="dv">1</span>, <span class="dv">3</span>], <span class="at">digits =</span> <span class="dv">3</span>), <span class="st">&quot;%&quot;</span>), </span>
+<span id="cb235-12"><a href="summary-plots-of-snps-for-panel.html#cb235-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">paste</span>(<span class="st">&quot;PC2:&quot;</span>, <span class="fu">round</span>(eig[<span class="dv">2</span>, <span class="dv">3</span>], <span class="at">digits =</span> <span class="dv">3</span>), <span class="st">&quot;%&quot;</span>))<span class="sc">+</span></span>
+<span id="cb235-13"><a href="summary-plots-of-snps-for-panel.html#cb235-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;500 SNPs&quot;</span>) <span class="sc">+</span></span>
+<span id="cb235-14"><a href="summary-plots-of-snps-for-panel.html#cb235-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_hue</span>(<span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb235-15"><a href="summary-plots-of-snps-for-panel.html#cb235-15" aria-hidden="true" tabindex="-1"></a>pc</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-174-1.png" width="672" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="select-snps-for-panel.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="book_files/gitbook-2.6.7/js/app.min.js"></script>
+<script src="book_files/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="book_files/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="book_files/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="book_files/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="book_files/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="book_files/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="book_files/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"toolbar": {
+"position": "static"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

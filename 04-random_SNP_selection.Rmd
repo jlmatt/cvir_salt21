@@ -230,7 +230,7 @@ snp_tbl %>%
 
 They do
 
-# Add Pop Diagnostic SNPs to MAF SNPs for final list
+## Add Pop Diagnostic SNPs to MAF SNPs for final list
 
 ```{r}
 #population diagnostic snps
