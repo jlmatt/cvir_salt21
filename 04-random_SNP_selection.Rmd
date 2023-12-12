@@ -242,8 +242,6 @@ pop_snps <-snp_info_full %>%
   rename(snp_id = probeset_id, chrom = cust_chr,pos = cust_pos) %>%
   mutate(pos = as.numeric(pos))
 as_tibble(pop_snps)
-
-str(pop_snps)
 ```
 
 ```{r}
