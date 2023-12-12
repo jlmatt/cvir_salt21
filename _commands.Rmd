@@ -29,7 +29,5 @@ ymlthis:: yml() %>%
 
 ```{r}
 bookdown::render_book()
-
-??render_book
 ```
 
