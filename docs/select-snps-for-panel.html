@@ -4,24 +4,26 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4 Select SNPs for Panel | _main.knit</title>
-  <meta name="description" content="" />
+  <title>4 Select SNPs for Panel | Selecting 5K SNPs for SALT array</title>
+  <meta name="description" content="This is a series of markdown files demonstrating how SNPs were selected for the SALT oyster array. It is formatted as a series of chapters. Each chapter builds on the previous with the ultimate product of ~5K candidate SNPs to send to Paragon for producing a 5K SNP array for the SALT consortium." />
   <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4 Select SNPs for Panel | _main.knit" />
+  <meta property="og:title" content="4 Select SNPs for Panel | Selecting 5K SNPs for SALT array" />
   <meta property="og:type" content="book" />
   
-  
+  <meta property="og:description" content="This is a series of markdown files demonstrating how SNPs were selected for the SALT oyster array. It is formatted as a series of chapters. Each chapter builds on the previous with the ultimate product of ~5K candidate SNPs to send to Paragon for producing a 5K SNP array for the SALT consortium." />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4 Select SNPs for Panel | _main.knit" />
+  <meta name="twitter:title" content="4 Select SNPs for Panel | Selecting 5K SNPs for SALT array" />
   
-  
+  <meta name="twitter:description" content="This is a series of markdown files demonstrating how SNPs were selected for the SALT oyster array. It is formatted as a series of chapters. Each chapter builds on the previous with the ultimate product of ~5K candidate SNPs to send to Paragon for producing a 5K SNP array for the SALT consortium." />
   
 
+<meta name="author" content="Joseph Matt" />
 
 
+<meta name="date" content="2023-12-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -29,7 +31,7 @@
   
   
 <link rel="prev" href="select-candidate-snps.html"/>
-
+<link rel="next" href="add-pop-diagnostic-snps-to-maf-snps-for-final-list.html"/>
 <script src="book_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="book_files/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -134,6 +136,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
 <li class="chapter" data-level="1" data-path="input-data.html"><a href="input-data.html"><i class="fa fa-check"></i><b>1</b> Input Data</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="input-data.html"><a href="input-data.html#objective-organize-individual-and-snp-data"><i class="fa fa-check"></i><b>1.1</b> Objective: Organize individual and SNP data</a></li>
@@ -187,8 +190,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.4.3" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#make-genind-object-without-the-loci-that-have-heterozygosities-over-0.5"><i class="fa fa-check"></i><b>3.4.3</b> Make genind object without the loci that have heterozygosities over 0.5</a></li>
 <li class="chapter" data-level="3.4.4" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#make-genotypes-data-frame-without-the-loci-that-have-heterozygosities-over-0.5"><i class="fa fa-check"></i><b>3.4.4</b> Make genotypes data frame without the loci that have heterozygosities over 0.5</a></li>
 <li class="chapter" data-level="3.4.5" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#hw-test"><i class="fa fa-check"></i><b>3.4.5</b> HW test</a></li>
-<li class="chapter" data-level="3.4.6" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#select-loci-that-are-fail-hwe-test-p-0.05"><i class="fa fa-check"></i><b>3.4.6</b> Select loci that are fail HWE test (p &lt; 0.05)</a></li>
-<li class="chapter" data-level="3.4.7" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#remove-the-loci-out-of-hwe-from-the-genind-object-and-genotypes-data-frame"><i class="fa fa-check"></i><b>3.4.7</b> Remove the loci out of HWE from the genind object and genotypes data frame</a></li>
+<li class="chapter" data-level="3.4.6" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#select-loci-that-fail-hwe-test-p-0.05"><i class="fa fa-check"></i><b>3.4.6</b> Select loci that fail HWE test (p &lt; 0.05)</a></li>
+<li class="chapter" data-level="3.4.7" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#remove-loci-out-of-hwe-from-the-genind-object-and-genotypes-data-frame"><i class="fa fa-check"></i><b>3.4.7</b> Remove loci out of HWE from the genind object and genotypes data frame</a></li>
 </ul></li>
 <li class="chapter" data-level="3.5" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#select-population-diagnostic-loci"><i class="fa fa-check"></i><b>3.5</b> Select population diagnostic loci</a>
 <ul>
@@ -204,13 +207,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.7.1" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#calculate-minor-allele-frequency-for-each-locus-in-each-genetic-group"><i class="fa fa-check"></i><b>3.7.1</b> Calculate Minor Allele Frequency for each locus in each genetic group</a></li>
 <li class="chapter" data-level="3.7.2" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#re-calculate-after-removing-loci-with-maf-of-1"><i class="fa fa-check"></i><b>3.7.2</b> Re-calculate after removing loci with MAF of 1</a></li>
 <li class="chapter" data-level="3.7.3" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#identify-loci-with-high-maf-in-all-groups"><i class="fa fa-check"></i><b>3.7.3</b> Identify loci with high MAF in all groups</a></li>
+<li class="chapter" data-level="3.7.4" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#select-maf-loci-and-exmaine-histograms-of-loci"><i class="fa fa-check"></i><b>3.7.4</b> Select MAF loci and exmaine histograms of loci</a></li>
 </ul></li>
 <li class="chapter" data-level="3.8" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#save-files-2"><i class="fa fa-check"></i><b>3.8</b> Save files</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html"><i class="fa fa-check"></i><b>4</b> Select SNPs for Panel</a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#read-in-all-data-on-snps-and-relevant-data-from-section-3"><i class="fa fa-check"></i><b>4.1</b> Read in all data on SNPs and relevant data from Section 3</a></li>
-<li class="chapter" data-level="4.2" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#filter-the-combined_filtered-data-file-to-only-include-candidate-snps"><i class="fa fa-check"></i><b>4.2</b> Filter the combined_filtered data file to only include candidate SNPs</a></li>
+<li class="chapter" data-level="4.2" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#filter-the-snp-data-file-to-only-include-maf-snps-selected-in-section3"><i class="fa fa-check"></i><b>4.2</b> Filter the SNP data file to only include MAF SNPS selected in Section3</a></li>
 <li class="chapter" data-level="4.3" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#specify-number-of-markers-from-each-chromosome-you-will-select"><i class="fa fa-check"></i><b>4.3</b> Specify number of markers from each chromosome you will select</a></li>
 <li class="chapter" data-level="4.4" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#use-greedy-algorithm-to-select-5200-snps-for-5k-array-200-extras"><i class="fa fa-check"></i><b>4.4</b> Use greedy algorithm to select 5200 snps for 5K array (200 extras)</a>
 <ul>
@@ -218,6 +222,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.4.2" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#check-and-make-sure-the-algorithm-gave-sensible-results"><i class="fa fa-check"></i><b>4.4.2</b> Check and make sure the algorithm gave sensible results</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="5" data-path="add-pop-diagnostic-snps-to-maf-snps-for-final-list.html"><a href="add-pop-diagnostic-snps-to-maf-snps-for-final-list.html"><i class="fa fa-check"></i><b>5</b> Add Pop Diagnostic SNPs to MAF SNPs for final list</a></li>
 </ul>
 
       </nav>
@@ -227,7 +232,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Selecting 5K SNPs for SALT array</a>
           </h1>
         </div>
 
@@ -239,26 +244,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">4</span> Select SNPs for Panel<a href="select-snps-for-panel.html#select-snps-for-panel" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="read-in-all-data-on-snps-and-relevant-data-from-section-3" class="section level2 hasAnchor" number="4.1">
 <h2><span class="header-section-number">4.1</span> Read in all data on SNPs and relevant data from Section 3<a href="select-snps-for-panel.html#read-in-all-data-on-snps-and-relevant-data-from-section-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="select-snps-for-panel.html#cb186-1" aria-hidden="true" tabindex="-1"></a>snp_info_full <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;snp_info_full&quot;</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="select-snps-for-panel.html#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="co"># genotypes as columns, rows as individuals, loci filtered out for HE and HWE</span></span>
-<span id="cb187-2"><a href="select-snps-for-panel.html#cb187-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb187-3"><a href="select-snps-for-panel.html#cb187-3" aria-hidden="true" tabindex="-1"></a>filt_genotypes <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;genotypes_f_he_hw&quot;</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="select-snps-for-panel.html#cb188-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 25 SNPS with high FST for stx vs. gulf to be included in panel</span></span>
-<span id="cb188-2"><a href="select-snps-for-panel.html#cb188-2" aria-hidden="true" tabindex="-1"></a>stxvgulf_snps <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;stxvgulf_25&quot;</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="select-snps-for-panel.html#cb189-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 25 SNPS for florida v gulf (highest FST)</span></span>
-<span id="cb189-2"><a href="select-snps-for-panel.html#cb189-2" aria-hidden="true" tabindex="-1"></a>flvgulf_snps <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;flvngom_25&quot;</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="select-snps-for-panel.html#cb190-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 10774 SNPs with greater than .05 MAF for nfl, gfl, nGOM and greater than .03 MAF for stx</span></span>
-<span id="cb190-2"><a href="select-snps-for-panel.html#cb190-2" aria-hidden="true" tabindex="-1"></a>MAF_snps <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;MAF_SNPs&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb190-3"><a href="select-snps-for-panel.html#cb190-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(., <span class="at">snp_id =</span> <span class="fu">rownames</span>(.)) <span class="sc">%&gt;%</span></span>
-<span id="cb190-4"><a href="select-snps-for-panel.html#cb190-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(snp_id)</span></code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="select-snps-for-panel.html#cb183-1" aria-hidden="true" tabindex="-1"></a>snp_info_full <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;snp_info_full&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="select-snps-for-panel.html#cb184-1" aria-hidden="true" tabindex="-1"></a><span class="co"># genotypes as columns, rows as individuals, loci filtered out for HE and HWE</span></span>
+<span id="cb184-2"><a href="select-snps-for-panel.html#cb184-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb184-3"><a href="select-snps-for-panel.html#cb184-3" aria-hidden="true" tabindex="-1"></a>filt_genotypes <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;genotypes_f_he_hw&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="select-snps-for-panel.html#cb185-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 25 SNPS with high FST for stx vs. gulf to be included in panel</span></span>
+<span id="cb185-2"><a href="select-snps-for-panel.html#cb185-2" aria-hidden="true" tabindex="-1"></a>stxvgulf_snps <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;stxvgulf_25&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="select-snps-for-panel.html#cb186-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 25 SNPS for florida v gulf (highest FST)</span></span>
+<span id="cb186-2"><a href="select-snps-for-panel.html#cb186-2" aria-hidden="true" tabindex="-1"></a>flvgulf_snps <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;flvngom_25&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="select-snps-for-panel.html#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 10774 SNPs with greater than .05 MAF for nfl, gfl, nGOM and greater than .03 MAF for stx</span></span>
+<span id="cb187-2"><a href="select-snps-for-panel.html#cb187-2" aria-hidden="true" tabindex="-1"></a>MAF_snps <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;MAF_SNPs&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb187-3"><a href="select-snps-for-panel.html#cb187-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(., <span class="at">snp_id =</span> <span class="fu">rownames</span>(.)) <span class="sc">%&gt;%</span></span>
+<span id="cb187-4"><a href="select-snps-for-panel.html#cb187-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(snp_id)</span></code></pre></div>
 </div>
-<div id="filter-the-combined_filtered-data-file-to-only-include-candidate-snps" class="section level2 hasAnchor" number="4.2">
-<h2><span class="header-section-number">4.2</span> Filter the combined_filtered data file to only include candidate SNPs<a href="select-snps-for-panel.html#filter-the-combined_filtered-data-file-to-only-include-candidate-snps" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="select-snps-for-panel.html#cb191-1" aria-hidden="true" tabindex="-1"></a>candidates <span class="ot">&lt;-</span> snp_info_full <span class="sc">%&gt;%</span></span>
-<span id="cb191-2"><a href="select-snps-for-panel.html#cb191-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(probeset_id,cust_chr,cust_pos) <span class="sc">%&gt;%</span></span>
-<span id="cb191-3"><a href="select-snps-for-panel.html#cb191-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(probeset_id <span class="sc">%in%</span> MAF_snps) <span class="sc">%&gt;%</span></span>
-<span id="cb191-4"><a href="select-snps-for-panel.html#cb191-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cust_chr =</span> <span class="fu">as.numeric</span> (cust_chr)) <span class="sc">%&gt;%</span></span>
-<span id="cb191-5"><a href="select-snps-for-panel.html#cb191-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span></code></pre></div>
+<div id="filter-the-snp-data-file-to-only-include-maf-snps-selected-in-section3" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Filter the SNP data file to only include MAF SNPS selected in Section3<a href="select-snps-for-panel.html#filter-the-snp-data-file-to-only-include-maf-snps-selected-in-section3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="select-snps-for-panel.html#cb188-1" aria-hidden="true" tabindex="-1"></a>candidates <span class="ot">&lt;-</span> snp_info_full <span class="sc">%&gt;%</span></span>
+<span id="cb188-2"><a href="select-snps-for-panel.html#cb188-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(probeset_id,cust_chr,cust_pos) <span class="sc">%&gt;%</span></span>
+<span id="cb188-3"><a href="select-snps-for-panel.html#cb188-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(probeset_id <span class="sc">%in%</span> MAF_snps) <span class="sc">%&gt;%</span></span>
+<span id="cb188-4"><a href="select-snps-for-panel.html#cb188-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cust_chr =</span> <span class="fu">as.numeric</span> (cust_chr)) <span class="sc">%&gt;%</span></span>
+<span id="cb188-5"><a href="select-snps-for-panel.html#cb188-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span></code></pre></div>
 </div>
 <div id="specify-number-of-markers-from-each-chromosome-you-will-select" class="section level2 hasAnchor" number="4.3">
 <h2><span class="header-section-number">4.3</span> Specify number of markers from each chromosome you will select<a href="select-snps-for-panel.html#specify-number-of-markers-from-each-chromosome-you-will-select" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -275,13 +280,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
                           chrom_num == 9 ~ &quot;NC_035788.1&quot;,
                           chrom_num == 10 ~ &quot;NC_035789.1&quot;</code></pre>
 <p>Lengths of the chromosomes: (based on Guo et al, 2023)</p>
-<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="select-snps-for-panel.html#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="co">#the lengths are based on Hollenbeck&#39;s order</span></span>
-<span id="cb193-2"><a href="select-snps-for-panel.html#cb193-2" aria-hidden="true" tabindex="-1"></a>nChr <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb193-3"><a href="select-snps-for-panel.html#cb193-3" aria-hidden="true" tabindex="-1"></a>chrLen <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">65668440</span>, <span class="dv">61752955</span>, <span class="dv">77061148</span>, <span class="dv">59691872</span>, <span class="dv">98698416</span>, <span class="dv">51258098</span>, <span class="dv">57830854</span>, <span class="dv">75944018</span>, <span class="dv">104168038</span>,<span class="dv">32650045</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="select-snps-for-panel.html#cb190-1" aria-hidden="true" tabindex="-1"></a>nChr <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb190-2"><a href="select-snps-for-panel.html#cb190-2" aria-hidden="true" tabindex="-1"></a>chrLen <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">65668440</span>, <span class="dv">61752955</span>, <span class="dv">77061148</span>, <span class="dv">59691872</span>, <span class="dv">98698416</span>, <span class="dv">51258098</span>, <span class="dv">57830854</span>, <span class="dv">75944018</span>, <span class="dv">104168038</span>,<span class="dv">32650045</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="select-snps-for-panel.html#cb191-1" aria-hidden="true" tabindex="-1"></a>chrom_info <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,chrLen) <span class="sc">%&gt;%</span></span>
+<span id="cb191-2"><a href="select-snps-for-panel.html#cb191-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">chrom =</span> <span class="st">&quot;1:10&quot;</span>, <span class="at">pos =</span> chrLen)</span>
+<span id="cb191-3"><a href="select-snps-for-panel.html#cb191-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(chrom_info)</span></code></pre></div>
+<pre><code>## # A tibble: 10 × 2
+##    chrom       pos
+##    &lt;int&gt;     &lt;dbl&gt;
+##  1     1  65668440
+##  2     2  61752955
+##  3     3  77061148
+##  4     4  59691872
+##  5     5  98698416
+##  6     6  51258098
+##  7     7  57830854
+##  8     8  75944018
+##  9     9 104168038
+## 10    10  32650045</code></pre>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="select-snps-for-panel.html#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(chrom_info, <span class="at">file =</span> <span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;chrom_info&quot;</span>))</span></code></pre></div>
 <p>Function to split up the SNPs proportionally based on chrLen
 Much of the code below is taken from Thomas Delomas’ public github repository OysterSimGS_2021 script multGen_scrm_ai2_HPC.R</p>
 <div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="select-snps-for-panel.html#cb194-1" aria-hidden="true" tabindex="-1"></a>snps_by_chr <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">5200</span>, <span class="cf">function</span>(x){</span>
-<span id="cb194-2"><a href="select-snps-for-panel.html#cb194-2" aria-hidden="true" tabindex="-1"></a>    dfOut <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">chr =</span> <span class="dv">1</span><span class="sc">:</span>nChr, <span class="at">num =</span> <span class="fu">round</span>(x <span class="sc">*</span> (chrLen<span class="sc">/</span> <span class="fu">sum</span>(chrLen)))) <span class="co">#note 7976 is candidate number of SNPs </span></span>
+<span id="cb194-2"><a href="select-snps-for-panel.html#cb194-2" aria-hidden="true" tabindex="-1"></a>    dfOut <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">chr =</span> <span class="dv">1</span><span class="sc">:</span>nChr, <span class="at">num =</span> <span class="fu">round</span>(x <span class="sc">*</span> (chrLen<span class="sc">/</span> <span class="fu">sum</span>(chrLen)))) <span class="co">#note 5200 specifies the number of SNPs we are selecting</span></span>
 <span id="cb194-3"><a href="select-snps-for-panel.html#cb194-3" aria-hidden="true" tabindex="-1"></a>                        </span>
 <span id="cb194-4"><a href="select-snps-for-panel.html#cb194-4" aria-hidden="true" tabindex="-1"></a><span class="co"># num is calculated with this function. num is the number of positions assigned to each chromosome, calculated based on the proportion of the chromosome length (chrLen) relative to the total chromosome length (sum(chrLen)). The values are rounded.</span></span>
 <span id="cb194-5"><a href="select-snps-for-panel.html#cb194-5" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -305,11 +326,11 @@ Much of the code below is taken from Thomas Delomas’ public github repository 
 <p>Check and make sure adds up to 5200</p>
 <div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="select-snps-for-panel.html#cb195-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(snps_by_chr[[<span class="dv">1</span>]]<span class="sc">$</span>num)</span></code></pre></div>
 <pre><code>## [1] 5200</code></pre>
-<p>Check and compare the number of SNPs targeted from each chrom (chrom_tbl) and the number of SNPs available to select (candidate_snps)</p>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="select-snps-for-panel.html#cb197-1" aria-hidden="true" tabindex="-1"></a>chrom_tbl <span class="ot">&lt;-</span> snps_by_chr[[<span class="dv">1</span>]] <span class="sc">%&gt;%</span></span>
+<p>Check and compare the number of SNPs targeted from each chrom (snps_to_select_per_chr) and the number of SNPs available to select (candidate_snps)</p>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="select-snps-for-panel.html#cb197-1" aria-hidden="true" tabindex="-1"></a>snps_to_select_per_chr <span class="ot">&lt;-</span> snps_by_chr[[<span class="dv">1</span>]] <span class="sc">%&gt;%</span></span>
 <span id="cb197-2"><a href="select-snps-for-panel.html#cb197-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">length =</span> chrLen) <span class="sc">%&gt;%</span></span>
 <span id="cb197-3"><a href="select-snps-for-panel.html#cb197-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">chrom =</span> chr, <span class="at">to_choose =</span> num) </span>
-<span id="cb197-4"><a href="select-snps-for-panel.html#cb197-4" aria-hidden="true" tabindex="-1"></a>chrom_tbl</span></code></pre></div>
+<span id="cb197-4"><a href="select-snps-for-panel.html#cb197-4" aria-hidden="true" tabindex="-1"></a>snps_to_select_per_chr</span></code></pre></div>
 <pre><code>##    chrom to_choose    length
 ## 1      1       499  65668440
 ## 2      2       469  61752955
@@ -346,31 +367,98 @@ Much of the code below is taken from Thomas Delomas’ public github repository 
 <div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="select-snps-for-panel.html#cb201-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ldpanelopt)</span></code></pre></div>
 <div id="make-snp_tbl" class="section level3 hasAnchor" number="4.4.1">
 <h3><span class="header-section-number">4.4.1</span> Make snp_tbl<a href="select-snps-for-panel.html#make-snp_tbl" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li>Table of snp_id, chromosome the snp is found on, position on the chromosome, maf of the snp, “chip1” which is just a sequence of numbers 1:number of snps, and “chip2” which is 0</li>
+</ul>
 <div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="select-snps-for-panel.html#cb202-1" aria-hidden="true" tabindex="-1"></a>maf_snps <span class="ot">&lt;-</span><span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;MAF_SNPs&quot;</span>)) <span class="sc">%&gt;%</span> </span>
 <span id="cb202-2"><a href="select-snps-for-panel.html#cb202-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(., <span class="at">snp_id =</span> <span class="fu">rownames</span>(.)) <span class="sc">%&gt;%</span></span>
 <span id="cb202-3"><a href="select-snps-for-panel.html#cb202-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(snp_id,gfl_frq,nfl_frq,ngom_frq,stx_frq) <span class="sc">%&gt;%</span></span>
 <span id="cb202-4"><a href="select-snps-for-panel.html#cb202-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb202-5"><a href="select-snps-for-panel.html#cb202-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">maf =</span> <span class="fu">mean</span>(<span class="fu">c</span>(gfl_frq,nfl_frq,ngom_frq,stx_frq))) <span class="sc">%&gt;%</span></span>
-<span id="cb202-6"><a href="select-snps-for-panel.html#cb202-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(snp_id, maf)</span></code></pre></div>
-<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="select-snps-for-panel.html#cb203-1" aria-hidden="true" tabindex="-1"></a>snp_tbl <span class="ot">&lt;-</span> candidates <span class="sc">%&gt;%</span></span>
-<span id="cb203-2"><a href="select-snps-for-panel.html#cb203-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span><span class="fu">desc</span>(cust_chr)) <span class="sc">%&gt;%</span></span>
-<span id="cb203-3"><a href="select-snps-for-panel.html#cb203-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cust_chr =</span> <span class="fu">as.character</span>(cust_chr)) <span class="sc">%&gt;%</span></span>
-<span id="cb203-4"><a href="select-snps-for-panel.html#cb203-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">chip1 =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(.))) <span class="sc">%&gt;%</span></span>
-<span id="cb203-5"><a href="select-snps-for-panel.html#cb203-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">chip2 =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb203-6"><a href="select-snps-for-panel.html#cb203-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">snp_id =</span> probeset_id, <span class="at">chrom =</span> cust_chr, <span class="at">pos =</span> cust_pos) <span class="sc">%&gt;%</span></span>
-<span id="cb203-7"><a href="select-snps-for-panel.html#cb203-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pos =</span> <span class="fu">as.numeric</span>(pos)) <span class="sc">%&gt;%</span> </span>
-<span id="cb203-8"><a href="select-snps-for-panel.html#cb203-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(.,maf_snps, <span class="at">by =</span> <span class="st">&quot;snp_id&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb203-9"><a href="select-snps-for-panel.html#cb203-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(snp_id, chrom, pos, maf, chip1, chip2)</span></code></pre></div>
-<p>rearrange columns in chrom_tbl</p>
-<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="select-snps-for-panel.html#cb204-1" aria-hidden="true" tabindex="-1"></a>chrom_tbl <span class="ot">&lt;-</span> chrom_tbl <span class="sc">%&gt;%</span></span>
-<span id="cb204-2"><a href="select-snps-for-panel.html#cb204-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(chrom,length,to_choose) <span class="sc">%&gt;%</span></span>
-<span id="cb204-3"><a href="select-snps-for-panel.html#cb204-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">chrom =</span> <span class="fu">as.character</span>(chrom))</span></code></pre></div>
-<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="select-snps-for-panel.html#cb205-1" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">choose_snps_greedy</span>(snp_tbl,chrom_tbl)</span></code></pre></div>
-<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="select-snps-for-panel.html#cb206-1" aria-hidden="true" tabindex="-1"></a>panel_snps <span class="ot">&lt;-</span> test <span class="sc">%&gt;%</span></span>
-<span id="cb206-2"><a href="select-snps-for-panel.html#cb206-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(chip2 <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="select-snps-for-panel.html#cb207-1" aria-hidden="true" tabindex="-1"></a>panel_snps <span class="sc">%&gt;%</span></span>
-<span id="cb207-2"><a href="select-snps-for-panel.html#cb207-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(chrom) <span class="sc">%&gt;%</span></span>
-<span id="cb207-3"><a href="select-snps-for-panel.html#cb207-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>()</span></code></pre></div>
+<span id="cb202-6"><a href="select-snps-for-panel.html#cb202-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(snp_id, maf)</span>
+<span id="cb202-7"><a href="select-snps-for-panel.html#cb202-7" aria-hidden="true" tabindex="-1"></a>maf_snps</span></code></pre></div>
+<pre><code>## # A tibble: 10,774 × 2
+## # Rowwise: 
+##    snp_id        maf
+##    &lt;chr&gt;       &lt;dbl&gt;
+##  1 AX562728433 0.238
+##  2 AX562729356 0.191
+##  3 AX562729453 0.204
+##  4 AX562729930 0.247
+##  5 AX562733277 0.272
+##  6 AX562733495 0.313
+##  7 AX562733961 0.160
+##  8 AX562735439 0.186
+##  9 AX562736320 0.218
+## 10 AX562737211 0.244
+## # ℹ 10,764 more rows</code></pre>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="select-snps-for-panel.html#cb204-1" aria-hidden="true" tabindex="-1"></a>snp_tbl <span class="ot">&lt;-</span> candidates <span class="sc">%&gt;%</span></span>
+<span id="cb204-2"><a href="select-snps-for-panel.html#cb204-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span><span class="fu">desc</span>(cust_chr)) <span class="sc">%&gt;%</span></span>
+<span id="cb204-3"><a href="select-snps-for-panel.html#cb204-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cust_chr =</span> <span class="fu">as.character</span>(cust_chr)) <span class="sc">%&gt;%</span></span>
+<span id="cb204-4"><a href="select-snps-for-panel.html#cb204-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">chip1 =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(.))) <span class="sc">%&gt;%</span></span>
+<span id="cb204-5"><a href="select-snps-for-panel.html#cb204-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">chip2 =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb204-6"><a href="select-snps-for-panel.html#cb204-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">snp_id =</span> probeset_id, <span class="at">chrom =</span> cust_chr, <span class="at">pos =</span> cust_pos) <span class="sc">%&gt;%</span></span>
+<span id="cb204-7"><a href="select-snps-for-panel.html#cb204-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pos =</span> <span class="fu">as.numeric</span>(pos)) <span class="sc">%&gt;%</span> </span>
+<span id="cb204-8"><a href="select-snps-for-panel.html#cb204-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(.,maf_snps, <span class="at">by =</span> <span class="st">&quot;snp_id&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb204-9"><a href="select-snps-for-panel.html#cb204-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(snp_id, chrom, pos, maf, chip1, chip2)</span>
+<span id="cb204-10"><a href="select-snps-for-panel.html#cb204-10" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(snp_tbl) </span></code></pre></div>
+<pre><code>## # A tibble: 10,774 × 6
+##    snp_id      chrom      pos   maf chip1 chip2
+##    &lt;chr&gt;       &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;
+##  1 AX562728433 1     59205245 0.238     1     0
+##  2 AX562729356 1     59722684 0.191     2     0
+##  3 AX562729453 1     59794668 0.204     3     0
+##  4 AX562729930 1     60046917 0.247     4     0
+##  5 AX562733277 1     61521865 0.272     5     0
+##  6 AX562733495 1     61742861 0.313     6     0
+##  7 AX562733961 1     20277463 0.160     7     0
+##  8 AX562735439 1     62906370 0.186     8     0
+##  9 AX562736320 1     63385209 0.218     9     0
+## 10 AX562737211 1     63633574 0.244    10     0
+## # ℹ 10,764 more rows</code></pre>
+<p>Set up chrom_tbl, which lists the chromosomes, the length of each chromosomes, and the number of snps to choose per chromosome based on their size</p>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="select-snps-for-panel.html#cb206-1" aria-hidden="true" tabindex="-1"></a>chrom_tbl <span class="ot">&lt;-</span> snps_to_select_per_chr <span class="sc">%&gt;%</span></span>
+<span id="cb206-2"><a href="select-snps-for-panel.html#cb206-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(chrom,length,to_choose) <span class="sc">%&gt;%</span></span>
+<span id="cb206-3"><a href="select-snps-for-panel.html#cb206-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">chrom =</span> <span class="fu">as.character</span>(chrom))</span>
+<span id="cb206-4"><a href="select-snps-for-panel.html#cb206-4" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(chrom_tbl)</span></code></pre></div>
+<pre><code>## # A tibble: 10 × 3
+##    chrom    length to_choose
+##    &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+##  1 1      65668440       499
+##  2 2      61752955       469
+##  3 3      77061148       585
+##  4 4      59691872       453
+##  5 5      98698416       750
+##  6 6      51258098       389
+##  7 7      57830854       439
+##  8 8      75944018       577
+##  9 9     104168038       791
+## 10 10     32650045       248</code></pre>
+<p>Run the greedy algorithm</p>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="select-snps-for-panel.html#cb208-1" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">choose_snps_greedy</span>(snp_tbl,chrom_tbl)</span></code></pre></div>
+<p>Check results, should be data frame similar to snp_tbl, but now “chip2” specifies if the snp has been selected for the panel or not. If 0, it is not selected.</p>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="select-snps-for-panel.html#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(test)</span></code></pre></div>
+<pre><code>## # A tibble: 10,774 × 6
+##    snp_id      chrom      pos   maf chip1 chip2
+##    &lt;chr&gt;       &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt;
+##  1 AX562728433 1     59205245 0.238     1     1
+##  2 AX562729356 1     59722684 0.191     2     0
+##  3 AX562729453 1     59794668 0.204     3     0
+##  4 AX562729930 1     60046917 0.247     4     2
+##  5 AX562733277 1     61521865 0.272     5     3
+##  6 AX562733495 1     61742861 0.313     6     4
+##  7 AX562733961 1     20277463 0.160     7     5
+##  8 AX562735439 1     62906370 0.186     8     6
+##  9 AX562736320 1     63385209 0.218     9     7
+## 10 AX562737211 1     63633574 0.244    10     0
+## # ℹ 10,764 more rows</code></pre>
+<p>Select the MAF snps selected for panel</p>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="select-snps-for-panel.html#cb211-1" aria-hidden="true" tabindex="-1"></a>panel_snps <span class="ot">&lt;-</span> test <span class="sc">%&gt;%</span></span>
+<span id="cb211-2"><a href="select-snps-for-panel.html#cb211-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(chip2 <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code></pre></div>
+<p>Examine number of selected snps per chromosome</p>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="select-snps-for-panel.html#cb212-1" aria-hidden="true" tabindex="-1"></a>panel_snps <span class="sc">%&gt;%</span></span>
+<span id="cb212-2"><a href="select-snps-for-panel.html#cb212-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(chrom) <span class="sc">%&gt;%</span></span>
+<span id="cb212-3"><a href="select-snps-for-panel.html#cb212-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>()</span></code></pre></div>
 <pre><code>## # A tibble: 10 × 2
 ## # Groups:   chrom [10]
 ##    chrom     n
@@ -389,9 +477,9 @@ Much of the code below is taken from Thomas Delomas’ public github repository 
 <div id="check-and-make-sure-the-algorithm-gave-sensible-results" class="section level3 hasAnchor" number="4.4.2">
 <h3><span class="header-section-number">4.4.2</span> Check and make sure the algorithm gave sensible results<a href="select-snps-for-panel.html#check-and-make-sure-the-algorithm-gave-sensible-results" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The panel_snps should have higher mean maf than the candidate snps in snp_tbl</p>
-<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="select-snps-for-panel.html#cb209-1" aria-hidden="true" tabindex="-1"></a>panel_snps <span class="sc">%&gt;%</span></span>
-<span id="cb209-2"><a href="select-snps-for-panel.html#cb209-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(chrom) <span class="sc">%&gt;%</span></span>
-<span id="cb209-3"><a href="select-snps-for-panel.html#cb209-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(maf))</span></code></pre></div>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="select-snps-for-panel.html#cb214-1" aria-hidden="true" tabindex="-1"></a>panel_snps <span class="sc">%&gt;%</span></span>
+<span id="cb214-2"><a href="select-snps-for-panel.html#cb214-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(chrom) <span class="sc">%&gt;%</span></span>
+<span id="cb214-3"><a href="select-snps-for-panel.html#cb214-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(maf))</span></code></pre></div>
 <pre><code>## # A tibble: 10 × 2
 ##    chrom `mean(maf)`
 ##    &lt;chr&gt;       &lt;dbl&gt;
@@ -405,9 +493,9 @@ Much of the code below is taken from Thomas Delomas’ public github repository 
 ##  8 7           0.284
 ##  9 8           0.230
 ## 10 9           0.216</code></pre>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="select-snps-for-panel.html#cb211-1" aria-hidden="true" tabindex="-1"></a>snp_tbl <span class="sc">%&gt;%</span></span>
-<span id="cb211-2"><a href="select-snps-for-panel.html#cb211-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(chrom) <span class="sc">%&gt;%</span></span>
-<span id="cb211-3"><a href="select-snps-for-panel.html#cb211-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(maf))</span></code></pre></div>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="select-snps-for-panel.html#cb216-1" aria-hidden="true" tabindex="-1"></a>snp_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb216-2"><a href="select-snps-for-panel.html#cb216-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(chrom) <span class="sc">%&gt;%</span></span>
+<span id="cb216-3"><a href="select-snps-for-panel.html#cb216-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(maf))</span></code></pre></div>
 <pre><code>## # A tibble: 10 × 2
 ##    chrom `mean(maf)`
 ##    &lt;chr&gt;       &lt;dbl&gt;
@@ -421,7 +509,7 @@ Much of the code below is taken from Thomas Delomas’ public github repository 
 ##  8 7           0.210
 ##  9 8           0.207
 ## 10 9           0.206</code></pre>
-
+<p>They do</p>
 </div>
 </div>
 </div>
@@ -430,8 +518,8 @@ Much of the code below is taken from Thomas Delomas’ public github repository 
           </div>
         </div>
       </div>
-<a href="select-candidate-snps.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="select-candidate-snps.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="add-pop-diagnostic-snps-to-maf-snps-for-final-list.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="book_files/gitbook-2.6.7/js/app.min.js"></script>

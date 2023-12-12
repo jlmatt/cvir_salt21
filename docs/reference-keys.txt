@@ -43,8 +43,8 @@ make-genind-object-without-the-loci-that-have-heterozygosities-over-0.5
 make-genotypes-data-frame-without-the-loci-that-have-heterozygosities-over-0.5
 hw-test
 exmaine-matrix-of-each-loci-and-p-values
-select-loci-that-are-fail-hwe-test-p-0.05
-remove-the-loci-out-of-hwe-from-the-genind-object-and-genotypes-data-frame
+select-loci-that-fail-hwe-test-p-0.05
+remove-loci-out-of-hwe-from-the-genind-object-and-genotypes-data-frame
 select-population-diagnostic-loci
 south-texas-vs.-gulf
 select-25-snps-that-distinguish-stx-from-gulf
@@ -54,11 +54,13 @@ maf
 calculate-minor-allele-frequency-for-each-locus-in-each-genetic-group
 re-calculate-after-removing-loci-with-maf-of-1
 identify-loci-with-high-maf-in-all-groups
+select-maf-loci-and-exmaine-histograms-of-loci
 save-files-2
 select-snps-for-panel
 read-in-all-data-on-snps-and-relevant-data-from-section-3
-filter-the-combined_filtered-data-file-to-only-include-candidate-snps
+filter-the-snp-data-file-to-only-include-maf-snps-selected-in-section3
 specify-number-of-markers-from-each-chromosome-you-will-select
 use-greedy-algorithm-to-select-5200-snps-for-5k-array-200-extras
 make-snp_tbl
 check-and-make-sure-the-algorithm-gave-sensible-results
+add-pop-diagnostic-snps-to-maf-snps-for-final-list
