@@ -5,5 +5,7 @@ date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 ---
 
+# Preface
+
 This is a series of markdown files demonstrating how SNPs were selected for the SALT consortium oyster 5K SNP array. It is formatted as a series of chapters.  Each chapter builds on the previous with the ultimate product of ~5K candidate SNPs to send to Paragon Genomics for producing a 5K SNP array for the SALT consortium.
 

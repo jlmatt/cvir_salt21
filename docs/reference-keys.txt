@@ -1,6 +1,7 @@
 fig:unnamed-chunk-46
 fig:unnamed-chunk-49
 fig:unnamed-chunk-55
+preface
 input-data
 objective-organize-individual-and-snp-data
 individual-sample-information
