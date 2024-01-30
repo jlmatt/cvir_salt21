@@ -1,7 +1,7 @@
 fig:unnamed-chunk-46
 fig:unnamed-chunk-49
 fig:unnamed-chunk-55
-preface
+read-me
 input-data
 objective-organize-individual-and-snp-data
 individual-sample-information
@@ -69,3 +69,15 @@ summary-plots-of-snps-for-panel
 distribution-of-snps
 maf-per-population
 pca-with-selected-snps
+select-snps-for-panel-using-physical-distance-based-method
+read-in-all-data-on-snps-and-relevant-data-from-section-3-1
+filter-the-snp-data-file-to-only-include-maf-snps-selected-in-section3-1
+specify-number-of-markers-from-each-chromosome-you-will-select-1
+use-physical-distance-based-method-from-kriaridou-et-al-2023-to-select-5200-snps-for-5k-array-200-extras
+add-pop-diagnostic-snps-to-the-snps-selected-by-physical-distance-for-a-final-list
+compare-snps-selected-from-greedy-algorithm-and-from-physical-distance-method
+arrange-data
+maf-of-snps
+distribution-of-snps-by-graph
+distribution-of-snps-by-math
+prep-data-file-for-paragon

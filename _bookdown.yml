@@ -1,3 +1,3 @@
-rmd_files: ["index.Rmd","01-data.Rmd", "02-genetic_assignment.Rmd", "03-snp_filtering.Rmd","04-random_SNP_selection.Rmd","05-summary_plots.Rmd"]
+rmd_files: ["index.Rmd","01-data.Rmd", "02-genetic_assignment.Rmd", "03-snp_filtering.Rmd","04-random_SNP_selection.Rmd","05-summary_plots.Rmd","06-physical_distance_SNP_selection.Rmd","07-comparison_summary_plots.Rmd","08-prep_file_for_paragon.Rmd"]
 output_dir: "docs"
 delete_merged_file: true

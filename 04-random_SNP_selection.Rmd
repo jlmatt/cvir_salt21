@@ -255,3 +255,7 @@ panel_snps <- panel_snps %>%
 saveRDS(panel_snps, file = here("data","derived","panel_snps"))
 ```
 
+```{r}
+write_csv(panel_snps, file = here("data","derived","panel_snps.csv"))
+```
+

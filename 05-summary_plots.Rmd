@@ -43,14 +43,20 @@ Add in the maximum position for each chromosome (in red)
 ```{r}
 chrom_info <- readRDS(file = here("data","derived","chrom_info"))
 
-ggplot(panel_snps, aes(x = chrom, y = pos)) +
+p1<-ggplot(panel_snps, aes(x = chrom, y = pos)) +
   geom_point(size = 0.2) +
   geom_point(data = chrom_info, color = "red", size = 1) + 
   xlab("chromosome") + 
   ylab("position") + 
   scale_x_continuous(breaks=1:10) + 
-  ggtitle("positions of selected snps per chromosome")
+  ggtitle("positions of selected snps per chromosome\nmaximum position in red")
+p1
 ```
+
+```{r}
+ggsave(here::here("figures_and_tables","01_snps_along_genome.png"), p1, width = 8, height = 6, units = "in")
+```
+
 
 ## MAF per population
 
@@ -101,11 +107,16 @@ maf_long <- maf %>%
 Plot maf data
 
 ```{r}
-ggplot(maf_long, aes(x=pop, y=maf)) + 
+p2<-ggplot(maf_long, aes(x=pop, y=maf)) + 
   geom_boxplot(width=0.5)+
   xlab("genetic group") + 
   ylab("minor allele frequency") + 
   ggtitle("minor allele frequency of selected snps per genetic group")
+p2
+```
+
+```{r}
+ggsave(here::here("figures_and_tables","02_maf_genetic_groups.png"), p2, width = 8, height = 4, units = "in")
 ```
 
 ## PCA with selected SNPs
@@ -153,7 +164,12 @@ pc <- ggplot(PC_ind, aes(x = Axis1, y = Axis2, color = gen_group)) +
   geom_point(alpha = 0.75, size = 2) +
   labs(x = paste("PC1:", round(eig[1, 3], digits = 3), "%"), 
        y = paste("PC2:", round(eig[2, 3], digits = 3), "%"))+
-  ggtitle("500 SNPs") +
+  ggtitle("5,250 candidate snps and gulf individuals from 600K array") +
   scale_color_hue(direction = -1)
 pc
+```
+
+
+```{r}
+ggsave(here::here("figures_and_tables","03_pca_gulf_from_600K_array.png"), pc, width = 8, height = 6, units = "in")
 ```

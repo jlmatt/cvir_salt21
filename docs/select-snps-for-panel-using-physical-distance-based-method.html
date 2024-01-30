@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>7 Select SNPs for Panel Using Physical-Distance-Based-Method | Selecting SNPs for SALT array</title>
+  <meta name="description" content="7 Select SNPs for Panel Using Physical-Distance-Based-Method | Selecting SNPs for SALT array" />
+  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="7 Select SNPs for Panel Using Physical-Distance-Based-Method | Selecting SNPs for SALT array" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="7 Select SNPs for Panel Using Physical-Distance-Based-Method | Selecting SNPs for SALT array" />
+  
+  
+  
+
+<meta name="author" content="Joseph Matt" />
+
+
+<meta name="date" content="2024-01-12" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="summary-plots-of-snps-for-panel.html"/>
+<link rel="next" href="compare-snps-selected-from-greedy-algorithm-and-from-physical-distance-method.html"/>
+<script src="book_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="book_files/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="book_files/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="book_files/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="book_files/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="book_files/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="book_files/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="book_files/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<script src="book_files/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="book_files/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="book_files/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="book_files/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Read Me</a></li>
+<li class="chapter" data-level="2" data-path="input-data.html"><a href="input-data.html"><i class="fa fa-check"></i><b>2</b> Input Data</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="input-data.html"><a href="input-data.html#objective-organize-individual-and-snp-data"><i class="fa fa-check"></i><b>2.1</b> Objective: Organize individual and SNP data</a></li>
+<li class="chapter" data-level="2.2" data-path="input-data.html"><a href="input-data.html#individual-sample-information"><i class="fa fa-check"></i><b>2.2</b> Individual Sample Information</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="input-data.html"><a href="input-data.html#basic-sample-information"><i class="fa fa-check"></i><b>2.2.1</b> Basic sample information</a></li>
+<li class="chapter" data-level="2.2.2" data-path="input-data.html"><a href="input-data.html#quality-control-info-from-thermo-fisher"><i class="fa fa-check"></i><b>2.2.2</b> Quality control info from Thermo Fisher</a></li>
+<li class="chapter" data-level="2.2.3" data-path="input-data.html"><a href="input-data.html#list-of-oysters-that-passed-the-genotyping-according-to-thermofisher"><i class="fa fa-check"></i><b>2.2.3</b> List of oysters that passed the genotyping according to ThermoFisher</a></li>
+<li class="chapter" data-level="2.2.4" data-path="input-data.html"><a href="input-data.html#merge-files"><i class="fa fa-check"></i><b>2.2.4</b> Merge Files</a></li>
+<li class="chapter" data-level="2.2.5" data-path="input-data.html"><a href="input-data.html#tidy-up-latlong-data-and-site-codes"><i class="fa fa-check"></i><b>2.2.5</b> Tidy Up Lat/Long Data and Site Codes</a></li>
+<li class="chapter" data-level="2.2.6" data-path="input-data.html"><a href="input-data.html#organize-oysters-into-metagroup-categories"><i class="fa fa-check"></i><b>2.2.6</b> Organize oysters into “metagroup” categories:</a></li>
+<li class="chapter" data-level="2.2.7" data-path="input-data.html"><a href="input-data.html#map-sites-where-samples-were-collected"><i class="fa fa-check"></i><b>2.2.7</b> Map sites where samples were collected</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="input-data.html"><a href="input-data.html#snp-information"><i class="fa fa-check"></i><b>2.3</b> SNP Information</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="input-data.html"><a href="input-data.html#general-information-on-snps"><i class="fa fa-check"></i><b>2.3.1</b> General Information on SNPs</a></li>
+<li class="chapter" data-level="2.3.2" data-path="input-data.html"><a href="input-data.html#recommended-snps"><i class="fa fa-check"></i><b>2.3.2</b> Recommended SNPs</a></li>
+<li class="chapter" data-level="2.3.3" data-path="input-data.html"><a href="input-data.html#quality-control-info"><i class="fa fa-check"></i><b>2.3.3</b> Quality control info</a></li>
+<li class="chapter" data-level="2.3.4" data-path="input-data.html"><a href="input-data.html#merge-files-1"><i class="fa fa-check"></i><b>2.3.4</b> Merge Files</a></li>
+<li class="chapter" data-level="2.3.5" data-path="input-data.html"><a href="input-data.html#formatting-for-hierfstat-and-adegenet"><i class="fa fa-check"></i><b>2.3.5</b> Formatting for hierfstat and adegenet</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="input-data.html"><a href="input-data.html#save-files"><i class="fa fa-check"></i><b>2.4</b> Save files</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="genetic-groups.html"><a href="genetic-groups.html"><i class="fa fa-check"></i><b>3</b> Genetic Groups</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="genetic-groups.html"><a href="genetic-groups.html#objective-assign-individuals-to-genetic-groups"><i class="fa fa-check"></i><b>3.1</b> Objective: Assign individuals to genetic groups</a></li>
+<li class="chapter" data-level="3.2" data-path="genetic-groups.html"><a href="genetic-groups.html#data-subsetting"><i class="fa fa-check"></i><b>3.2</b> Data Subsetting</a></li>
+<li class="chapter" data-level="3.3" data-path="genetic-groups.html"><a href="genetic-groups.html#kmeans---all-wild-individuals"><i class="fa fa-check"></i><b>3.3</b> Kmeans - All Wild Individuals</a></li>
+<li class="chapter" data-level="3.4" data-path="genetic-groups.html"><a href="genetic-groups.html#pca---k-groups"><i class="fa fa-check"></i><b>3.4</b> PCA - K groups</a></li>
+<li class="chapter" data-level="3.5" data-path="genetic-groups.html"><a href="genetic-groups.html#kmeans-and-pca-with-four-groups"><i class="fa fa-check"></i><b>3.5</b> Kmeans and PCA with four groups</a></li>
+<li class="chapter" data-level="3.6" data-path="genetic-groups.html"><a href="genetic-groups.html#pca---four-k-groups"><i class="fa fa-check"></i><b>3.6</b> PCA - Four K groups</a></li>
+<li class="chapter" data-level="3.7" data-path="genetic-groups.html"><a href="genetic-groups.html#assign-genetic-groups"><i class="fa fa-check"></i><b>3.7</b> Assign Genetic Groups</a></li>
+<li class="chapter" data-level="3.8" data-path="genetic-groups.html"><a href="genetic-groups.html#summary"><i class="fa fa-check"></i><b>3.8</b> Summary</a></li>
+<li class="chapter" data-level="3.9" data-path="genetic-groups.html"><a href="genetic-groups.html#save-files-1"><i class="fa fa-check"></i><b>3.9</b> Save files</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html"><i class="fa fa-check"></i><b>4</b> Select Candidate SNPs</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#objective-identify-candidate-snps-by"><i class="fa fa-check"></i><b>4.1</b> Objective: Identify candidate SNPs by</a></li>
+<li class="chapter" data-level="4.2" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#read-in-data"><i class="fa fa-check"></i><b>4.2</b> Read in Data</a></li>
+<li class="chapter" data-level="4.3" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#format-data"><i class="fa fa-check"></i><b>4.3</b> Format Data</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#make-genind-object-from-105k-snps"><i class="fa fa-check"></i><b>4.3.1</b> Make genind object from 105K SNPs</a></li>
+<li class="chapter" data-level="4.3.2" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#make-a-dataframe-specifying-genetic-group-and-metapop."><i class="fa fa-check"></i><b>4.3.2</b> Make a dataframe specifying genetic group and “metapop.”</a></li>
+<li class="chapter" data-level="4.3.3" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#assign-populations-to-genind-object"><i class="fa fa-check"></i><b>4.3.3</b> Assign populations to genind object</a></li>
+<li class="chapter" data-level="4.3.4" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#format-data-into-the-hierfstat-format-for-analysis-of-heterozygosity-and-maf"><i class="fa fa-check"></i><b>4.3.4</b> Format data into the hierfstat format for analysis of heterozygosity and MAF</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#hwe-filtering"><i class="fa fa-check"></i><b>4.4</b> HWE filtering</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#filtering-out-the-loci-with-ho-0.5"><i class="fa fa-check"></i><b>4.4.1</b> Filtering out the loci with Ho &gt; 0.5</a></li>
+<li class="chapter" data-level="4.4.2" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#re-analyze-the-data-for-heterozygosities"><i class="fa fa-check"></i><b>4.4.2</b> Re-analyze the data for heterozygosities</a></li>
+<li class="chapter" data-level="4.4.3" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#make-genind-object-without-the-loci-that-have-heterozygosities-over-0.5"><i class="fa fa-check"></i><b>4.4.3</b> Make genind object without the loci that have heterozygosities over 0.5</a></li>
+<li class="chapter" data-level="4.4.4" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#make-genotypes-data-frame-without-the-loci-that-have-heterozygosities-over-0.5"><i class="fa fa-check"></i><b>4.4.4</b> Make genotypes data frame without the loci that have heterozygosities over 0.5</a></li>
+<li class="chapter" data-level="4.4.5" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#hw-test"><i class="fa fa-check"></i><b>4.4.5</b> HW test</a></li>
+<li class="chapter" data-level="4.4.6" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#select-loci-that-fail-hwe-test-p-0.05"><i class="fa fa-check"></i><b>4.4.6</b> Select loci that fail HWE test (p &lt; 0.05)</a></li>
+<li class="chapter" data-level="4.4.7" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#remove-loci-out-of-hwe-from-the-genind-object-and-genotypes-data-frame"><i class="fa fa-check"></i><b>4.4.7</b> Remove loci out of HWE from the genind object and genotypes data frame</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#select-population-diagnostic-loci"><i class="fa fa-check"></i><b>4.5</b> Select population diagnostic loci</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#south-texas-vs.-gulf"><i class="fa fa-check"></i><b>4.5.1</b> South Texas vs. Gulf</a></li>
+<li class="chapter" data-level="4.5.2" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#select-25-snps-that-distinguish-stx-from-gulf"><i class="fa fa-check"></i><b>4.5.2</b> Select 25 SNPs that distinguish stx from gulf</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#ngom-vs.-fl"><i class="fa fa-check"></i><b>4.6</b> nGOM vs. FL</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#select-25-snps-with-highest-fst-for-differentiating-nfl-vs.-gfl-vs.-ngom"><i class="fa fa-check"></i><b>4.6.1</b> Select 25 SNPs with highest Fst for differentiating nfl vs. gfl vs. ngom</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#maf"><i class="fa fa-check"></i><b>4.7</b> MAF</a>
+<ul>
+<li class="chapter" data-level="4.7.1" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#calculate-minor-allele-frequency-for-each-locus-in-each-genetic-group"><i class="fa fa-check"></i><b>4.7.1</b> Calculate Minor Allele Frequency for each locus in each genetic group</a></li>
+<li class="chapter" data-level="4.7.2" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#re-calculate-after-removing-loci-with-maf-of-1"><i class="fa fa-check"></i><b>4.7.2</b> Re-calculate after removing loci with MAF of 1</a></li>
+<li class="chapter" data-level="4.7.3" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#identify-loci-with-high-maf-in-all-groups"><i class="fa fa-check"></i><b>4.7.3</b> Identify loci with high MAF in all groups</a></li>
+<li class="chapter" data-level="4.7.4" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#select-maf-loci-and-exmaine-histograms-of-loci"><i class="fa fa-check"></i><b>4.7.4</b> Select MAF loci and exmaine histograms of loci</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="select-candidate-snps.html"><a href="select-candidate-snps.html#save-files-2"><i class="fa fa-check"></i><b>4.8</b> Save files</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html"><i class="fa fa-check"></i><b>5</b> Select SNPs for Panel</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#read-in-all-data-on-snps-and-relevant-data-from-section-3"><i class="fa fa-check"></i><b>5.1</b> Read in all data on SNPs and relevant data from Section 3</a></li>
+<li class="chapter" data-level="5.2" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#filter-the-snp-data-file-to-only-include-maf-snps-selected-in-section3"><i class="fa fa-check"></i><b>5.2</b> Filter the SNP data file to only include MAF SNPS selected in Section3</a></li>
+<li class="chapter" data-level="5.3" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#specify-number-of-markers-from-each-chromosome-you-will-select"><i class="fa fa-check"></i><b>5.3</b> Specify number of markers from each chromosome you will select</a></li>
+<li class="chapter" data-level="5.4" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#use-greedy-algorithm-to-select-5200-snps-for-5k-array-200-extras"><i class="fa fa-check"></i><b>5.4</b> Use greedy algorithm to select 5200 snps for 5K array (200 extras)</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#make-snp_tbl"><i class="fa fa-check"></i><b>5.4.1</b> Make snp_tbl</a></li>
+<li class="chapter" data-level="5.4.2" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#check-and-make-sure-the-algorithm-gave-sensible-results"><i class="fa fa-check"></i><b>5.4.2</b> Check and make sure the algorithm gave sensible results</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="select-snps-for-panel.html"><a href="select-snps-for-panel.html#add-pop-diagnostic-snps-to-maf-snps-for-final-list"><i class="fa fa-check"></i><b>5.5</b> Add Pop Diagnostic SNPs to MAF SNPs for final list</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="summary-plots-of-snps-for-panel.html"><a href="summary-plots-of-snps-for-panel.html"><i class="fa fa-check"></i><b>6</b> Summary Plots of SNPs for Panel</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="summary-plots-of-snps-for-panel.html"><a href="summary-plots-of-snps-for-panel.html#distribution-of-snps"><i class="fa fa-check"></i><b>6.1</b> Distribution of SNPs</a></li>
+<li class="chapter" data-level="6.2" data-path="summary-plots-of-snps-for-panel.html"><a href="summary-plots-of-snps-for-panel.html#maf-per-population"><i class="fa fa-check"></i><b>6.2</b> MAF per population</a></li>
+<li class="chapter" data-level="6.3" data-path="summary-plots-of-snps-for-panel.html"><a href="summary-plots-of-snps-for-panel.html#pca-with-selected-snps"><i class="fa fa-check"></i><b>6.3</b> PCA with selected SNPs</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="select-snps-for-panel-using-physical-distance-based-method.html"><a href="select-snps-for-panel-using-physical-distance-based-method.html"><i class="fa fa-check"></i><b>7</b> Select SNPs for Panel Using Physical-Distance-Based-Method</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="select-snps-for-panel-using-physical-distance-based-method.html"><a href="select-snps-for-panel-using-physical-distance-based-method.html#read-in-all-data-on-snps-and-relevant-data-from-section-3-1"><i class="fa fa-check"></i><b>7.1</b> Read in all data on SNPs and relevant data from Section 3</a></li>
+<li class="chapter" data-level="7.2" data-path="select-snps-for-panel-using-physical-distance-based-method.html"><a href="select-snps-for-panel-using-physical-distance-based-method.html#filter-the-snp-data-file-to-only-include-maf-snps-selected-in-section3-1"><i class="fa fa-check"></i><b>7.2</b> Filter the SNP data file to only include MAF SNPS selected in Section3</a></li>
+<li class="chapter" data-level="7.3" data-path="select-snps-for-panel-using-physical-distance-based-method.html"><a href="select-snps-for-panel-using-physical-distance-based-method.html#specify-number-of-markers-from-each-chromosome-you-will-select-1"><i class="fa fa-check"></i><b>7.3</b> Specify number of markers from each chromosome you will select</a></li>
+<li class="chapter" data-level="7.4" data-path="select-snps-for-panel-using-physical-distance-based-method.html"><a href="select-snps-for-panel-using-physical-distance-based-method.html#use-physical-distance-based-method-from-kriaridou-et-al-2023-to-select-5200-snps-for-5k-array-200-extras"><i class="fa fa-check"></i><b>7.4</b> Use physical-distance-based method from Kriaridou et al (2023) to select 5200 snps for 5K array (200 extras)</a></li>
+<li class="chapter" data-level="7.5" data-path="select-snps-for-panel-using-physical-distance-based-method.html"><a href="select-snps-for-panel-using-physical-distance-based-method.html#add-pop-diagnostic-snps-to-the-snps-selected-by-physical-distance-for-a-final-list"><i class="fa fa-check"></i><b>7.5</b> Add Pop Diagnostic SNPs to the snps selected by physical distance for a final list</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="compare-snps-selected-from-greedy-algorithm-and-from-physical-distance-method.html"><a href="compare-snps-selected-from-greedy-algorithm-and-from-physical-distance-method.html"><i class="fa fa-check"></i><b>8</b> Compare SNPs selected from Greedy Algorithm and from Physical Distance Method</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="compare-snps-selected-from-greedy-algorithm-and-from-physical-distance-method.html"><a href="compare-snps-selected-from-greedy-algorithm-and-from-physical-distance-method.html#arrange-data"><i class="fa fa-check"></i><b>8.1</b> Arrange data</a></li>
+<li class="chapter" data-level="8.2" data-path="compare-snps-selected-from-greedy-algorithm-and-from-physical-distance-method.html"><a href="compare-snps-selected-from-greedy-algorithm-and-from-physical-distance-method.html#maf-of-snps"><i class="fa fa-check"></i><b>8.2</b> MAF of SNPs</a></li>
+<li class="chapter" data-level="8.3" data-path="compare-snps-selected-from-greedy-algorithm-and-from-physical-distance-method.html"><a href="compare-snps-selected-from-greedy-algorithm-and-from-physical-distance-method.html#distribution-of-snps-by-graph"><i class="fa fa-check"></i><b>8.3</b> Distribution of SNPs by Graph</a></li>
+<li class="chapter" data-level="8.4" data-path="compare-snps-selected-from-greedy-algorithm-and-from-physical-distance-method.html"><a href="compare-snps-selected-from-greedy-algorithm-and-from-physical-distance-method.html#distribution-of-snps-by-math"><i class="fa fa-check"></i><b>8.4</b> Distribution of SNPs by Math</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="prep-data-file-for-paragon.html"><a href="prep-data-file-for-paragon.html"><i class="fa fa-check"></i><b>9</b> Prep Data File for Paragon</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Selecting SNPs for SALT array</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="select-snps-for-panel-using-physical-distance-based-method" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">7</span> Select SNPs for Panel Using Physical-Distance-Based-Method<a href="select-snps-for-panel-using-physical-distance-based-method.html#select-snps-for-panel-using-physical-distance-based-method" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="read-in-all-data-on-snps-and-relevant-data-from-section-3-1" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Read in all data on SNPs and relevant data from Section 3<a href="select-snps-for-panel-using-physical-distance-based-method.html#read-in-all-data-on-snps-and-relevant-data-from-section-3-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb240-1" aria-hidden="true"></a>snp_info_full &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;snp_info_full&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb241-1" aria-hidden="true"></a><span class="co"># genotypes as columns, rows as individuals, loci filtered out for HE and HWE</span></span>
+<span id="cb241-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb241-2" aria-hidden="true"></a></span>
+<span id="cb241-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb241-3" aria-hidden="true"></a>filt_genotypes &lt;-<span class="st"> </span><span class="kw">readRDS</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;genotypes_f_he_hw&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb242-1" aria-hidden="true"></a><span class="co"># 25 SNPS with high FST for stx vs. gulf to be included in panel</span></span>
+<span id="cb242-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb242-2" aria-hidden="true"></a>stxvgulf_snps &lt;-<span class="st"> </span><span class="kw">readRDS</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;stxvgulf_25&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb243-1" aria-hidden="true"></a><span class="co"># 25 SNPS for florida v gulf (highest FST)</span></span>
+<span id="cb243-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb243-2" aria-hidden="true"></a>flvgulf_snps &lt;-<span class="st"> </span><span class="kw">readRDS</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;flvngom_25&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb244-1" aria-hidden="true"></a><span class="co"># 10774 SNPs with greater than .05 MAF for nfl, gfl, nGOM and greater than .03 MAF for stx</span></span>
+<span id="cb244-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb244-2" aria-hidden="true"></a>MAF_snps &lt;-<span class="st"> </span><span class="kw">readRDS</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;MAF_SNPs&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb244-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb244-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">tibble</span>(., <span class="dt">snp_id =</span> <span class="kw">rownames</span>(.)) <span class="op">%&gt;%</span></span>
+<span id="cb244-4"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb244-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">pull</span>(snp_id)</span></code></pre></div>
+</div>
+<div id="filter-the-snp-data-file-to-only-include-maf-snps-selected-in-section3-1" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Filter the SNP data file to only include MAF SNPS selected in Section3<a href="select-snps-for-panel-using-physical-distance-based-method.html#filter-the-snp-data-file-to-only-include-maf-snps-selected-in-section3-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb245-1" aria-hidden="true"></a>candidates &lt;-<span class="st"> </span>snp_info_full <span class="op">%&gt;%</span></span>
+<span id="cb245-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb245-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">select</span>(probeset_id,cust_chr,cust_pos) <span class="op">%&gt;%</span></span>
+<span id="cb245-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb245-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">filter</span>(probeset_id <span class="op">%in%</span><span class="st"> </span>MAF_snps) <span class="op">%&gt;%</span></span>
+<span id="cb245-4"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb245-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">cust_chr =</span> <span class="kw">as.numeric</span> (cust_chr)) <span class="op">%&gt;%</span></span>
+<span id="cb245-5"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb245-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">unique</span>()</span></code></pre></div>
+</div>
+<div id="specify-number-of-markers-from-each-chromosome-you-will-select-1" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> Specify number of markers from each chromosome you will select<a href="select-snps-for-panel-using-physical-distance-based-method.html#specify-number-of-markers-from-each-chromosome-you-will-select-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>First identify the length of each chromosome you will be selecting from (for proportional selection)</p>
+<p>Order of chromosomes (per Supplementary Table 3 in Guo et al, 2023)</p>
+<pre><code>                          chrom_num == 1 ~ &quot;NC_035780.1&quot;,
+                          chrom_num == 2 ~ &quot;NC_035781.1&quot;,
+                          chrom_num == 3 ~ &quot;NC_035782.1&quot;,
+                          chrom_num == 4 ~ &quot;NC_035783.1&quot;,
+                          chrom_num == 5 ~ &quot;NC_035784.1&quot;,
+                          chrom_num == 6 ~ &quot;NC_035785.1&quot;,
+                          chrom_num == 7 ~ &quot;NC_035786.1&quot;,
+                          chrom_num == 8 ~ &quot;NC_035787.1&quot;,
+                          chrom_num == 9 ~ &quot;NC_035788.1&quot;,
+                          chrom_num == 10 ~ &quot;NC_035789.1&quot;</code></pre>
+<p>Lengths of the chromosomes: (based on Guo et al, 2023)</p>
+<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb247-1" aria-hidden="true"></a>nChr &lt;-<span class="st"> </span><span class="dv">10</span></span>
+<span id="cb247-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb247-2" aria-hidden="true"></a>chrLen &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">65668440</span>, <span class="dv">61752955</span>, <span class="dv">77061148</span>, <span class="dv">59691872</span>, <span class="dv">98698416</span>, <span class="dv">51258098</span>, <span class="dv">57830854</span>, <span class="dv">75944018</span>, <span class="dv">104168038</span>,<span class="dv">32650045</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb248-1" aria-hidden="true"></a>chrom_info &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,chrLen) <span class="op">%&gt;%</span></span>
+<span id="cb248-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb248-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">rename</span>(<span class="dt">chrom =</span> <span class="st">&quot;1:10&quot;</span>, <span class="dt">pos =</span> chrLen)</span>
+<span id="cb248-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb248-3" aria-hidden="true"></a><span class="kw">as_tibble</span>(chrom_info)</span></code></pre></div>
+<pre><code>## # A tibble: 10 × 2
+##    chrom       pos
+##    &lt;int&gt;     &lt;dbl&gt;
+##  1     1  65668440
+##  2     2  61752955
+##  3     3  77061148
+##  4     4  59691872
+##  5     5  98698416
+##  6     6  51258098
+##  7     7  57830854
+##  8     8  75944018
+##  9     9 104168038
+## 10    10  32650045</code></pre>
+<p>Function to split up the SNPs proportionally based on chrLen
+Much of the code below is taken from Thomas Delomas’ public github repository OysterSimGS_2021 script multGen_scrm_ai2_HPC.R</p>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb250-1" aria-hidden="true"></a>snps_by_chr &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="dv">5200</span>, <span class="cf">function</span>(x){</span>
+<span id="cb250-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb250-2" aria-hidden="true"></a>    dfOut &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">chr =</span> <span class="dv">1</span><span class="op">:</span>nChr, <span class="dt">num =</span> <span class="kw">round</span>(x <span class="op">*</span><span class="st"> </span>(chrLen<span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(chrLen)))) <span class="co">#note 5200 specifies the number of SNPs we are selecting</span></span>
+<span id="cb250-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb250-3" aria-hidden="true"></a>                        </span>
+<span id="cb250-4"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb250-4" aria-hidden="true"></a><span class="co"># num is calculated with this function. num is the number of positions assigned to each chromosome, calculated based on the proportion of the chromosome length (chrLen) relative to the total chromosome length (sum(chrLen)). The values are rounded.</span></span>
+<span id="cb250-5"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb250-5" aria-hidden="true"></a>    </span>
+<span id="cb250-6"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb250-6" aria-hidden="true"></a>    </span>
+<span id="cb250-7"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb250-7" aria-hidden="true"></a><span class="co">#The following block of code adjusts the values in the num column to account for rounding errors:</span></span>
+<span id="cb250-8"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb250-8" aria-hidden="true"></a></span>
+<span id="cb250-9"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb250-9" aria-hidden="true"></a><span class="co">#If diff is greater than 0, it randomly selects diff chromosomes and increments their num values by 1.</span></span>
+<span id="cb250-10"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb250-10" aria-hidden="true"></a><span class="co">#If diff is less than 0, it randomly selects -diff chromosomes and decrements their num values by 1.</span></span>
+<span id="cb250-11"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb250-11" aria-hidden="true"></a>    </span>
+<span id="cb250-12"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb250-12" aria-hidden="true"></a><span class="co"># account for rounding error</span></span>
+<span id="cb250-13"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb250-13" aria-hidden="true"></a>    diff &lt;-<span class="st"> </span>x <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(dfOut<span class="op">$</span>num)</span>
+<span id="cb250-14"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb250-14" aria-hidden="true"></a>    <span class="cf">if</span>(diff <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>){</span>
+<span id="cb250-15"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb250-15" aria-hidden="true"></a>        temp &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>nChr, <span class="dt">size =</span> diff, <span class="dt">replace =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb250-16"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb250-16" aria-hidden="true"></a>        dfOut<span class="op">$</span>num[temp] &lt;-<span class="st"> </span>dfOut<span class="op">$</span>num[temp] <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb250-17"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb250-17" aria-hidden="true"></a>    } <span class="cf">else</span> <span class="cf">if</span> (diff <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>){</span>
+<span id="cb250-18"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb250-18" aria-hidden="true"></a>        temp &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>nChr, <span class="dt">size =</span> <span class="op">-</span>diff, <span class="dt">replace =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb250-19"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb250-19" aria-hidden="true"></a>        dfOut<span class="op">$</span>num[temp] &lt;-<span class="st"> </span>dfOut<span class="op">$</span>num[temp] <span class="op">-</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb250-20"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb250-20" aria-hidden="true"></a>    }</span>
+<span id="cb250-21"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb250-21" aria-hidden="true"></a>    <span class="kw">return</span>(dfOut)</span>
+<span id="cb250-22"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb250-22" aria-hidden="true"></a>})</span></code></pre></div>
+<p>Check and make sure adds up to 5200</p>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb251-1" aria-hidden="true"></a><span class="kw">sum</span>(snps_by_chr[[<span class="dv">1</span>]]<span class="op">$</span>num)</span></code></pre></div>
+<pre><code>## [1] 5200</code></pre>
+<p>Check and compare the number of SNPs targeted from each chrom (snps_to_select_per_chr) and the number of SNPs available to select (candidate_snps)</p>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb253-1" aria-hidden="true"></a>snps_to_select_per_chr &lt;-<span class="st"> </span>snps_by_chr[[<span class="dv">1</span>]] <span class="op">%&gt;%</span></span>
+<span id="cb253-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb253-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">length =</span> chrLen) <span class="op">%&gt;%</span></span>
+<span id="cb253-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb253-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">rename</span>(<span class="dt">chrom =</span> chr, <span class="dt">to_choose =</span> num) </span>
+<span id="cb253-4"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb253-4" aria-hidden="true"></a>snps_to_select_per_chr</span></code></pre></div>
+<pre><code>##    chrom to_choose    length
+## 1      1       499  65668440
+## 2      2       469  61752955
+## 3      3       585  77061148
+## 4      4       453  59691872
+## 5      5       750  98698416
+## 6      6       389  51258098
+## 7      7       439  57830854
+## 8      8       577  75944018
+## 9      9       791 104168038
+## 10    10       248  32650045</code></pre>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb255-1" aria-hidden="true"></a>candidate_snps &lt;-<span class="st"> </span>candidates <span class="op">%&gt;%</span></span>
+<span id="cb255-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb255-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">group_by</span>(cust_chr) <span class="op">%&gt;%</span></span>
+<span id="cb255-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb255-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">count</span>()</span>
+<span id="cb255-4"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb255-4" aria-hidden="true"></a>candidate_snps</span></code></pre></div>
+<pre><code>## # A tibble: 10 × 2
+## # Groups:   cust_chr [10]
+##    cust_chr     n
+##       &lt;dbl&gt; &lt;int&gt;
+##  1        1   751
+##  2        2  1309
+##  3        3  1611
+##  4        4   783
+##  5        5  2184
+##  6        6   654
+##  7        7  1451
+##  8        8   834
+##  9        9   936
+## 10       10   261</code></pre>
+</div>
+<div id="use-physical-distance-based-method-from-kriaridou-et-al-2023-to-select-5200-snps-for-5k-array-200-extras" class="section level2 hasAnchor" number="7.4">
+<h2><span class="header-section-number">7.4</span> Use physical-distance-based method from Kriaridou et al (2023) to select 5200 snps for 5K array (200 extras)<a href="select-snps-for-panel-using-physical-distance-based-method.html#use-physical-distance-based-method-from-kriaridou-et-al-2023-to-select-5200-snps-for-5k-array-200-extras" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The following script is taken from here: <a href="https://github.com/Roslin-Aquaculture/Select-SNPs-to-generate-low-density-panels" class="uri">https://github.com/Roslin-Aquaculture/Select-SNPs-to-generate-low-density-panels</a></p>
+<p>Input files</p>
+<p>The first file (chr_info.txt) is a text file with the following columns: chromosome, first SNP position, last SNP position, total chromosome distance (last_SNP_pos - first_SNP_pos), SNPs per chromosome.</p>
+<p>need tibble “chr_info”</p>
+<ol style="list-style-type: decimal">
+<li>need chromosomes as “Chr”</li>
+</ol>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb257-1" aria-hidden="true"></a>chr_info &lt;-<span class="st"> </span>chrom_info <span class="op">%&gt;%</span></span>
+<span id="cb257-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb257-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">select</span>(chrom) <span class="op">%&gt;%</span></span>
+<span id="cb257-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb257-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">rename</span>(<span class="dt">Chr =</span> chrom)</span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>need first SNP position for each chr as “first_SNP”</li>
+</ol>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb258-1" aria-hidden="true"></a>first_SNP &lt;-<span class="st"> </span>candidates <span class="op">%&gt;%</span></span>
+<span id="cb258-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb258-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">cust_pos =</span> <span class="kw">as.numeric</span>(cust_pos)) <span class="op">%&gt;%</span></span>
+<span id="cb258-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb258-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">group_by</span>(cust_chr) <span class="op">%&gt;%</span></span>
+<span id="cb258-4"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb258-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">first_SNP =</span> <span class="kw">min</span>(cust_pos))</span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>need last SNP position for each chr as “last_SNP”</li>
+</ol>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb259-1" aria-hidden="true"></a>last_SNP &lt;-<span class="st"> </span>candidates <span class="op">%&gt;%</span></span>
+<span id="cb259-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb259-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">cust_pos =</span> <span class="kw">as.numeric</span>(cust_pos)) <span class="op">%&gt;%</span></span>
+<span id="cb259-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb259-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">group_by</span>(cust_chr) <span class="op">%&gt;%</span></span>
+<span id="cb259-4"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb259-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">last_SNP =</span> <span class="kw">max</span>(cust_pos))</span></code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li>need last_SNP - first_SNP as “total_chr_distance”</li>
+</ol>
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb260-1" aria-hidden="true"></a>total_chr_distance &lt;-<span class="st"> </span>last_SNP <span class="op">%&gt;%</span></span>
+<span id="cb260-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb260-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">left_join</span>(.,first_SNP, <span class="dt">by =</span> <span class="st">&quot;cust_chr&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb260-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb260-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">total_chr_distance =</span> last_SNP <span class="op">-</span><span class="st"> </span>first_SNP)</span></code></pre></div>
+<ol start="5" style="list-style-type: decimal">
+<li>need SNPs per chromosome as “SNPs/chrom”</li>
+</ol>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb261-1" aria-hidden="true"></a>snps_per_chrom &lt;-<span class="st"> </span>candidate_snps <span class="op">%&gt;%</span></span>
+<span id="cb261-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb261-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">rename</span>(<span class="st">&quot;SNPs/chrom&quot;</span> =<span class="st"> &quot;n&quot;</span>)</span></code></pre></div>
+<ol start="6" style="list-style-type: decimal">
+<li>put all pieces together</li>
+</ol>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb262-1" aria-hidden="true"></a>chr_info &lt;-<span class="st"> </span>total_chr_distance <span class="op">%&gt;%</span></span>
+<span id="cb262-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb262-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">left_join</span>(.,snps_per_chrom,<span class="dt">by=</span><span class="st">&quot;cust_chr&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb262-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb262-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">rename</span>(<span class="dt">Chr =</span> cust_chr) <span class="op">%&gt;%</span></span>
+<span id="cb262-4"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb262-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">select</span>(Chr,first_SNP,last_SNP,total_chr_distance,<span class="kw">everything</span>())</span></code></pre></div>
+<p>The second file (snp_info.txt) contains three columns: SNP ID, chromosome and base pair position.</p>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb263-1" aria-hidden="true"></a>snp_info &lt;-<span class="st"> </span>candidates <span class="op">%&gt;%</span></span>
+<span id="cb263-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb263-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">rename</span>(<span class="dt">SNPID =</span> probeset_id,<span class="dt">Chr =</span> cust_chr,<span class="dt">BPPos =</span> cust_pos) <span class="op">%&gt;%</span></span>
+<span id="cb263-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb263-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Chr =</span> <span class="kw">as.numeric</span>(Chr)) <span class="op">%&gt;%</span></span>
+<span id="cb263-4"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb263-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">BPPos =</span> <span class="kw">as.numeric</span>(BPPos))</span></code></pre></div>
+<p>Steps in Roslin Script:</p>
+<ol style="list-style-type: decimal">
+<li>Define the number of SNPs in the low-density panel</li>
+</ol>
+<p>The first part of the script prints out the number of SNPs that are going to be selected from each chromosome according to its length, once we define the number of SNPs we want to have in the low-density panel (snps_in_LD_panel).</p>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb264-1" aria-hidden="true"></a><span class="co">#chr_length&lt;- read.table(&quot;chr_info.txt&quot;, header = TRUE)</span></span>
+<span id="cb264-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb264-2" aria-hidden="true"></a>chr_length &lt;-<span class="st"> </span>chr_info</span>
+<span id="cb264-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb264-3" aria-hidden="true"></a></span>
+<span id="cb264-4"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb264-4" aria-hidden="true"></a>total_length&lt;-<span class="st"> </span><span class="kw">sum</span>(chr_length<span class="op">$</span>total_chr_distance)</span>
+<span id="cb264-5"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb264-5" aria-hidden="true"></a></span>
+<span id="cb264-6"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb264-6" aria-hidden="true"></a>snps_in_LD_panel&lt;-<span class="st"> </span><span class="dv">5200</span> <span class="co">#change this number to the required number of SNPs in your low-density (LD) panel  </span></span>
+<span id="cb264-7"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb264-7" aria-hidden="true"></a><span class="co">#Divide the desired number of SNPs you want to select (e.g. 300) in the LD panel with the total map length</span></span>
+<span id="cb264-8"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb264-8" aria-hidden="true"></a></span>
+<span id="cb264-9"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb264-9" aria-hidden="true"></a>index&lt;-<span class="st"> </span>snps_in_LD_panel<span class="op">/</span>total_length</span>
+<span id="cb264-10"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb264-10" aria-hidden="true"></a></span>
+<span id="cb264-11"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb264-11" aria-hidden="true"></a><span class="co">#Multiply the length of each chr with the index above and round to get the number of SNPs that are going to be selected from each chromosome according to its relative length</span></span>
+<span id="cb264-12"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb264-12" aria-hidden="true"></a></span>
+<span id="cb264-13"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb264-13" aria-hidden="true"></a>n_snps_per_chr&lt;-<span class="st"> </span><span class="kw">round</span>(index<span class="op">*</span>chr_length<span class="op">$</span>total_chr_distance, <span class="dv">0</span>)</span>
+<span id="cb264-14"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb264-14" aria-hidden="true"></a><span class="kw">sum</span>(n_snps_per_chr)    <span class="co">#check the total number of SNPs selected, should sum up to the desired number of SNPs in the LD panel  </span></span></code></pre></div>
+<pre><code>## [1] 5200</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Find the theoretical positions we want to keep for each chromosome</li>
+</ol>
+<p>In the second part we take each chromosome and divide it’s length into equally distanced parts (equidistant positions), according to the number of SNPs we want to select (snp_in_LD_panel). These equidistant theoretical positions will be then used to find the nearest, real position on the map.</p>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb266-1" aria-hidden="true"></a>theor_pos&lt;-<span class="st"> </span><span class="kw">list</span>()</span>
+<span id="cb266-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb266-2" aria-hidden="true"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(chr_length<span class="op">$</span>Chr)) {</span>
+<span id="cb266-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb266-3" aria-hidden="true"></a>  theor_pos[[i]]&lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">seq</span>(chr_length<span class="op">$</span>first_SNP[i], chr_length<span class="op">$</span>last_SNP[i], <span class="dt">length.out =</span> n_snps_per_chr[i]), <span class="dt">digits =</span> <span class="dv">0</span>)</span>
+<span id="cb266-4"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb266-4" aria-hidden="true"></a>}</span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>Find the actual positions we want to keep for each chromosome</li>
+</ol>
+<p>In this step we find the nearest real positions on the map file of the theoritical positions, which we generated in the previous step. (returns the coresponding rows of the nearest neighbor positions instead of the positions).</p>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb267-1" aria-hidden="true"></a>chr_list =<span class="st"> </span><span class="kw">split</span>(snp_info, snp_info<span class="op">$</span>Chr)</span>
+<span id="cb267-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb267-2" aria-hidden="true"></a>chr_bppos =<span class="st"> </span><span class="kw">lapply</span>(chr_list, <span class="st">&quot;[&quot;</span>, , <span class="st">&quot;BPPos&quot;</span>)</span>
+<span id="cb267-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb267-3" aria-hidden="true"></a>chr_snpid =<span class="st"> </span><span class="kw">lapply</span>(chr_list, <span class="st">&quot;[&quot;</span>, , <span class="st">&quot;SNPID&quot;</span>)</span>
+<span id="cb267-4"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb267-4" aria-hidden="true"></a></span>
+<span id="cb267-5"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb267-5" aria-hidden="true"></a><span class="co">#Returns the row of the nearest neighbor position instead of the position and we end up having a list with the SNPs we want to keep for each chromosome</span></span>
+<span id="cb267-6"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb267-6" aria-hidden="true"></a>s&lt;-<span class="st"> </span><span class="kw">list</span>()</span>
+<span id="cb267-7"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb267-7" aria-hidden="true"></a><span class="cf">for</span> (x <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(chr_length<span class="op">$</span>Chr)){</span>
+<span id="cb267-8"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb267-8" aria-hidden="true"></a>  selected &lt;-<span class="st"> </span><span class="kw">c</span>()</span>
+<span id="cb267-9"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb267-9" aria-hidden="true"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(theor_pos[[x]])) {</span>
+<span id="cb267-10"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb267-10" aria-hidden="true"></a>    selected[i]&lt;-<span class="st"> </span><span class="kw">knnx.index</span>(chr_bppos[[x]], theor_pos[[x]][i], <span class="dt">k=</span><span class="dv">1</span>)</span>
+<span id="cb267-11"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb267-11" aria-hidden="true"></a>    chr_bppos[[x]][selected[[i]]] &lt;-<span class="st"> </span><span class="dv">0</span></span>
+<span id="cb267-12"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb267-12" aria-hidden="true"></a>    <span class="co">#selected&lt;- sort(selected)</span></span>
+<span id="cb267-13"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb267-13" aria-hidden="true"></a>    <span class="co">#print(length(unique(selected)))</span></span>
+<span id="cb267-14"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb267-14" aria-hidden="true"></a>    s[[x]] &lt;-<span class="st"> </span>selected</span>
+<span id="cb267-15"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb267-15" aria-hidden="true"></a>  }</span>
+<span id="cb267-16"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb267-16" aria-hidden="true"></a>}</span></code></pre></div>
+<p>Finally create a list with the equally spaced SNP IDs to keep within each chromosome according to its length.</p>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb268-1" aria-hidden="true"></a>LD_snp_ids&lt;-<span class="st"> </span><span class="kw">list</span>()</span>
+<span id="cb268-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb268-2" aria-hidden="true"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(chr_length<span class="op">$</span>Chr)){</span>
+<span id="cb268-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb268-3" aria-hidden="true"></a>  LD_snp_ids[[i]]&lt;-<span class="st"> </span>chr_snpid[[i]][s[[i]]]</span>
+<span id="cb268-4"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb268-4" aria-hidden="true"></a>}</span>
+<span id="cb268-5"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb268-5" aria-hidden="true"></a></span>
+<span id="cb268-6"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb268-6" aria-hidden="true"></a>LD_ids&lt;-<span class="st"> </span><span class="kw">unlist</span>(LD_snp_ids)</span>
+<span id="cb268-7"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb268-7" aria-hidden="true"></a><span class="kw">length</span>(<span class="kw">unique</span>(LD_ids))</span></code></pre></div>
+<pre><code>## [1] 5192</code></pre>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb270-1" aria-hidden="true"></a>LD_ids[<span class="kw">duplicated</span>(LD_ids)]</span></code></pre></div>
+<pre><code>## [1] &quot;AX567013274&quot; &quot;AX567013274&quot; &quot;AX567013274&quot; &quot;AX567013274&quot; &quot;AX567013274&quot;
+## [6] &quot;AX575043459&quot; &quot;AX573867097&quot; &quot;AX573867097&quot;</code></pre>
+<p>Now, get tibble of LD_ids</p>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb272-1" aria-hidden="true"></a>phys_select_snps &lt;-<span class="st"> </span>candidates <span class="op">%&gt;%</span></span>
+<span id="cb272-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb272-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">filter</span>(probeset_id <span class="op">%in%</span><span class="st"> </span>LD_ids)</span>
+<span id="cb272-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb272-3" aria-hidden="true"></a><span class="kw">as_tibble</span>(phys_select_snps)</span></code></pre></div>
+<pre><code>## # A tibble: 5,192 × 3
+##    probeset_id cust_chr cust_pos
+##    &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;   
+##  1 AX562728433        1 59205245
+##  2 AX562733961        1 20277463
+##  3 AX562735439        1 62906370
+##  4 AX562736320        1 63385209
+##  5 AX562737564        1 63728142
+##  6 AX562738101        1 63903571
+##  7 AX562738713        1 64464304
+##  8 AX562738980        1 64615172
+##  9 AX562739209        1 64736294
+## 10 AX562741463        2 711839  
+## # ℹ 5,182 more rows</code></pre>
+<p>Interesting - it seems that several SNPs were selected twice (hence only 5192 snps in phys_select_snps). One SNP, 567013274 was selected six times, while another selected twice, another selected three times.</p>
+<p>Check the maf of these snps</p>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb274-1" aria-hidden="true"></a>maf_snps &lt;-<span class="kw">readRDS</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;MAF_SNPs&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb274-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb274-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">tibble</span>(., <span class="dt">snp_id =</span> <span class="kw">rownames</span>(.)) <span class="op">%&gt;%</span></span>
+<span id="cb274-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb274-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">select</span>(snp_id,gfl_frq,nfl_frq,ngom_frq,stx_frq) <span class="op">%&gt;%</span></span>
+<span id="cb274-4"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb274-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">rowwise</span>() <span class="op">%&gt;%</span></span>
+<span id="cb274-5"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb274-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">maf =</span> <span class="kw">mean</span>(<span class="kw">c</span>(gfl_frq,nfl_frq,ngom_frq,stx_frq))) <span class="op">%&gt;%</span></span>
+<span id="cb274-6"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb274-6" aria-hidden="true"></a><span class="st">  </span><span class="kw">select</span>(snp_id, maf)</span></code></pre></div>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb275-1" aria-hidden="true"></a>phys_select_snps &lt;-<span class="st"> </span>phys_select_snps <span class="op">%&gt;%</span></span>
+<span id="cb275-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb275-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">rename</span>(<span class="dt">snp_id =</span> probeset_id,<span class="dt">chrom =</span> cust_chr, <span class="dt">pos =</span> cust_pos) <span class="op">%&gt;%</span></span>
+<span id="cb275-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb275-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">left_join</span>(.,maf_snps,<span class="dt">by=</span><span class="st">&quot;snp_id&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb275-4"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb275-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">chrom =</span> <span class="kw">as.numeric</span>(chrom))</span>
+<span id="cb275-5"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb275-5" aria-hidden="true"></a><span class="kw">as_tibble</span>(phys_select_snps)</span></code></pre></div>
+<pre><code>## # A tibble: 5,192 × 4
+##    snp_id      chrom pos        maf
+##    &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
+##  1 AX562728433     1 59205245 0.238
+##  2 AX562733961     1 20277463 0.160
+##  3 AX562735439     1 62906370 0.186
+##  4 AX562736320     1 63385209 0.218
+##  5 AX562737564     1 63728142 0.188
+##  6 AX562738101     1 63903571 0.212
+##  7 AX562738713     1 64464304 0.272
+##  8 AX562738980     1 64615172 0.411
+##  9 AX562739209     1 64736294 0.365
+## 10 AX562741463     2 711839   0.117
+## # ℹ 5,182 more rows</code></pre>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb277-1" aria-hidden="true"></a>phys_select_snps <span class="op">%&gt;%</span></span>
+<span id="cb277-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb277-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">group_by</span>(chrom) <span class="op">%&gt;%</span></span>
+<span id="cb277-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb277-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="kw">mean</span>(maf))</span></code></pre></div>
+<pre><code>## # A tibble: 10 × 2
+##    chrom `mean(maf)`
+##    &lt;dbl&gt;       &lt;dbl&gt;
+##  1     1       0.208
+##  2     2       0.210
+##  3     3       0.213
+##  4     4       0.211
+##  5     5       0.211
+##  6     6       0.195
+##  7     7       0.209
+##  8     8       0.203
+##  9     9       0.205
+## 10    10       0.203</code></pre>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb279-1" aria-hidden="true"></a><span class="kw">as_tibble</span>(phys_select_snps)</span></code></pre></div>
+<pre><code>## # A tibble: 5,192 × 4
+##    snp_id      chrom pos        maf
+##    &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
+##  1 AX562728433     1 59205245 0.238
+##  2 AX562733961     1 20277463 0.160
+##  3 AX562735439     1 62906370 0.186
+##  4 AX562736320     1 63385209 0.218
+##  5 AX562737564     1 63728142 0.188
+##  6 AX562738101     1 63903571 0.212
+##  7 AX562738713     1 64464304 0.272
+##  8 AX562738980     1 64615172 0.411
+##  9 AX562739209     1 64736294 0.365
+## 10 AX562741463     2 711839   0.117
+## # ℹ 5,182 more rows</code></pre>
+<p>Compare this to the MAF from greedy algorithm:</p>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb281-1" aria-hidden="true"></a>panel_snps &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="kw">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;panel_snps&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb282-1" aria-hidden="true"></a>panel_snps <span class="op">%&gt;%</span></span>
+<span id="cb282-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb282-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">group_by</span>(chrom) <span class="op">%&gt;%</span></span>
+<span id="cb282-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb282-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="kw">mean</span>(maf,<span class="dt">na.rm=</span><span class="ot">TRUE</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 10 × 2
+##    chrom `mean(maf, na.rm = TRUE)`
+##    &lt;dbl&gt;                     &lt;dbl&gt;
+##  1     1                     0.234
+##  2     2                     0.276
+##  3     3                     0.278
+##  4     4                     0.241
+##  5     5                     0.279
+##  6     6                     0.227
+##  7     7                     0.284
+##  8     8                     0.230
+##  9     9                     0.216
+## 10    10                     0.208</code></pre>
+<p>Substantially lower</p>
+</div>
+<div id="add-pop-diagnostic-snps-to-the-snps-selected-by-physical-distance-for-a-final-list" class="section level2 hasAnchor" number="7.5">
+<h2><span class="header-section-number">7.5</span> Add Pop Diagnostic SNPs to the snps selected by physical distance for a final list<a href="select-snps-for-panel-using-physical-distance-based-method.html#add-pop-diagnostic-snps-to-the-snps-selected-by-physical-distance-for-a-final-list" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb284-1" aria-hidden="true"></a><span class="co">#population diagnostic snps</span></span>
+<span id="cb284-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb284-2" aria-hidden="true"></a>pop_snps &lt;-snp_info_full <span class="op">%&gt;%</span></span>
+<span id="cb284-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb284-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">select</span>(probeset_id,cust_chr,cust_pos) <span class="op">%&gt;%</span></span>
+<span id="cb284-4"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb284-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">filter</span>(probeset_id <span class="op">%in%</span><span class="st"> </span>flvgulf_snps <span class="op">|</span><span class="st"> </span>probeset_id <span class="op">%in%</span><span class="st"> </span>stxvgulf_snps) <span class="op">%&gt;%</span></span>
+<span id="cb284-5"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb284-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">cust_chr =</span> <span class="kw">as.numeric</span> (cust_chr)) <span class="op">%&gt;%</span></span>
+<span id="cb284-6"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb284-6" aria-hidden="true"></a><span class="st">  </span><span class="kw">unique</span>() <span class="op">%&gt;%</span></span>
+<span id="cb284-7"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb284-7" aria-hidden="true"></a><span class="st">  </span><span class="kw">rename</span>(<span class="dt">snp_id =</span> probeset_id, <span class="dt">chrom =</span> cust_chr,<span class="dt">pos =</span> cust_pos) <span class="op">%&gt;%</span></span>
+<span id="cb284-8"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb284-8" aria-hidden="true"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">pos =</span> <span class="kw">as.numeric</span>(pos))</span>
+<span id="cb284-9"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb284-9" aria-hidden="true"></a><span class="kw">as_tibble</span>(pop_snps)</span></code></pre></div>
+<pre><code>## # A tibble: 50 × 3
+##    snp_id      chrom      pos
+##    &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;
+##  1 AX563489003     1 42310796
+##  2 AX564362466     1 42158083
+##  3 AX566845614     2 24478387
+##  4 AX567445903     4 39309711
+##  5 AX567707328     8  6683853
+##  6 AX567719919     8  7095343
+##  7 AX567844508     9 56175126
+##  8 AX568205320     2 24477120
+##  9 AX568402584     1 42163393
+## 10 AX570588190     5 62236352
+## # ℹ 40 more rows</code></pre>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb286-1" aria-hidden="true"></a>phys_panel_snps &lt;-<span class="st"> </span>phys_select_snps <span class="op">%&gt;%</span></span>
+<span id="cb286-2"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb286-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">pos =</span> <span class="kw">as.numeric</span>(pos)) <span class="op">%&gt;%</span></span>
+<span id="cb286-3"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb286-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">bind_rows</span>(.,pop_snps)</span>
+<span id="cb286-4"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb286-4" aria-hidden="true"></a><span class="kw">as_tibble</span>(phys_panel_snps)</span></code></pre></div>
+<pre><code>## # A tibble: 5,242 × 4
+##    snp_id      chrom      pos   maf
+##    &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+##  1 AX562728433     1 59205245 0.238
+##  2 AX562733961     1 20277463 0.160
+##  3 AX562735439     1 62906370 0.186
+##  4 AX562736320     1 63385209 0.218
+##  5 AX562737564     1 63728142 0.188
+##  6 AX562738101     1 63903571 0.212
+##  7 AX562738713     1 64464304 0.272
+##  8 AX562738980     1 64615172 0.411
+##  9 AX562739209     1 64736294 0.365
+## 10 AX562741463     2   711839 0.117
+## # ℹ 5,232 more rows</code></pre>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="select-snps-for-panel-using-physical-distance-based-method.html#cb288-1" aria-hidden="true"></a><span class="kw">saveRDS</span>(phys_panel_snps, <span class="dt">file =</span> <span class="kw">here</span>(<span class="st">&quot;data&quot;</span>,<span class="st">&quot;derived&quot;</span>,<span class="st">&quot;phys_panel_snps&quot;</span>))</span></code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="summary-plots-of-snps-for-panel.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="compare-snps-selected-from-greedy-algorithm-and-from-physical-distance-method.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="book_files/gitbook-2.6.7/js/app.min.js"></script>
+<script src="book_files/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="book_files/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="book_files/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="book_files/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="book_files/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="book_files/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="book_files/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"toolbar": {
+"position": "static"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
