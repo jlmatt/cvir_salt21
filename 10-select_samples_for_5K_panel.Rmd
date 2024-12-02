@@ -1,0 +1,62 @@
+# Select Samples for Paragon 5K Panel Work Up
+
+```{r,include = FALSE}
+#library(SNPolisher)
+library(tidyverse)
+library(here)
+library(janitor)
+library(DBI)
+```
+
+Select NORA24/LAMA24 Parents
+
+```{r}
+con <- dbConnect(RSQLite::SQLite(), "/home/shared/cvir/analysis/cvir_data.db")
+```
+
+```{r}
+DBI::dbListTables(con)
+```
+
+```{r}
+parents24 <- tbl(con,"contribution_table_2024") %>%
+  collect()
+```
+
+Filter out hybrids then add them back in
+
+```{r}
+p_parents <- parents24 %>%
+  filter(!contribution_id %in% "HYBR24")
+```
+
+```{r}
+p_parents <- p_parents %>%
+  unique()
+```
+
+Add in parents from HYBR, but only the ones that are not in parents24 already
+
+```{r}
+h_parents <- parents24 %>%
+  filter(contribution_id %in% "HYBR24")
+```
+
+```{r}
+h_parents <- h_parents %>%
+  filter(!sample_id %in% parents24$sample_id) 
+```
+
+All of the HYBR parents are part of NORA and LAMA
+
+Save file
+
+```{r}
+p_parents <- p_parents %>%
+  arrange(sample_id)
+```
+
+```{r}
+write_csv(p_parents,here::here("data","derived","cvir_salt21_2024_parents_to_genotype.csv"))
+```
+
